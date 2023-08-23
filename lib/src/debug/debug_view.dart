@@ -15,14 +15,17 @@ class _DebugState extends State<Debug> {
     return Scaffold(
       appBar: generateAppbar(),
       bottomNavigationBar: const Navbar(
-        selectedIndex: 0,
+        selectedIndex: 1,
       ),
       body: SafeArea(
           child: Column(
         children: [
-          ListView.builder(itemBuilder: (context, i) {
-            return const ListTile();
-          })
+          Expanded(
+              child: ListView.builder(
+                  itemCount: 5,
+                  itemBuilder: (context, i) {
+                    return const ListTile();
+                  }))
         ],
       )),
     );

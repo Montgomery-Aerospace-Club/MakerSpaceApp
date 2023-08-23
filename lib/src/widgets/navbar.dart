@@ -33,16 +33,16 @@ class NavBarState extends State<Navbar> {
       type: BottomNavigationBarType.fixed,
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.person),
-          label: 'Profile',
+          icon: Icon(Icons.construction),
+          label: 'Components',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.star),
-          label: 'AI Chat',
+          icon: Icon(Icons.more),
+          label: 'Borrow and Returns',
         ),
       ],
       currentIndex: _selectedIndex,
