@@ -13,7 +13,7 @@ class _DebugState extends State<Debug> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateAppbar("Debug"),
+      appBar: generateAppbar("Debug", true),
       bottomNavigationBar: const Navbar(
         selectedIndex: 1,
       ),

@@ -13,9 +13,9 @@ class _BRsState extends State<BRs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateAppbar("Borrow and Return"),
+      appBar: generateAppbar("Borrow and Return", true),
       bottomNavigationBar: const Navbar(
-        selectedIndex: 1,
+        selectedIndex: 2,
       ),
       body: SafeArea(
           child: Column(

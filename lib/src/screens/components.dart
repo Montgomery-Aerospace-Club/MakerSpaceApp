@@ -13,9 +13,9 @@ class _ComponentsState extends State<Components> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateAppbar("Components"),
+      appBar: generateAppbar("Components", true),
       bottomNavigationBar: const Navbar(
-        selectedIndex: 1,
+        selectedIndex: 0,
       ),
       body: SafeArea(
           child: Column(

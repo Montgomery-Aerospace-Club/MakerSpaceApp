@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:monty_makerspace/src/widgets/appbar.dart';
 import 'package:monty_makerspace/src/widgets/navbar.dart';
+import 'package:monty_makerspace/src/widgets/searchbar.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -10,24 +11,29 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final double appSearchbarPadding = 10;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateAppbar("Home"),
+      appBar: generateAppbar("Home", true),
       bottomNavigationBar: const Navbar(
         selectedIndex: 1,
       ),
       body: SafeArea(
-          child: Column(
-        children: [
-          Expanded(
-              child: ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, i) {
-                    return const ListTile();
-                  }))
-        ],
-      )),
+          child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(
+                          top: appSearchbarPadding,
+                          bottom: appSearchbarPadding,
+                          left: appSearchbarPadding + 5,
+                          right: appSearchbarPadding + 5),
+                      child: const AppSearchBar())
+                ],
+              ))),
     );
   }
 }
