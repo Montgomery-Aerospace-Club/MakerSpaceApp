@@ -11,4 +11,6 @@ https://stackoverflow.com/questions/69316963/flutter-web-access-development-serv
 
 `python -m http.server 6969 --bind  192.168.86.111`
 
-use 
+use `netstat -tuln | grep 8080` on linux to check if processes are running
+
+or just run `netstat` and wait for something to start with `192.` etc then use that ip address without the :8080 ending or smth
