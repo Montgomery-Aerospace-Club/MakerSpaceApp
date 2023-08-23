@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:monty_makerspace/src/widgets/appbar.dart';
 import 'package:monty_makerspace/src/widgets/navbar.dart';
 
-class Debug extends StatefulWidget {
-  const Debug({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<Debug> createState() => _DebugState();
+  State<Home> createState() => _HomeState();
 }
 
-class _DebugState extends State<Debug> {
+class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateAppbar("Debug"),
+      appBar: generateAppbar("Home"),
       bottomNavigationBar: const Navbar(
         selectedIndex: 1,
       ),
