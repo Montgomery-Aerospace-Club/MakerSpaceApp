@@ -1,11 +1,13 @@
 import 'package:monty_makerspace/src/models/room.dart';
 
 class StorageUnit {
+  final String url;
   final String name;
   final String shortCode;
   final Room room;
 
   StorageUnit({
+    this.url = "",
     required this.name,
     this.shortCode = '',
     required this.room,
@@ -13,6 +15,7 @@ class StorageUnit {
 
   Map<String, dynamic> toJson() {
     return {
+      "url": url,
       'name': name,
       'short_code': shortCode,
       'room': room.toJson(),
@@ -21,6 +24,7 @@ class StorageUnit {
 
   factory StorageUnit.fromJson(Map<String, dynamic> json) {
     return StorageUnit(
+      url: json["url"],
       name: json['name'],
       shortCode: json['short_code'],
       room: Room.fromJson(json['room']),

@@ -3,7 +3,7 @@ import 'package:monty_makerspace/src/models/storage_bin.dart';
 import 'package:monty_makerspace/src/models/user.dart';
 
 class Component {
-  final int id; // You can use a unique identifier for each component
+  final String url;
   final String name;
   final String sku;
   final String mpn;
@@ -16,7 +16,7 @@ class Component {
   final String description;
 
   Component({
-    required this.id,
+    this.url = "",
     required this.name,
     required this.sku,
     required this.mpn,
@@ -31,7 +31,7 @@ class Component {
 
   factory Component.fromJson(Map<String, dynamic> json) {
     return Component(
-      id: json['id'],
+      url: json['url'],
       name: json['name'],
       sku: json['sku'],
       mpn: json['mpn'],
@@ -49,16 +49,16 @@ class Component {
   }
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'url': url,
       'name': name,
       'sku': sku,
       'mpn': mpn,
       'upc': upc,
-      'storageBins': storageBins.map((e) => e.toJson()).toList(),
-      'measurementUnit': measurementUnit.toJson(),
+      'storage_bin': storageBins.map((e) => e.toJson()).toList(),
+      'measurement_unit': measurementUnit.toJson(),
       'qty': qty,
-      'checkedOut': checkedOut,
-      'personWhoCheckedOut': personWhoCheckedOut.toJson(),
+      'checked_out': checkedOut,
+      'person_who_checked_out': personWhoCheckedOut.toJson(),
       'description': description,
     };
   }

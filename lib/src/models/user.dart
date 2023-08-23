@@ -1,11 +1,11 @@
 class User {
-  final int id; // You can use a unique identifier for each user
+  final String url;
   final String name;
   final int userId;
   final String email;
 
   User({
-    required this.id,
+    this.url = "",
     required this.name,
     required this.userId,
     required this.email,
@@ -13,18 +13,18 @@ class User {
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
+      url: json['url'],
       name: json['name'],
-      userId: json['userId'],
+      userId: json['user_id'],
       email: json['email'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'url': url,
       'name': name,
-      'userId': userId,
+      'user_id': userId,
       'email': email,
     };
   }
