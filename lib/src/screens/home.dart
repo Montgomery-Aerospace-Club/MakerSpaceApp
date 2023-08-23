@@ -23,7 +23,9 @@ class _HomeState extends State<Home> {
       body: SafeArea(
           child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Column(
+              child: Center(
+                  child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
                       padding: EdgeInsets.only(
@@ -33,7 +35,7 @@ class _HomeState extends State<Home> {
                           right: appSearchbarPadding + 5),
                       child: const AppSearchBar())
                 ],
-              ))),
+              )))),
     );
   }
 }
