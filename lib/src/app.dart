@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:monty_makerspace/src/debug/debug_view.dart';
 
 /// The Widget that configures your application.
 class MontyMakerSpaceApp extends StatelessWidget {
@@ -8,9 +9,10 @@ class MontyMakerSpaceApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
-    );
+        debugShowCheckedModeBanner: false,
+        title: "The Maker Space",
+        theme: ThemeData(),
+        darkTheme: ThemeData.dark(),
+        home: const Debug());
   }
 }
