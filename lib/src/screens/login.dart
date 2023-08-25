@@ -12,7 +12,7 @@ const users = {
 class Login extends StatelessWidget {
   const Login({super.key});
 
-  Duration get loginTime => const Duration(milliseconds: 2250);
+  Duration get loginTime => const Duration(milliseconds: 20);
 
   Future<String?> _authUser(LoginData data) {
     debugPrint('Name: ${data.name}, Password: ${data.password}');
@@ -44,19 +44,34 @@ class Login extends StatelessWidget {
     });
   }
 
+  String? _validateUser(String? username) {
+    if (username == null) {
+      return "Please enter a username";
+    }
+    if (username.length <= 3) {
+      return "Username too short";
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return FlutterLogin(
       title: Constants.appName,
       // logo: const AssetImage('assets/images/ecorp-lightblue.png'),
-      logo: const AssetImage("assets/images/schoollogo.jpg"),
+      logo: const AssetImage("assets/images/schoollogo-nobg.png"),
       onLogin: _authUser,
       onSignup: _signupUser,
+      userType: LoginUserType.name,
+      messages: LoginMessages(
+          userHint: "Enter Your Username", passwordHint: "Enter Your Password"),
       onSubmitAnimationCompleted: () {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const Home(),
         ));
       },
+      userValidator: _validateUser,
+      hideForgotPasswordButton: true,
       onRecoverPassword: _recoverPassword,
     );
   }
