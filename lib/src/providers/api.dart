@@ -33,19 +33,52 @@ Future<bool> login(String username, String password) async {
 
 Future<String> register(
     String username, String password, String email, String userId) async {
-  Map<String, dynamic> requestBody = {
+  Map<String, String> requestBody = {
     "username": username,
     "password": password,
     "email": email,
-    "user_id": int.parse(userId),
+    "user_id": userId,
   };
-  print(requestBody);
-  // final response = await http.post(
-  //     Uri.parse("${Constants.apiUrl}/rest/users/register/"),
-  //     body: requestBody);
+  final response = await http.post(
+      Uri.parse("${Constants.apiUrl}/rest/users/register/"),
+      body: requestBody);
 
-  // Map<String, dynamic> body = json.decode(response.body);
-  // print(body);
+  Map<String, dynamic> body = json.decode(response.body);
+  Map<String, String> usernameError = {
+    "Username": (body["username"] ?? [null])[0] ?? ""
+  };
+  Map<String, String> emailError = {
+    "Email": (body["email"] ?? [null])[0] ?? ""
+  };
+  Map<String, String> userIdError = {
+    "User ID": (body["user_id"] ?? [null])[0] ?? ""
+  };
+  Map<String, String> passwordError = {
+    "Password": (body["password"] ?? [null])[0] ?? ""
+  };
 
-  return "";
+  List<Map<String, String>> errors = [
+    usernameError,
+    emailError,
+    userIdError,
+    passwordError
+  ];
+
+  String errorMsg = "";
+  bool hadError = false;
+
+  for (Map<String, String> error in errors) {
+    for (String key in error.keys) {
+      if (error[key]!.isNotEmpty) {
+        errorMsg += "$key Error: ${error[key]}\n";
+        hadError = true;
+      }
+    }
+  }
+  if (hadError) {
+    errorMsg +=
+        "Please fix the errors above in this form and the previous form";
+  }
+
+  return errorMsg;
 }

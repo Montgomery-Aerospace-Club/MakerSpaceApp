@@ -14,7 +14,7 @@ class Login extends StatelessWidget {
   const Login({super.key});
 
   Future<String?> _authUser(LoginData data) {
-    debugPrint('Name: ${data.name}, Password: ${data.password}');
+    //   debugPrint('Name: ${data.name}, Password: ${data.password}');
 
     return login(data.name, data.password).then((bool value) {
       if (value) {
@@ -26,8 +26,8 @@ class Login extends StatelessWidget {
   }
 
   Future<String?> _signupUser(SignupData data) {
-    debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
-    return Future.delayed(const Duration(milliseconds: 500)).then((value) =>
+    //debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
+    return Future.delayed(const Duration(milliseconds: 350)).then((value) =>
         register(
                 data.name ?? "",
                 data.password ?? "",
@@ -37,7 +37,7 @@ class Login extends StatelessWidget {
           if (value.isEmpty) {
             return null;
           }
-          return "Error";
+          return value;
         }));
   }
 
