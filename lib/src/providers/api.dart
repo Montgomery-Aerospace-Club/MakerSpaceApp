@@ -30,3 +30,22 @@ Future<bool> login(String username, String password) async {
     return false;
   }
 }
+
+Future<String> register(
+    String username, String password, String email, String userId) async {
+  Map<String, dynamic> requestBody = {
+    "username": username,
+    "password": password,
+    "email": email,
+    "user_id": int.parse(userId),
+  };
+  print(requestBody);
+  // final response = await http.post(
+  //     Uri.parse("${Constants.apiUrl}/rest/users/register/"),
+  //     body: requestBody);
+
+  // Map<String, dynamic> body = json.decode(response.body);
+  // print(body);
+
+  return "";
+}
