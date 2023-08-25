@@ -41,16 +41,6 @@ class Login extends StatelessWidget {
         }));
   }
 
-  Future<String?> _recoverPassword(String name) {
-    debugPrint('Name: $name');
-    return Future.delayed(const Duration(milliseconds: 200)).then((_) {
-      if (!users.containsKey(name)) {
-        return 'User not exists';
-      }
-      return null;
-    });
-  }
-
   String? _validateUser(String? username) {
     if (username == null) {
       return "Please enter a username";
@@ -125,7 +115,9 @@ class Login extends StatelessWidget {
       },
       userValidator: _validateUser,
       hideForgotPasswordButton: true,
-      onRecoverPassword: _recoverPassword,
+      onRecoverPassword: (_) {
+        return null;
+      },
     );
   }
 }
