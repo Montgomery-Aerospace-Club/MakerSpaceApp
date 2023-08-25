@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:monty_makerspace/src/widgets/appbar.dart';
-import 'package:monty_makerspace/src/widgets/navbar.dart';
+import 'package:themakerspace/src/providers/api.dart';
+import 'package:themakerspace/src/widgets/appbar.dart';
+import 'package:themakerspace/src/widgets/navbar.dart';
 
 class Debug extends StatefulWidget {
   const Debug({super.key});
@@ -10,6 +11,9 @@ class Debug extends StatefulWidget {
 }
 
 class _DebugState extends State<Debug> {
+  final double debugCellHeight = 50;
+  final double debugCellWidth = 100;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,16 +22,20 @@ class _DebugState extends State<Debug> {
         selectedIndex: 1,
       ),
       body: SafeArea(
-          child: Column(
+          child: Center(
+              child: Column(
         children: [
-          Expanded(
-              child: ListView.builder(
-                  itemCount: 5,
-                  itemBuilder: (context, i) {
-                    return const ListTile();
-                  }))
+          ElevatedButton(
+              onPressed: () async {
+                bool valid = await login("eddie", "admin123");
+                if (valid) {}
+              },
+              child: SizedBox(
+                  height: debugCellHeight,
+                  width: debugCellWidth,
+                  child: const Center(child: Text("login"))))
         ],
-      )),
+      ))),
     );
   }
 }

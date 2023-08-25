@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:monty_makerspace/src/app.dart';
-import 'package:monty_makerspace/src/utils/http_overrides.dart';
-import 'package:monty_makerspace/src/utils/theme.dart';
+import 'package:themakerspace/src/app.dart';
+import 'package:themakerspace/src/utils/http_overrides.dart';
+import 'package:themakerspace/src/utils/theme.dart';
 
 void main() async {
   HttpOverrides.global = MyHttpOverrides();

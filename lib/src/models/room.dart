@@ -1,4 +1,4 @@
-import 'package:monty_makerspace/src/models/building.dart';
+import 'package:themakerspace/src/models/building.dart';
 
 class Room {
   final String url;

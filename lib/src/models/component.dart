@@ -1,6 +1,6 @@
-import 'package:monty_makerspace/src/models/measurement_unit.dart';
-import 'package:monty_makerspace/src/models/storage_bin.dart';
-import 'package:monty_makerspace/src/models/user.dart';
+import 'package:themakerspace/src/models/measurement_unit.dart';
+import 'package:themakerspace/src/models/storage_bin.dart';
+import 'package:themakerspace/src/models/user.dart';
 
 class Component {
   final String url;

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:monty_makerspace/src/widgets/appbar.dart';
-import 'package:monty_makerspace/src/widgets/navbar.dart';
+import 'package:themakerspace/src/widgets/appbar.dart';
+import 'package:themakerspace/src/widgets/navbar.dart';
 
 class Components extends StatefulWidget {
   const Components({super.key});

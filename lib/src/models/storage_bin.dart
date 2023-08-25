@@ -1,4 +1,4 @@
-import 'package:monty_makerspace/src/models/storage_unit.dart';
+import 'package:themakerspace/src/models/storage_unit.dart';
 
 class StorageBin {
   final String url;
