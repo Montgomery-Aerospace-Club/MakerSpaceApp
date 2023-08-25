@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'package:themakerspace/src/constants.dart';
+import 'package:themakerspace/src/models/user.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
 
 // String username = "EDED2314";
@@ -39,6 +40,7 @@ Future<bool> login(String username, String password) async {
     if (token.isEmpty) {
       return false;
     }
+    writeUser(User.fromJson(body));
     writeToken(token);
     return true;
   } else {

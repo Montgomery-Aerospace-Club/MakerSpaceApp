@@ -35,4 +35,9 @@ class User {
       "token": token
     };
   }
+
+  @override
+  String toString() {
+    return "\n[DEBUG (student toString())]\n---------\nID: $id ${id.runtimeType}\nUsername: $username ${username.runtimeType}\nemail: $email\nUser_id: $userId ${userId.runtimeType}\n------------";
+  }
 }

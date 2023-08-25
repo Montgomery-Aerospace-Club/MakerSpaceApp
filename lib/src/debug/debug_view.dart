@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:themakerspace/src/models/user.dart';
 import 'package:themakerspace/src/providers/api.dart';
+import 'package:themakerspace/src/providers/cookies.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
 import 'package:themakerspace/src/widgets/navbar.dart';
 
@@ -28,7 +30,11 @@ class _DebugState extends State<Debug> {
           ElevatedButton(
               onPressed: () async {
                 bool valid = await login("eddie", "admin123");
-                if (valid) {}
+                if (valid) {
+                  User student = await readUser();
+
+                  debugPrint(student.toString());
+                }
               },
               child: SizedBox(
                   height: debugCellHeight,
