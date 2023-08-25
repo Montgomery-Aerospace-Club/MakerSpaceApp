@@ -78,6 +78,8 @@ Future<String> register(
   if (hadError) {
     errorMsg +=
         "Please fix the errors above in this form and the previous form";
+  } else {
+    await login(username, password);
   }
 
   return errorMsg;
