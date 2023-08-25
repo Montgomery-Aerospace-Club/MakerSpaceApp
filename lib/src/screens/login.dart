@@ -65,6 +65,9 @@ class Login extends StatelessWidget {
     if (value == null || value.isEmpty) {
       return "Please enter a student id";
     }
+    if (value.length < 6) {
+      return '"$value" is not a valid student id';
+    }
     final n = int.tryParse(value);
     if (n == null) {
       return '"$value" is not a valid student id';
