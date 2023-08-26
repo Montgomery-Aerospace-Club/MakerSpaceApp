@@ -47,19 +47,6 @@ class _DebugState extends State<Debug> {
               debugPrint(json.encode(lst.toJson()));
             }
           }),
-          // ElevatedButton(
-          //     onPressed: () async {
-          //       bool valid = await login("eddie", "admin123");
-          //       if (valid) {
-          //         User student = await readUser();
-
-          //         debugPrint(student.toString());
-          //       }
-          //     },
-          //     child: SizedBox(
-          //         height: debugCellHeight,
-          //         width: debugCellWidth,
-          //         child: const Center(child: Text("login"))))
         ],
       ))),
     );

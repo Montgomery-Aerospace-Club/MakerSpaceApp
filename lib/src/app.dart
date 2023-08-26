@@ -23,6 +23,6 @@ class _MontyMakerSpaceAppState extends State<MontyMakerSpaceApp> {
         title: "The Maker Space",
         theme: widget.lightTheme,
         darkTheme: widget.darkTheme,
-        home: const Debug());
+        home: const Home());
   }
 }

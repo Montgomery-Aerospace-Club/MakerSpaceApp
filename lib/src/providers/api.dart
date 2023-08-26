@@ -90,7 +90,7 @@ Future<ComponentList> getComponents() async {
   String token = await readToken();
 
   if (token.isEmpty) {
-    return ComponentList(components: []);
+    return ComponentList(components: [], suggestions: []);
   }
 
   Map<String, String> headers = {"Authorization": "Token $token"};
@@ -110,5 +110,31 @@ Future<ComponentList> getComponents() async {
     return lst;
   }
 
-  return ComponentList(components: []);
+  return ComponentList(components: [], suggestions: []);
+}
+
+Future<ComponentList> searchComponents(String text) async {
+  String token = await readToken();
+
+  if (token.isEmpty) {
+    return ComponentList(components: [], suggestions: []);
+  }
+
+  Map<String, String> headers = {"Authorization": "Token $token"};
+
+  final response = await http.get(
+      Uri.parse("${Constants.apiUrl}/rest/components/?search=$text/"),
+      headers: headers);
+
+  if (response.statusCode == 200) {
+    List<dynamic> body = json.decode(response.body);
+    List<Map<String, dynamic>> componentsJson =
+        body.map((e) => ComponentList.convertToMapDynamic(e)).toList();
+
+    ComponentList lst = ComponentList.fromJson(componentsJson);
+
+    return lst;
+  }
+
+  return ComponentList(components: [], suggestions: []);
 }

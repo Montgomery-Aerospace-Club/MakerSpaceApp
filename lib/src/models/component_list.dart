@@ -1,11 +1,13 @@
 import 'dart:collection';
 
+import 'package:flutter/foundation.dart';
 import 'package:themakerspace/src/models/component.dart';
 
-class ComponentList with ListMixin<Component> {
+class ComponentList extends ChangeNotifier with ListMixin<Component> {
   List<Component> components;
+  List<Component> suggestions;
 
-  ComponentList({required this.components});
+  ComponentList({required this.components, required this.suggestions});
 
   @override
   int get length => components.length;
@@ -27,6 +29,11 @@ class ComponentList with ListMixin<Component> {
   @override
   void operator []=(int index, Component value) {
     components[index] = value;
+  }
+
+  @override
+  void add(Component element) {
+    components.add(element);
   }
 
   static Map<String, dynamic> convertToMapDynamic(dynamic item) {
@@ -58,6 +65,24 @@ class ComponentList with ListMixin<Component> {
         components.add(Component.fromJson(componentJson));
       }
     }
-    return ComponentList(components: components);
+    return ComponentList(components: components, suggestions: components);
+  }
+
+  searchComponent(String searchQuery) {
+    if (searchQuery.isEmpty) {
+      return;
+    }
+
+    List<Component> results = [];
+
+    for (Component comp in components) {
+      if (comp.name.contains(searchQuery) ||
+          comp.description.contains(searchQuery)) {
+        results.add(comp);
+      }
+    }
+
+    suggestions = results;
+    notifyListeners();
   }
 }
