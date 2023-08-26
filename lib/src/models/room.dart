@@ -26,7 +26,7 @@ class Room {
     return Room(
       url: json["url"],
       name: json['name'],
-      shortCode: json['short_code'],
+      shortCode: json['short_code'] ?? "",
       building: Building.fromJson(json['building']),
     );
   }

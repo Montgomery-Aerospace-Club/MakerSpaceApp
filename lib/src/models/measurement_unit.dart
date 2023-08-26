@@ -21,7 +21,7 @@ class ComponentMeasurementUnit {
     return ComponentMeasurementUnit(
       url: json["url"],
       unitName: json['unit_name'],
-      unitDescription: json['unit_description'],
+      unitDescription: json['unit_description'] ?? "",
     );
   }
 }

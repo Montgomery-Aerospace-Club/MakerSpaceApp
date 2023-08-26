@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:themakerspace/src/debug/debug_view.dart';
 import 'package:themakerspace/src/screens/login.dart';
-//import 'package:themakerspace/src/screens/home.dart';
+import 'package:themakerspace/src/screens/home.dart';
 
 /// The Widget that configures your application.
 class MontyMakerSpaceApp extends StatefulWidget {
@@ -22,6 +23,6 @@ class _MontyMakerSpaceAppState extends State<MontyMakerSpaceApp> {
         title: "The Maker Space",
         theme: widget.lightTheme,
         darkTheme: widget.darkTheme,
-        home: const Login());
+        home: const Debug());
   }
 }

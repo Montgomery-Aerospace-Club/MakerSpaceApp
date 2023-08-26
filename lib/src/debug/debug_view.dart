@@ -1,8 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:themakerspace/src/models/component.dart';
 import 'package:themakerspace/src/models/user.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
+import 'package:themakerspace/src/widgets/debug_button.dart';
 import 'package:themakerspace/src/widgets/navbar.dart';
 
 class Debug extends StatefulWidget {
@@ -13,9 +17,6 @@ class Debug extends StatefulWidget {
 }
 
 class _DebugState extends State<Debug> {
-  final double debugCellHeight = 50;
-  final double debugCellWidth = 100;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,19 +28,37 @@ class _DebugState extends State<Debug> {
           child: Center(
               child: Column(
         children: [
-          ElevatedButton(
-              onPressed: () async {
-                bool valid = await login("eddie", "admin123");
-                if (valid) {
-                  User student = await readUser();
+          giveMeDebugButton("login", () async {
+            bool valid = await login("eddie", "admin123");
+            if (valid) {
+              User student = await readUser();
 
-                  debugPrint(student.toString());
-                }
-              },
-              child: SizedBox(
-                  height: debugCellHeight,
-                  width: debugCellWidth,
-                  child: const Center(child: Text("login"))))
+              debugPrint(student.toString());
+            }
+          }),
+          giveMeDebugButton("components", () async {
+            List<Component> components = await getComponents();
+
+            if (components.isEmpty) {
+              debugPrint(
+                  "Token invalid? Or return invalid? Or just no components?");
+            } else {
+              debugPrint(json.encode(components[0].toJson()));
+            }
+          }),
+          // ElevatedButton(
+          //     onPressed: () async {
+          //       bool valid = await login("eddie", "admin123");
+          //       if (valid) {
+          //         User student = await readUser();
+
+          //         debugPrint(student.toString());
+          //       }
+          //     },
+          //     child: SizedBox(
+          //         height: debugCellHeight,
+          //         width: debugCellWidth,
+          //         child: const Center(child: Text("login"))))
         ],
       ))),
     );

@@ -26,7 +26,7 @@ class StorageUnit {
     return StorageUnit(
       url: json["url"],
       name: json['name'],
-      shortCode: json['short_code'],
+      shortCode: json['short_code'] ?? "",
       room: Room.fromJson(json['room']),
     );
   }

@@ -24,8 +24,8 @@ class Building {
     return Building(
       url: json["url"],
       name: json['name'],
-      address: json['address'],
-      postcode: json['postcode'],
+      address: json['address'] ?? "",
+      postcode: json['postcode'] ?? "",
     );
   }
 }

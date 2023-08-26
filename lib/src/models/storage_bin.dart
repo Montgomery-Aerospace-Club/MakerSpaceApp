@@ -32,9 +32,9 @@ class StorageBin {
     return StorageBin(
       url: json["url"],
       name: json['name'],
-      shortCode: json['short_code'],
-      unitRow: json['unit_row'],
-      unitColumn: json['unit_column'],
+      shortCode: json['short_code'] ?? "",
+      unitRow: json['unit_row'] ?? "",
+      unitColumn: json['unit_column'] ?? "",
       storageUnit: StorageUnit.fromJson(json['storage_unit']),
     );
   }
