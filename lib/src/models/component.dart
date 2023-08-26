@@ -31,11 +31,11 @@ class Component {
       sku: json['sku'],
       mpn: json['mpn'],
       upc: json['upc'],
-      storageBins: (json['storageBins'] as List<dynamic>)
+      storageBins: (json['storage_bins'] as List<dynamic>)
           .map((e) => StorageBin.fromJson(e))
           .toList(),
       measurementUnit:
-          ComponentMeasurementUnit.fromJson(json['measurementUnit']),
+          ComponentMeasurementUnit.fromJson(json['measurement_unit']),
       qty: json['qty'],
       description: json['description'],
     );
