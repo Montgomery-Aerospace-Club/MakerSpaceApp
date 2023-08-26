@@ -7,7 +7,7 @@ class Room {
   final Building building;
 
   Room({
-    this.url = "",
+    required this.url,
     required this.name,
     this.shortCode = '',
     required this.building,

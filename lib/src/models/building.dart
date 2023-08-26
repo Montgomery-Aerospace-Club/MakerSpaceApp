@@ -5,7 +5,7 @@ class Building {
   final String url;
 
   Building({
-    this.url = "",
+    required this.url,
     required this.name,
     this.address = '',
     this.postcode = '',

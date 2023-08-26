@@ -4,7 +4,7 @@ class ComponentMeasurementUnit {
   final String unitDescription;
 
   ComponentMeasurementUnit({
-    this.url = "",
+    required this.url,
     required this.unitName,
     this.unitDescription = '',
   });

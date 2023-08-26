@@ -7,7 +7,7 @@ class StorageUnit {
   final Room room;
 
   StorageUnit({
-    this.url = "",
+    required this.url,
     required this.name,
     this.shortCode = '',
     required this.room,

@@ -9,7 +9,7 @@ class StorageBin {
   final StorageUnit storageUnit;
 
   StorageBin({
-    this.url = "",
+    required this.url,
     required this.name,
     this.shortCode = '',
     this.unitRow = '',

@@ -1,6 +1,5 @@
 import 'package:themakerspace/src/models/measurement_unit.dart';
 import 'package:themakerspace/src/models/storage_bin.dart';
-import 'package:themakerspace/src/models/user.dart';
 
 class Component {
   final String url;
@@ -11,12 +10,10 @@ class Component {
   final List<StorageBin> storageBins;
   final ComponentMeasurementUnit measurementUnit;
   final int qty;
-  final bool checkedOut;
-  final User personWhoCheckedOut;
   final String description;
 
   Component({
-    this.url = "",
+    required this.url,
     required this.name,
     required this.sku,
     required this.mpn,
@@ -24,8 +21,6 @@ class Component {
     required this.storageBins,
     required this.measurementUnit,
     required this.qty,
-    required this.checkedOut,
-    required this.personWhoCheckedOut,
     required this.description,
   });
 
@@ -42,8 +37,6 @@ class Component {
       measurementUnit:
           ComponentMeasurementUnit.fromJson(json['measurementUnit']),
       qty: json['qty'],
-      checkedOut: json['checkedOut'],
-      personWhoCheckedOut: User.fromJson(json['personWhoCheckedOut']),
       description: json['description'],
     );
   }
@@ -57,8 +50,6 @@ class Component {
       'storage_bin': storageBins.map((e) => e.toJson()).toList(),
       'measurement_unit': measurementUnit.toJson(),
       'qty': qty,
-      'checked_out': checkedOut,
-      'person_who_checked_out': personWhoCheckedOut.toJson(),
       'description': description,
     };
   }
