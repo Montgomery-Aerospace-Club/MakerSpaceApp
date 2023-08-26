@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:themakerspace/src/models/component.dart';
+import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/models/user.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
@@ -37,13 +37,14 @@ class _DebugState extends State<Debug> {
             }
           }),
           giveMeDebugButton("components", () async {
-            List<Component> components = await getComponents();
+            ComponentList components = await getComponents();
 
             if (components.isEmpty) {
               debugPrint(
                   "Token invalid? Or return invalid? Or just no components?");
             } else {
-              debugPrint(json.encode(components[0].toJson()));
+              ComponentList lst = await readComponentList();
+              debugPrint(json.encode(lst.toJson()));
             }
           }),
           // ElevatedButton(

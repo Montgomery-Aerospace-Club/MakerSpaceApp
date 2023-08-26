@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'dart:core';
 import 'package:http/http.dart' as http;
 import 'package:themakerspace/src/constants.dart';
-import 'package:themakerspace/src/models/component.dart';
+import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/models/user.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
-import 'package:themakerspace/src/providers/utils.dart';
 
 Future<bool> login(String username, String password) async {
   Map<String, String> requestBody = {
@@ -87,11 +86,11 @@ Future<String> register(
   return errorMsg;
 }
 
-Future<List<Component>> getComponents() async {
+Future<ComponentList> getComponents() async {
   String token = await readToken();
 
   if (token.isEmpty) {
-    return [];
+    return ComponentList(components: []);
   }
 
   Map<String, String> headers = {"Authorization": "Token $token"};
@@ -101,20 +100,15 @@ Future<List<Component>> getComponents() async {
 
   if (response.statusCode == 200) {
     List<dynamic> body = json.decode(response.body);
-
-    //Map<String, dynamic>
-
     List<Map<String, dynamic>> componentsJson =
-        body.map((e) => convertToMapDynamic(e)).toList();
+        body.map((e) => ComponentList.convertToMapDynamic(e)).toList();
 
-    List<Component> ret = [];
+    ComponentList lst = ComponentList.fromJson(componentsJson);
 
-    for (Map<String, dynamic> componentJson in componentsJson) {
-      ret.add(Component.fromJson(componentJson));
-    }
+    writeComponentList(lst);
 
-    return ret;
+    return lst;
   }
 
-  return [];
+  return ComponentList(components: []);
 }

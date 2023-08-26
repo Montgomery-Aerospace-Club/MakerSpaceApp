@@ -31,7 +31,7 @@ class Component {
       sku: json['sku'],
       mpn: json['mpn'],
       upc: json['upc'],
-      storageBins: (json['storage_bins'] as List<dynamic>)
+      storageBins: (json['storage_bin'] as List<dynamic>)
           .map((e) => StorageBin.fromJson(e))
           .toList(),
       measurementUnit:

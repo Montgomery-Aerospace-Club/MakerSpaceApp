@@ -8,15 +8,3 @@ Map<String, String> convertToMap(dynamic item) {
   }
   return {};
 }
-
-Map<String, dynamic> convertToMapDynamic(dynamic item) {
-  if (item is Map<String, dynamic>) {
-    Map<String, dynamic> converted = {};
-
-    item.forEach((key, value) {
-      converted[key] = value;
-    });
-  }
-
-  return {};
-}
