@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
 import 'package:themakerspace/src/widgets/navbar.dart';
 
-class Components extends StatefulWidget {
-  const Components({super.key});
+class ComponentsPage extends StatefulWidget {
+  const ComponentsPage({super.key});
 
   @override
-  State<Components> createState() => _ComponentsState();
+  State<ComponentsPage> createState() => _ComponentsState();
 }
 
-class _ComponentsState extends State<Components> {
+class _ComponentsState extends State<ComponentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

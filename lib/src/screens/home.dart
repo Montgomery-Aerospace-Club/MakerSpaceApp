@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
+import 'package:themakerspace/src/widgets/component_list_item.dart';
 import 'package:themakerspace/src/widgets/navbar.dart';
 import 'package:themakerspace/src/widgets/searchbar.dart';
 
@@ -29,13 +30,25 @@ class _HomeState extends State<Home> {
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Padding(
-                      padding: EdgeInsets.only(
-                          top: appSearchbarPadding,
-                          bottom: appSearchbarPadding,
-                          left: appSearchbarPadding + 5,
-                          right: appSearchbarPadding + 5),
-                      child: const AppSearchBar())
+                  Expanded(
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              top: appSearchbarPadding,
+                              bottom: appSearchbarPadding,
+                              left: appSearchbarPadding + 5,
+                              right: appSearchbarPadding + 5),
+                          child: const AppSearchBar())),
+                  Expanded(
+                      flex: 5,
+                      child: ListView.builder(
+                          itemCount:
+                              context.watch<ComponentList>().suggestions.length,
+                          itemBuilder: ((context, index) {
+                            return ComponentListItem(
+                                component: context
+                                    .watch<ComponentList>()
+                                    .suggestions[index]);
+                          })))
                 ],
               ))),
         ));

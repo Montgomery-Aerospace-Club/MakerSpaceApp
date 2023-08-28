@@ -6,6 +6,7 @@ import 'package:themakerspace/src/models/component.dart';
 class ComponentList extends ChangeNotifier with ListMixin<Component> {
   List<Component> components;
   List<Component> suggestions;
+  List<Component> Function(String searchQuery)? customSearchFunction;
 
   ComponentList({required this.components, required this.suggestions});
 
@@ -21,6 +22,7 @@ class ComponentList extends ChangeNotifier with ListMixin<Component> {
   @override
   set length(int newLength) {
     components.length = newLength;
+    notifyListeners();
   }
 
   @override
@@ -29,11 +31,24 @@ class ComponentList extends ChangeNotifier with ListMixin<Component> {
   @override
   void operator []=(int index, Component value) {
     components[index] = value;
+    notifyListeners();
   }
 
   @override
   void add(Component element) {
     components.add(element);
+    notifyListeners();
+  }
+
+  @override
+  String toString() {
+    return 'ComponentList(components: $components, suggestions: $suggestions)';
+  }
+
+  void set(List<Component> components, List<Component> suggestions) {
+    this.components = components;
+    this.suggestions = suggestions;
+    notifyListeners();
   }
 
   static Map<String, dynamic> convertToMapDynamic(dynamic item) {
@@ -69,20 +84,34 @@ class ComponentList extends ChangeNotifier with ListMixin<Component> {
   }
 
   searchComponent(String searchQuery) {
-    if (searchQuery.isEmpty) {
-      return;
+    if (customSearchFunction != null) {
+      suggestions = customSearchFunction!(searchQuery);
+    } else {
+      suggestions = defaultSearchFunction(searchQuery);
+    }
+    notifyListeners();
+    return;
+  }
+
+  void setSearchFunction(List<Component> Function(String searchQuery) func) {
+    customSearchFunction = func;
+  }
+
+  List<Component> defaultSearchFunction(String query) {
+    if (query.isEmpty) {
+      return components;
     }
 
     List<Component> results = [];
 
     for (Component comp in components) {
-      if (comp.name.contains(searchQuery) ||
-          comp.description.contains(searchQuery)) {
+      if (comp.name.contains(query) ||
+          comp.description.contains(query) ||
+          query.contains(comp.name)) {
         results.add(comp);
       }
     }
 
-    suggestions = results;
-    notifyListeners();
+    return results;
   }
 }

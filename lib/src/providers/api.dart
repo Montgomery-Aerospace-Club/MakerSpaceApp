@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/models/component_list.dart';
@@ -95,19 +96,25 @@ Future<ComponentList> getComponents() async {
 
   Map<String, String> headers = {"Authorization": "Token $token"};
 
-  final response = await http
-      .get(Uri.parse("${Constants.apiUrl}/rest/components/"), headers: headers);
+  try {
+    final response = await http.get(
+        Uri.parse("${Constants.apiUrl}/rest/components/"),
+        headers: headers);
 
-  if (response.statusCode == 200) {
-    List<dynamic> body = json.decode(response.body);
-    List<Map<String, dynamic>> componentsJson =
-        body.map((e) => ComponentList.convertToMapDynamic(e)).toList();
+    if (response.statusCode == 200) {
+      List<dynamic> body = json.decode(response.body);
+      List<Map<String, dynamic>> componentsJson =
+          body.map((e) => ComponentList.convertToMapDynamic(e)).toList();
 
-    ComponentList lst = ComponentList.fromJson(componentsJson);
+      ComponentList lst = ComponentList.fromJson(componentsJson);
 
-    writeComponentList(lst);
+      writeComponentList(lst);
 
-    return lst;
+      return lst;
+    }
+  } catch (error) {
+    debugPrint(error.toString());
+    return readComponentList();
   }
 
   return ComponentList(components: [], suggestions: []);

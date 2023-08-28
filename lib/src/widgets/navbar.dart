@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:themakerspace/src/screens/borrow_and_returns.dart';
+import 'package:themakerspace/src/screens/components.dart';
+import 'package:themakerspace/src/screens/home.dart';
 
 class Navbar extends StatefulWidget {
   final int selectedIndex;
@@ -21,7 +24,17 @@ class NavBarState extends State<Navbar> {
 
   void _onItemTapped(int index) async {
     if (!mounted) return;
-    if (index == 0) {}
+    switch (index) {
+      case 0:
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const ComponentsPage()));
+      case 1:
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const Home()));
+      case 2:
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const BRs()));
+    }
 
     // if selectedIndex == indexof a page
     // nav push

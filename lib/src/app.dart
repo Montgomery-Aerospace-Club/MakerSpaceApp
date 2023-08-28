@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:themakerspace/src/debug/debug_view.dart';
+import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/screens/login.dart';
 import 'package:themakerspace/src/screens/home.dart';
 
@@ -18,11 +20,23 @@ class MontyMakerSpaceApp extends StatefulWidget {
 class _MontyMakerSpaceAppState extends State<MontyMakerSpaceApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: "The Maker Space",
-        theme: widget.lightTheme,
-        darkTheme: widget.darkTheme,
-        home: const Home());
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) {
+            return ComponentList(components: [], suggestions: []);
+          },
+          lazy: false,
+        ),
+      ],
+      builder: (context, child) {
+        return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: "The Maker Space",
+            theme: widget.lightTheme,
+            darkTheme: widget.darkTheme,
+            home: const Home());
+      },
+    );
   }
 }
