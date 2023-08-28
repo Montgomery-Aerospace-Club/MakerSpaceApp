@@ -30,14 +30,15 @@ class _HomeState extends State<Home> {
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Expanded(
-                      child: Padding(
-                          padding: EdgeInsets.only(
-                              top: appSearchbarPadding,
-                              bottom: appSearchbarPadding,
-                              left: appSearchbarPadding + 5,
-                              right: appSearchbarPadding + 5),
-                          child: const AppSearchBar())),
+                  Padding(
+                      padding: EdgeInsets.only(
+                          top: appSearchbarPadding,
+                          bottom: appSearchbarPadding,
+                          left: appSearchbarPadding + 5,
+                          right: appSearchbarPadding + 5),
+                      child: const AppSearchBar(
+                        hintTextForBar: "Search for Components You Borrowed",
+                      )),
                   Expanded(
                       flex: 5,
                       child: ListView.builder(

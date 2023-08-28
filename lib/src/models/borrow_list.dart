@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:themakerspace/src/models/component.dart';
 
+//convert it to a borrow class
 class ComponentList extends ChangeNotifier with ListMixin<Component> {
   List<Component> components;
   List<Component> suggestions;

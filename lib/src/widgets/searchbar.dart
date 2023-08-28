@@ -4,7 +4,9 @@ import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 
 class AppSearchBar extends StatefulWidget {
-  const AppSearchBar({super.key});
+  const AppSearchBar({super.key, required this.hintTextForBar});
+
+  final String hintTextForBar;
 
   @override
   State<AppSearchBar> createState() => _AppSearchBarState();
@@ -31,7 +33,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
           () => context.read<ComponentList>().searchComponent(controller.text),
         );
         return SearchBar(
-            hintText: "Search for Components Borrowed",
+            hintText: widget.hintTextForBar,
             controller: controller,
             padding: const MaterialStatePropertyAll<EdgeInsets>(
                 EdgeInsets.symmetric(horizontal: 16.0)),
