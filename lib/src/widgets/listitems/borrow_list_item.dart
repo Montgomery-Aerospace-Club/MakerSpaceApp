@@ -14,33 +14,34 @@ class BorrowListItem extends StatelessWidget {
     return ListTile(
       title: Text(component.component.name.capitalize()),
       subtitle: Text(component.component.description),
-      trailing: Container(
-          color: Colors.blue,
-          child: SizedBox(
-            width: 125,
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Amount: ${component.component.qty}",
-                    style: Theme.of(context).textTheme.labelLarge,
-                  ),
-                  if (isBorrowInProgress)
-                    const Tooltip(
-                        message: "Component is being borrowed by you",
-                        child: Icon(
-                          Icons.circle,
-                          color: Colors.purple,
-                        ))
-                  else
-                    const Tooltip(
-                        message: "Component has been returned",
-                        child: Icon(
-                          Icons.circle,
-                          color: Colors.blue,
-                        ))
-                ]),
-          )),
+      trailing:
+          //Container(
+          //color: Colors.blue,
+          //child:
+          SizedBox(
+        width: 125,
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(
+            "Amount: ${component.component.qty}",
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
+          if (isBorrowInProgress)
+            const Tooltip(
+                message: "Component is being borrowed by you",
+                child: Icon(
+                  Icons.circle,
+                  color: Colors.purple,
+                ))
+          else
+            const Tooltip(
+                message: "Component has been returned",
+                child: Icon(
+                  Icons.circle,
+                  color: Colors.blue,
+                ))
+        ]),
+      ),
       onTap: () {
         //debugPrint("hi");
       },

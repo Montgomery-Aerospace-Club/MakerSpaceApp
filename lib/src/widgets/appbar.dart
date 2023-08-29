@@ -12,5 +12,6 @@ AppBar generateAppbar(
     elevation: elevate ? 2 : 0,
     centerTitle: true,
     actions: actions,
+    leading: leading,
   );
 }

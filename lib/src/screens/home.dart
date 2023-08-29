@@ -4,6 +4,7 @@ import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
 import 'package:themakerspace/src/screens/login.dart';
+import 'package:themakerspace/src/screens/profile.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
 import 'package:themakerspace/src/widgets/listitems/borrow_list_item.dart';
 import 'package:themakerspace/src/widgets/navbar.dart';
@@ -38,15 +39,21 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: generateAppbar(title: "Home", elevate: true, actions: [
-          IconButton(
-              onPressed: () {
-                logout();
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => const Login()));
-              },
-              icon: const Icon(Icons.logout))
-        ]),
+        appBar: generateAppbar(
+            title: "Home",
+            elevate: true,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    logout();
+                    Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => const Login()));
+                  },
+                  icon: const Icon(Icons.logout))
+            ],
+            leading: IconButton(
+                onPressed: () => showUserDialog(context),
+                icon: const Icon(Icons.person))),
         bottomNavigationBar: const Navbar(
           selectedIndex: 1,
         ),
@@ -76,10 +83,37 @@ class _HomeState extends State<Home> {
                           itemCount:
                               context.watch<BorrowList>().suggestions.length,
                           itemBuilder: ((context, index) {
-                            //TODO: try to add some more actual UI to the borrow list item that uses its attributes to the fullest
-                            //TODO: implement sign in and sign out model in db and in app
-                            //TODO: Implement borrow and return system
-                            //TODO: discuss about the qty and how do implement qty reduce after borrow post request is accepted in server
+                            //TODO: PAGE UNDECIDED
+                            //implement sign in and sign out model in db and in app
+
+                            //TODO: BORROW AND RETURN PAGE
+                            //implement borrow and return system
+                            // use camera when needed?
+                            // implememntn text fields
+                            // discuss about the qty and how do implement qty reduce after borrow post request is accepted in server
+
+                            // TODO: COMPONENTS PAGE
+                            // for the components page implement map view or smth like that?
+                            // so for that we also need to implement a borrow thingy to show which items are borrowed and which items are not
+
+                            //TODO: HOME PAGE
+                            //user profile
+                            // try to add some more actual UI to the borrow list item that uses its attributes to the fullest
+                            // add serach filters that include a date/time selector for the filter
+                            /*
+                                 search_fields = [
+                                    "person_who_borrowed__username",
+                                    "component__name",
+                                    "component__description",
+                                    "timestamp_check_out",
+                                ]
+                                filterset_fields = [
+                                    "borrow_in_progress",
+                                    "person_who_borrowed__user_id",
+                                    "person_who_borrowed__email",
+                                ]
+
+                             */
 
                             /*
                              return {
