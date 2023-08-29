@@ -40,7 +40,7 @@ class ComponentListItem extends StatelessWidget {
         ]),
       ),
       onTap: () {
-        debugPrint("hi");
+        //debugPrint("hi");
       },
       isThreeLine: true,
     );

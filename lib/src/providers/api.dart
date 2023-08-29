@@ -167,3 +167,7 @@ Future<BorrowList> getOrSearchBorrows(
 
   return ret;
 }
+
+void logout() {
+  logoutClearCookies();
+}

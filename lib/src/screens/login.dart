@@ -27,18 +27,20 @@ class Login extends StatelessWidget {
 
   Future<String?> _signupUser(SignupData data) {
     //debugPrint('Signup Name: ${data.name}, Password: ${data.password}');
-    return Future.delayed(const Duration(milliseconds: 350)).then((value) =>
-        register(
-                data.name ?? "",
-                data.password ?? "",
-                data.additionalSignupData?["email"] ?? "",
-                data.additionalSignupData?["user_id"] ?? "")
-            .then((value) {
-          if (value.isEmpty) {
-            return null;
-          }
-          return value;
-        }));
+    return Future.delayed(const Duration(milliseconds: 10))
+        .then((value) => "We are currently not accepting sign ups, sorry.");
+    // return Future.delayed(const Duration(milliseconds: 350)).then((value) =>
+    //     register(
+    //             data.name ?? "",
+    //             data.password ?? "",
+    //             data.additionalSignupData?["email"] ?? "",
+    //             data.additionalSignupData?["user_id"] ?? "")
+    //         .then((value) {
+    //       if (value.isEmpty) {
+    //         return null;
+    //       }
+    //       return value;
+    //     }));
   }
 
   String? _validateUser(String? username) {
@@ -88,20 +90,20 @@ class Login extends StatelessWidget {
       logo: const AssetImage("assets/images/schoollogo-nobg.png"),
       onLogin: _authUser,
       onSignup: _signupUser,
-      additionalSignupFields: [
-        UserFormField(
-            keyName: "email",
-            displayName: "Enter Your Email",
-            fieldValidator: validateEmail,
-            icon: const Icon(Icons.email),
-            userType: LoginUserType.email),
-        UserFormField(
-            keyName: "user_id",
-            displayName: "Enter Your Student ID",
-            fieldValidator: numberValidator,
-            icon: const Icon(Icons.numbers),
-            userType: LoginUserType.text)
-      ],
+      // additionalSignupFields: [
+      //   UserFormField(
+      //       keyName: "email",
+      //       displayName: "Enter Your Email",
+      //       fieldValidator: validateEmail,
+      //       icon: const Icon(Icons.email),
+      //       userType: LoginUserType.email),
+      //   UserFormField(
+      //       keyName: "user_id",
+      //       displayName: "Enter Your Student ID",
+      //       fieldValidator: numberValidator,
+      //       icon: const Icon(Icons.numbers),
+      //       userType: LoginUserType.text)
+      // ],
       userType: LoginUserType.name,
       messages: LoginMessages(
         userHint: "Enter Your Username",

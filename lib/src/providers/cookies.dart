@@ -60,6 +60,11 @@ void writeBorrowList(BorrowList lst) async {
   String stringJson = jsonEncode(lst);
   await storage.write(key: "borrows", value: stringJson);
 }
+
+void logoutClearCookies() {
+  final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  storage.deleteAll();
+}
 /*
 
 

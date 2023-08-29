@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
+import 'package:themakerspace/src/screens/login.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
 import 'package:themakerspace/src/widgets/listitems/borrow_list_item.dart';
 import 'package:themakerspace/src/widgets/navbar.dart';
@@ -37,7 +38,15 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: generateAppbar(title: "Home", elevate: true),
+        appBar: generateAppbar(title: "Home", elevate: true, actions: [
+          IconButton(
+              onPressed: () {
+                logout();
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const Login()));
+              },
+              icon: const Icon(Icons.logout))
+        ]),
         bottomNavigationBar: const Navbar(
           selectedIndex: 1,
         ),
