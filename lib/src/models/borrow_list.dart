@@ -1,90 +1,76 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'package:themakerspace/src/models/component.dart';
+import 'package:themakerspace/src/providers/utils.dart';
+import 'borrow.dart'; // Assuming you have a Borrow class defined
 
-//convert it to a borrow class
-class ComponentList extends ChangeNotifier with ListMixin<Component> {
-  List<Component> components;
-  List<Component> suggestions;
-  List<Component> Function(String searchQuery)? customSearchFunction;
+class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
+  List<Borrow> borrows;
+  List<Borrow> suggestions;
+  List<Borrow> Function(String searchQuery)? customSearchFunction;
 
-  ComponentList({required this.components, required this.suggestions});
-
-  @override
-  int get length => components.length;
+  BorrowList({required this.borrows, required this.suggestions});
 
   @override
-  bool get isEmpty => components.isEmpty;
+  int get length => borrows.length;
 
   @override
-  bool get isNotEmpty => components.isNotEmpty;
+  bool get isEmpty => borrows.isEmpty;
+
+  @override
+  bool get isNotEmpty => borrows.isNotEmpty;
 
   @override
   set length(int newLength) {
-    components.length = newLength;
+    borrows.length = newLength;
     notifyListeners();
   }
 
   @override
-  Component operator [](int index) => components[index];
+  Borrow operator [](int index) => borrows[index];
 
   @override
-  void operator []=(int index, Component value) {
-    components[index] = value;
+  void operator []=(int index, Borrow value) {
+    borrows[index] = value;
     notifyListeners();
   }
 
   @override
-  void add(Component element) {
-    components.add(element);
+  void add(Borrow element) {
+    borrows.add(element);
     notifyListeners();
   }
 
   @override
   String toString() {
-    return 'ComponentList(components: $components, suggestions: $suggestions)';
+    return 'BorrowList(borrows: $borrows, suggestions: $suggestions)';
   }
 
-  void set(List<Component> components, List<Component> suggestions) {
-    this.components = components;
+  void set(List<Borrow> borrows, List<Borrow> suggestions) {
+    this.borrows = borrows;
     this.suggestions = suggestions;
     notifyListeners();
   }
 
-  static Map<String, dynamic> convertToMapDynamic(dynamic item) {
-    if (item is Map<String, dynamic>) {
-      Map<String, dynamic> converted = {};
-
-      item.forEach((key, value) {
-        converted[key] = value;
-      });
-
-      return converted;
-    }
-
-    return {};
-  }
-
   List<Map<String, dynamic>> toJson() {
-    return components.map((e) => e.toJson()).toList();
+    return borrows.map((e) => e.toJson()).toList();
   }
 
-  factory ComponentList.fromJson(List<dynamic> jsonList) {
-    List<Component> components = [];
+  factory BorrowList.fromJson(List<dynamic> jsonList) {
+    List<Borrow> borrows = [];
 
-    List<Map<String, dynamic>> componentsJson =
-        jsonList.map((e) => ComponentList.convertToMapDynamic(e)).toList();
+    List<Map<String, dynamic>> borrowsJson =
+        jsonList.map((e) => convertToMapDynamic(e)).toList();
 
-    for (Map<String, dynamic> componentJson in componentsJson) {
-      if (componentJson.isNotEmpty) {
-        components.add(Component.fromJson(componentJson));
+    for (Map<String, dynamic> borrowJson in borrowsJson) {
+      if (borrowJson.isNotEmpty) {
+        borrows.add(Borrow.fromJson(borrowJson));
       }
     }
-    return ComponentList(components: components, suggestions: components);
+    return BorrowList(borrows: borrows, suggestions: borrows);
   }
 
-  searchComponent(String searchQuery) {
+  searchBorrow(String searchQuery) {
     if (customSearchFunction != null) {
       suggestions = customSearchFunction!(searchQuery);
     } else {
@@ -94,20 +80,24 @@ class ComponentList extends ChangeNotifier with ListMixin<Component> {
     return;
   }
 
-  void setSearchFunction(List<Component> Function(String searchQuery) func) {
+  void setSearchFunction(List<Borrow> Function(String searchQuery) func) {
     customSearchFunction = func;
   }
 
-  List<Component> defaultSearchFunction(String query) {
+  List<Borrow> defaultSearchFunction(String query) {
     if (query.isEmpty) {
-      return components;
+      return borrows;
     }
 
-    List<Component> results = [];
+    List<Borrow> results = [];
 
-    for (Component comp in components) {
-      if (comp.name.contains(query) || comp.description.contains(query)) {
-        results.add(comp);
+    for (Borrow borrow in borrows) {
+      if (query.contains(borrow.user.userId.toString()) ||
+          borrow.user.username.contains(query) ||
+          query.contains(borrow.user.email) ||
+          borrow.component.name.contains(query) ||
+          borrow.component.description.contains(query)) {
+        results.add(borrow);
       }
     }
 

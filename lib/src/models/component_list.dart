@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
 import 'package:themakerspace/src/models/component.dart';
+import 'package:themakerspace/src/providers/utils.dart';
 
 class ComponentList extends ChangeNotifier with ListMixin<Component> {
   List<Component> components;
@@ -35,12 +36,6 @@ class ComponentList extends ChangeNotifier with ListMixin<Component> {
   }
 
   @override
-  void add(Component element) {
-    components.add(element);
-    notifyListeners();
-  }
-
-  @override
   String toString() {
     return 'ComponentList(components: $components, suggestions: $suggestions)';
   }
@@ -51,20 +46,6 @@ class ComponentList extends ChangeNotifier with ListMixin<Component> {
     notifyListeners();
   }
 
-  static Map<String, dynamic> convertToMapDynamic(dynamic item) {
-    if (item is Map<String, dynamic>) {
-      Map<String, dynamic> converted = {};
-
-      item.forEach((key, value) {
-        converted[key] = value;
-      });
-
-      return converted;
-    }
-
-    return {};
-  }
-
   List<Map<String, dynamic>> toJson() {
     return components.map((e) => e.toJson()).toList();
   }
@@ -73,7 +54,7 @@ class ComponentList extends ChangeNotifier with ListMixin<Component> {
     List<Component> components = [];
 
     List<Map<String, dynamic>> componentsJson =
-        jsonList.map((e) => ComponentList.convertToMapDynamic(e)).toList();
+        jsonList.map((e) => convertToMapDynamic(e)).toList();
 
     for (Map<String, dynamic> componentJson in componentsJson) {
       if (componentJson.isNotEmpty) {

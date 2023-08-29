@@ -6,6 +6,7 @@ import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/models/user.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
+import 'package:themakerspace/src/providers/utils.dart';
 
 Future<bool> login(String username, String password) async {
   Map<String, String> requestBody = {
@@ -104,7 +105,7 @@ Future<ComponentList> getComponents() async {
     if (response.statusCode == 200) {
       List<dynamic> body = json.decode(response.body);
       List<Map<String, dynamic>> componentsJson =
-          body.map((e) => ComponentList.convertToMapDynamic(e)).toList();
+          body.map((e) => convertToMapDynamic(e)).toList();
 
       ComponentList lst = ComponentList.fromJson(componentsJson);
 
@@ -136,7 +137,7 @@ Future<ComponentList> searchComponents(String text) async {
   if (response.statusCode == 200) {
     List<dynamic> body = json.decode(response.body);
     List<Map<String, dynamic>> componentsJson =
-        body.map((e) => ComponentList.convertToMapDynamic(e)).toList();
+        body.map((e) => convertToMapDynamic(e)).toList();
 
     ComponentList lst = ComponentList.fromJson(componentsJson);
 

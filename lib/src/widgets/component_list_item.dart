@@ -22,7 +22,7 @@ class ComponentListItem extends StatelessWidget {
                     "${component.qty}",
                     style: Theme.of(context).textTheme.labelLarge,
                   ),
-                  //TODO create borrows model
+                  //TODO integrate borrows list model
                 ]),
           )),
       onTap: () {
