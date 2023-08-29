@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:themakerspace/src/debug/debug_view.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/models/component_list.dart';
-import 'package:themakerspace/src/providers/api.dart';
+import 'package:themakerspace/src/providers/cookies.dart';
 import 'package:themakerspace/src/screens/login.dart';
 import 'package:themakerspace/src/screens/home.dart';
 
@@ -20,6 +20,18 @@ class MontyMakerSpaceApp extends StatefulWidget {
 }
 
 class _MontyMakerSpaceAppState extends State<MontyMakerSpaceApp> {
+  bool? tokenExists;
+
+  @override
+  void initState() {
+    readToken().then((value) {
+      setState(() {
+        tokenExists = value.isNotEmpty;
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -41,12 +53,13 @@ class _MontyMakerSpaceAppState extends State<MontyMakerSpaceApp> {
         )
       ],
       builder: (context, child) {
+        //while (tokenExists == null) {}
         return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: "The Maker Space",
             theme: widget.lightTheme,
             darkTheme: widget.darkTheme,
-            home: const Home());
+            home: tokenExists ?? false ? const Home() : const Login());
       },
     );
   }

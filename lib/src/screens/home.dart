@@ -76,7 +76,11 @@ class _HomeState extends State<Home> {
                           itemCount:
                               context.watch<BorrowList>().suggestions.length,
                           itemBuilder: ((context, index) {
-                            //TODO try to add some more actual UI to the borrow list item that uses its attributes to the fullest
+                            //TODO: try to add some more actual UI to the borrow list item that uses its attributes to the fullest
+                            //TODO: implement sign in and sign out model in db and in app
+                            //TODO: Implement borrow and return system
+                            //TODO: discuss about the qty and how do implement qty reduce after borrow post request is accepted in server
+
                             /*
                              return {
                                 "url": url,
