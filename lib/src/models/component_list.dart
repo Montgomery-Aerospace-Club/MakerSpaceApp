@@ -64,7 +64,7 @@ class ComponentList extends ChangeNotifier with ListMixin<Component> {
     return ComponentList(components: components, suggestions: components);
   }
 
-  searchComponent(String searchQuery) {
+  void searchComponent(String searchQuery) {
     if (customSearchFunction != null) {
       suggestions = customSearchFunction!(searchQuery);
     } else {

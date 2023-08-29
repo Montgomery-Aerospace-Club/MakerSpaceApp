@@ -20,7 +20,7 @@ class _DebugState extends State<Debug> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateAppbar("Debug", true),
+      appBar: generateAppbar(title: "Debug", elevate: true),
       bottomNavigationBar: const Navbar(
         selectedIndex: 1,
       ),
@@ -37,7 +37,7 @@ class _DebugState extends State<Debug> {
             }
           }),
           giveMeDebugButton("components", () async {
-            ComponentList components = await getComponents();
+            ComponentList components = await getOrSearchComponents("");
 
             if (components.isEmpty) {
               debugPrint(

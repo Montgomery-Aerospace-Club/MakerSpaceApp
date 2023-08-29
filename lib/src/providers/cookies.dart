@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:themakerspace/src/constants.dart';
+import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/models/user.dart';
 
@@ -45,6 +46,19 @@ void writeComponentList(ComponentList lst) async {
   final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
   String stringJson = jsonEncode(lst);
   await storage.write(key: "components", value: stringJson);
+}
+
+Future<BorrowList> readBorrowList() async {
+  final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  String value = await storage.read(key: "borrows") ?? "[]";
+  List<dynamic> jsonn = json.decode(value);
+  return BorrowList.fromJson(jsonn);
+}
+
+void writeBorrowList(BorrowList lst) async {
+  final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  String stringJson = jsonEncode(lst);
+  await storage.write(key: "borrows", value: stringJson);
 }
 /*
 

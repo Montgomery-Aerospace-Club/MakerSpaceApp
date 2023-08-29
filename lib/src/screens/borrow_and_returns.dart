@@ -13,7 +13,7 @@ class _BRsState extends State<BRs> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: generateAppbar("Borrow and Return", true),
+      appBar: generateAppbar(title: "Borrow and Return", elevate: true),
       bottomNavigationBar: const Navbar(
         selectedIndex: 2,
       ),

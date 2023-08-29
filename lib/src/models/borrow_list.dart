@@ -1,15 +1,21 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
+import 'package:themakerspace/src/models/component.dart';
+import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/utils.dart';
 import 'borrow.dart'; // Assuming you have a Borrow class defined
 
 class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
   List<Borrow> borrows;
   List<Borrow> suggestions;
+  ComponentList components;
   List<Borrow> Function(String searchQuery)? customSearchFunction;
 
-  BorrowList({required this.borrows, required this.suggestions});
+  BorrowList(
+      {required this.borrows,
+      required this.suggestions,
+      required this.components});
 
   @override
   int get length => borrows.length;
@@ -46,9 +52,10 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
     return 'BorrowList(borrows: $borrows, suggestions: $suggestions)';
   }
 
-  void set(List<Borrow> borrows, List<Borrow> suggestions) {
+  void set(List<Borrow> borrows, List<Borrow> suggestions, ComponentList lst) {
     this.borrows = borrows;
     this.suggestions = suggestions;
+    components = lst;
     notifyListeners();
   }
 
@@ -58,26 +65,36 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
 
   factory BorrowList.fromJson(List<dynamic> jsonList) {
     List<Borrow> borrows = [];
+    List<Component> components = [];
+    ComponentList lst = ComponentList(components: [], suggestions: []);
 
     List<Map<String, dynamic>> borrowsJson =
         jsonList.map((e) => convertToMapDynamic(e)).toList();
 
     for (Map<String, dynamic> borrowJson in borrowsJson) {
       if (borrowJson.isNotEmpty) {
-        borrows.add(Borrow.fromJson(borrowJson));
+        Borrow bor = Borrow.fromJson(borrowJson);
+        borrows.add(bor);
+        components.add(bor.component);
       }
     }
-    return BorrowList(borrows: borrows, suggestions: borrows);
+    lst.set(components, components);
+    return BorrowList(
+      borrows: borrows,
+      suggestions: borrows,
+      components: lst,
+    );
   }
 
-  searchBorrow(String searchQuery) {
+  void searchBorrow(String searchQuery) {
     if (customSearchFunction != null) {
       suggestions = customSearchFunction!(searchQuery);
     } else {
       suggestions = defaultSearchFunction(searchQuery);
     }
+    components.suggestions =
+        BorrowList.convertListBorrowToListComponent(suggestions);
     notifyListeners();
-    return;
   }
 
   void setSearchFunction(List<Borrow> Function(String searchQuery) func) {
@@ -93,7 +110,7 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
 
     for (Borrow borrow in borrows) {
       if (query.contains(borrow.user.userId.toString()) ||
-          borrow.user.username.contains(query) ||
+          // borrow.user.username.contains(query) ||
           query.contains(borrow.user.email) ||
           borrow.component.name.contains(query) ||
           borrow.component.description.contains(query)) {
@@ -102,5 +119,13 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
     }
 
     return results;
+  }
+
+  static convertListBorrowToListComponent(List<Borrow> borrows) {
+    List<Component> components = [];
+    for (Borrow borrow in borrows) {
+      components.add(borrow.component);
+    }
+    return components;
   }
 }

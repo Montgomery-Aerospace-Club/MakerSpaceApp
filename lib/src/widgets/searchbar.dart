@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
 import 'package:themakerspace/src/models/component_list.dart';
-import 'package:themakerspace/src/providers/api.dart';
 
 class AppSearchBar extends StatefulWidget {
-  const AppSearchBar({super.key, required this.hintTextForBar});
+  const AppSearchBar(
+      {super.key,
+      required this.hintTextForBar,
+      required this.componentList,
+      required this.searchCallback});
 
   final String hintTextForBar;
+  final ComponentList componentList;
+  final void Function(String searchQuery) searchCallback;
 
   @override
   State<AppSearchBar> createState() => _AppSearchBarState();
@@ -23,14 +28,10 @@ class _AppSearchBarState extends State<AppSearchBar> {
 
   @override
   Widget build(BuildContext context) {
-    getComponents().then((value) {
-      context.read<ComponentList>().set(value.components, value.suggestions);
-      return value;
-    });
     return SearchAnchor(
       builder: (BuildContext context, SearchController controller) {
         controller.addListener(
-          () => context.read<ComponentList>().searchComponent(controller.text),
+          () => widget.searchCallback(controller.text),
         );
         return SearchBar(
             hintText: widget.hintTextForBar,
@@ -46,17 +47,16 @@ class _AppSearchBarState extends State<AppSearchBar> {
             leading: const Icon(Icons.search));
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-        return List<ListTile>.generate(
-            context.read<ComponentList>().suggestions.length, (int index) {
+        return List<ListTile>.generate(widget.componentList.suggestions.length,
+            (int index) {
           return ListTile(
-              title:
-                  Text(context.read<ComponentList>().suggestions[index].name),
+              title: Text(widget.componentList.suggestions[index].name),
               onTap: () {
                 selectedComponentIndex = index;
 
-                controller.closeView(
-                    context.read<ComponentList>().suggestions[index].name);
-                context.read<ComponentList>().searchComponent(controller.text);
+                controller
+                    .closeView(widget.componentList.suggestions[index].name);
+                widget.componentList.searchComponent(controller.text);
               });
         });
       },

@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:themakerspace/src/constants.dart';
+import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/models/user.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
@@ -88,7 +89,7 @@ Future<String> register(
   return errorMsg;
 }
 
-Future<ComponentList> getComponents() async {
+Future<ComponentList> getOrSearchComponents(String query) async {
   String token = await readToken();
 
   if (token.isEmpty) {
@@ -99,7 +100,7 @@ Future<ComponentList> getComponents() async {
 
   try {
     final response = await http.get(
-        Uri.parse("${Constants.apiUrl}/rest/components/"),
+        Uri.parse("${Constants.apiUrl}/rest/components/?search=$query"),
         headers: headers);
 
     if (response.statusCode == 200) {
@@ -109,7 +110,9 @@ Future<ComponentList> getComponents() async {
 
       ComponentList lst = ComponentList.fromJson(componentsJson);
 
-      writeComponentList(lst);
+      if (query.isEmpty) {
+        writeComponentList(lst);
+      }
 
       return lst;
     }
@@ -121,28 +124,46 @@ Future<ComponentList> getComponents() async {
   return ComponentList(components: [], suggestions: []);
 }
 
-Future<ComponentList> searchComponents(String text) async {
+Future<BorrowList> getOrSearchBorrows(
+    String? query, bool? borrowInProgress) async {
   String token = await readToken();
 
+  BorrowList ret = BorrowList(
+      borrows: [],
+      suggestions: [],
+      components: ComponentList(components: [], suggestions: []));
+
   if (token.isEmpty) {
-    return ComponentList(components: [], suggestions: []);
+    return ret;
   }
 
   Map<String, String> headers = {"Authorization": "Token $token"};
 
-  final response = await http.get(
-      Uri.parse("${Constants.apiUrl}/rest/components/?search=$text/"),
-      headers: headers);
+  final uri =
+      Uri.parse('${Constants.apiUrl}/rest/borrows/').replace(queryParameters: {
+    "search": query ?? "",
+    "borrow_in_progress": borrowInProgress ?? "",
+  });
+  try {
+    final response = await http.get(uri, headers: headers);
 
-  if (response.statusCode == 200) {
-    List<dynamic> body = json.decode(response.body);
-    List<Map<String, dynamic>> componentsJson =
-        body.map((e) => convertToMapDynamic(e)).toList();
+    if (response.statusCode == 200) {
+      List<dynamic> body = json.decode(response.body);
+      List<Map<String, dynamic>> componentsJson =
+          body.map((e) => convertToMapDynamic(e)).toList();
 
-    ComponentList lst = ComponentList.fromJson(componentsJson);
+      BorrowList lst = BorrowList.fromJson(componentsJson);
 
-    return lst;
+      if (query == null) {
+        writeBorrowList(lst);
+      }
+
+      return lst;
+    }
+  } catch (error) {
+    debugPrint(error.toString());
+    return readBorrowList();
   }
 
-  return ComponentList(components: [], suggestions: []);
+  return ret;
 }

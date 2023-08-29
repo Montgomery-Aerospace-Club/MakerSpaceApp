@@ -6,7 +6,7 @@ class User {
   final String username;
   final int userId;
   final String email;
-  final String token;
+  final String? token;
 
   User(
       {required this.url,
@@ -14,11 +14,20 @@ class User {
       required this.username,
       required this.userId,
       required this.email,
-      required this.token});
+      this.token = ""});
 
   factory User.fromJson(Map<String, dynamic> json) {
+    String url = "";
+    if (json["id"] == null) {
+      url = json["url"];
+      json["id"] =
+          int.tryParse(url.split("/users/")[1].replaceAll("/", "")) ?? 0;
+    } else {
+      url = "${Constants.apiUrl}/rest/users/${json['id']}/";
+    }
+
     return User(
-        url: "${Constants.apiUrl}/rest/users/${json['id']}/",
+        url: url,
         id: json["id"],
         username: json['username'],
         userId: json['user_id'],

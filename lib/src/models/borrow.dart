@@ -31,6 +31,7 @@ class Borrow {
   }
 
   factory Borrow.fromJson(Map<String, dynamic> json) {
+    //print(json);
     return Borrow(
         url: json["url"],
         borrowTime: DateTime.parse(json["timestamp_check_out"]),

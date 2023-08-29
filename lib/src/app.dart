@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/debug/debug_view.dart';
+import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/models/component_list.dart';
+import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/screens/login.dart';
 import 'package:themakerspace/src/screens/home.dart';
 
@@ -22,12 +24,21 @@ class _MontyMakerSpaceAppState extends State<MontyMakerSpaceApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<ComponentList>(
           create: (context) {
             return ComponentList(components: [], suggestions: []);
           },
           lazy: false,
         ),
+        ChangeNotifierProvider<BorrowList>(
+          create: (context) {
+            return BorrowList(
+                borrows: [],
+                suggestions: [],
+                components: ComponentList(components: [], suggestions: []));
+          },
+          lazy: false,
+        )
       ],
       builder: (context, child) {
         return MaterialApp(

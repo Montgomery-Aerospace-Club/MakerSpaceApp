@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:themakerspace/src/models/component_list.dart';
+import 'package:themakerspace/src/models/borrow_list.dart';
+import 'package:themakerspace/src/providers/api.dart';
+import 'package:themakerspace/src/providers/cookies.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
-import 'package:themakerspace/src/widgets/component_list_item.dart';
+import 'package:themakerspace/src/widgets/listitems/borrow_list_item.dart';
 import 'package:themakerspace/src/widgets/navbar.dart';
 import 'package:themakerspace/src/widgets/searchbar.dart';
 
@@ -17,9 +19,25 @@ class _HomeState extends State<Home> {
   final double appSearchbarPadding = 10;
 
   @override
+  void initState() {
+    readUser().then((value) {
+      getOrSearchBorrows(value.username, null).then((BorrowList value) {
+        context
+            .read<BorrowList>()
+            .set(value.borrows, value.suggestions, value.components);
+        //print(context.read<BorrowList>().suggestions);
+      });
+
+      // print(context.read<BorrowList>().suggestions);
+    });
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: generateAppbar("Home", true),
+        appBar: generateAppbar(title: "Home", elevate: true),
         bottomNavigationBar: const Navbar(
           selectedIndex: 1,
         ),
@@ -36,19 +54,24 @@ class _HomeState extends State<Home> {
                           bottom: appSearchbarPadding,
                           left: appSearchbarPadding + 5,
                           right: appSearchbarPadding + 5),
-                      child: const AppSearchBar(
+                      child: AppSearchBar(
                         hintTextForBar: "Search for Components You Borrowed",
+                        componentList: context.read<BorrowList>().components,
+                        searchCallback: (searchQuery) => context
+                            .read<BorrowList>()
+                            .searchBorrow(searchQuery),
                       )),
                   Expanded(
                       flex: 5,
                       child: ListView.builder(
                           itemCount:
-                              context.watch<ComponentList>().suggestions.length,
+                              context.watch<BorrowList>().suggestions.length,
                           itemBuilder: ((context, index) {
-                            return ComponentListItem(
-                                component: context
-                                    .watch<ComponentList>()
-                                    .suggestions[index]);
+                            return BorrowListItem(
+                              component: context
+                                  .watch<BorrowList>()
+                                  .suggestions[index],
+                            );
                           })))
                 ],
               ))),
