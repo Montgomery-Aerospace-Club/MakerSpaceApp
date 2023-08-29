@@ -125,10 +125,11 @@ class _HomeState extends State<Home> {
                                 "component": component.toJson(),
                               };
                             */
+                            var bor =
+                                context.watch<BorrowList>().suggestions[index];
                             return BorrowListItem(
-                              component: context
-                                  .watch<BorrowList>()
-                                  .suggestions[index],
+                              component: bor,
+                              isBorrowInProgress: bor.inProgress,
                             );
                           })))
                 ],

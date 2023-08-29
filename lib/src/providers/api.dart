@@ -139,10 +139,15 @@ Future<BorrowList> getOrSearchBorrows(
 
   Map<String, String> headers = {"Authorization": "Token $token"};
 
+  String borrowInProgQuery = "";
+  if (borrowInProgress != null) {
+    borrowInProgQuery = "${borrowInProgress ? 1 : 0}";
+  }
+
   final uri =
       Uri.parse('${Constants.apiUrl}/rest/borrows/').replace(queryParameters: {
     "search": query ?? "",
-    "borrow_in_progress": borrowInProgress ?? "",
+    "borrow_in_progress": borrowInProgQuery,
   });
   try {
     final response = await http.get(uri, headers: headers);
