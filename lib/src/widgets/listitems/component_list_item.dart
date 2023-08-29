@@ -14,9 +14,7 @@ class ComponentListItem extends StatelessWidget {
     return ListTile(
       title: Text(component.name.capitalize()),
       subtitle: Text(component.description),
-      trailing: Container(
-          //color: Colors.blue,
-          child: SizedBox(
+      trailing: SizedBox(
         width: 125,
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -38,11 +36,9 @@ class ComponentListItem extends StatelessWidget {
                   Icons.circle,
                   color: Colors.green,
                 ))
-          //TODO integrate borrows list model
-          //TODO maybe add a uuid to component and borrow so that searching is ok cuz patch then it will patch all the exisitng ones
-          //TODO maybe not uuid cuz i can just add a field inprogress = true hm
+          //TODO maybe add a uuid to component so that barcode
         ]),
-      )),
+      ),
       onTap: () {
         debugPrint("hi");
       },
