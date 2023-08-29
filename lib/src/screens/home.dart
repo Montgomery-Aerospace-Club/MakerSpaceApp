@@ -67,6 +67,17 @@ class _HomeState extends State<Home> {
                           itemCount:
                               context.watch<BorrowList>().suggestions.length,
                           itemBuilder: ((context, index) {
+                            //TODO try to add some more actual UI to the borrow list item that uses its attributes to the fullest
+                            /*
+                             return {
+                                "url": url,
+                                'person_who_borrowed': user.toJson(),
+                                'timestamp_check_out': borrowTime.toIso8601String(),
+                                'timestamp_check_in': returnTime?.toIso8601String(),
+                                "borrow_in_progress": inProgress,
+                                "component": component.toJson(),
+                              };
+                            */
                             return BorrowListItem(
                               component: context
                                   .watch<BorrowList>()
