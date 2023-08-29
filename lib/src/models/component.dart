@@ -53,4 +53,14 @@ class Component {
       'description': description,
     };
   }
+
+  @override
+  bool operator ==(Object other) {
+    return (other is Component) && other.url == url;
+  }
+
+  @override
+  int get hashCode {
+    return url.hashCode;
+  }
 }

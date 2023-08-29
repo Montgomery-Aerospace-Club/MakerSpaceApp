@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
@@ -22,6 +23,11 @@ class _ComponentsPageState extends State<ComponentsPage> {
     getOrSearchComponents("").then((ComponentList value) {
       context.read<ComponentList>().set(value.components, value.suggestions);
     });
+    getOrSearchBorrows(null, null).then((BorrowList value) {
+      context
+          .read<BorrowList>()
+          .set(value.borrows, value.suggestions, value.components);
+    });
 
     super.initState();
   }
@@ -31,7 +37,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
     return Scaffold(
         appBar: generateAppbar(title: "Components", elevate: true),
         bottomNavigationBar: const Navbar(
-          selectedIndex: 1,
+          selectedIndex: 0,
         ),
         body: SafeArea(
           child: Padding(
@@ -59,10 +65,17 @@ class _ComponentsPageState extends State<ComponentsPage> {
                           itemCount:
                               context.watch<ComponentList>().suggestions.length,
                           itemBuilder: ((context, index) {
+                            var comp = context
+                                .watch<ComponentList>()
+                                .suggestions[index];
+
                             return ComponentListItem(
-                              component: context
-                                  .watch<ComponentList>()
-                                  .suggestions[index],
+                              component: comp,
+                              isBorrowed: context
+                                  .watch<BorrowList>()
+                                  .components
+                                  .components
+                                  .contains(comp),
                             );
                           })))
                 ],
