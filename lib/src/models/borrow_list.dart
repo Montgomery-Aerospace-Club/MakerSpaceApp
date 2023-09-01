@@ -3,6 +3,7 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:themakerspace/src/models/component.dart';
 import 'package:themakerspace/src/models/component_list.dart';
+import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/utils.dart';
 import 'borrow.dart'; // Assuming you have a Borrow class defined
 
@@ -10,13 +11,15 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
   List<Borrow> borrows;
   List<Borrow> suggestions;
   ComponentList components;
-  Map<Component, int> borrowComponentNum;
+  Map<String, int> borrowComponentNum;
+  List<String> cachedUUIDs;
   List<Borrow> Function(String searchQuery)? customSearchFunction;
 
   BorrowList(
       {required this.borrows,
       required this.suggestions,
       required this.components,
+      this.cachedUUIDs = const [],
       this.borrowComponentNum = const {}});
 
   @override
@@ -138,13 +141,18 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
     // then get the list from json to borrowList or just normal borrows cuz not a lot
     // then set to List<borrow> borrows
     // achieves lazy loading?
-    for (Borrow bor in borrows) {
-      if (borrowComponentNum.containsKey(bor.component)) {
-        borrowComponentNum[bor.component] =
-            borrowComponentNum[bor.component]! + bor.qty;
-      } else {
-        borrowComponentNum[bor.component] = bor.qty;
-      }
+    if (!borrowComponentNum.containsKey(component)) {
+      getBorrowsWithFilterSet(componentUUID: component.uuid)
+          .then((List<Borrow> borrowss) {
+        for (Borrow bor in borrowss) {
+          if (borrowComponentNum.containsKey(component.uuid)) {
+            borrowComponentNum[component.uuid] =
+                borrowComponentNum[component.uuid]! + bor.qty;
+          } else {
+            borrowComponentNum[component.uuid] = bor.qty;
+          }
+        }
+      });
     }
   }
 }

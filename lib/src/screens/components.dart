@@ -66,17 +66,17 @@ class _ComponentsPageState extends State<ComponentsPage> {
                               context.watch<ComponentList>().suggestions.length,
                           itemBuilder: ((context, index) {
                             var comp = context
-                                .watch<ComponentList>()
+                                .read<ComponentList>()
                                 .suggestions[index];
 
-                            context
-                                .watch<BorrowList>()
-                                .generateComponentNumMap(comp);
+                            // context
+                            //     .read<BorrowList>()
+                            //     .generateComponentNumMap(comp);
 
                             return ComponentListItem(
                               component: comp,
                               isBorrowed: context
-                                  .watch<BorrowList>()
+                                  .read<BorrowList>()
                                   .components
                                   .components
                                   .contains(comp),
