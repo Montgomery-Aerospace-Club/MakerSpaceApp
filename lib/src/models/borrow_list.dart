@@ -3,7 +3,6 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:themakerspace/src/models/component.dart';
 import 'package:themakerspace/src/models/component_list.dart';
-import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/utils.dart';
 import 'borrow.dart'; // Assuming you have a Borrow class defined
 
@@ -11,16 +10,13 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
   List<Borrow> borrows;
   List<Borrow> suggestions;
   ComponentList components;
-  Map<String, int> borrowComponentNum;
-  List<String> cachedUUIDs;
   List<Borrow> Function(String searchQuery)? customSearchFunction;
 
-  BorrowList(
-      {required this.borrows,
-      required this.suggestions,
-      required this.components,
-      this.cachedUUIDs = const [],
-      this.borrowComponentNum = const {}});
+  BorrowList({
+    required this.borrows,
+    required this.suggestions,
+    required this.components,
+  });
 
   @override
   int get length => borrows.length;
@@ -133,24 +129,5 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
       components.add(borrow.component);
     }
     return components;
-  }
-
-  void generateComponentNumMap(Component component) {
-    if (components.suggestions.contains(component)) {
-      if (!borrowComponentNum.containsKey(component)) {
-        getBorrowsWithFilterSet(componentID: component.id)
-            .then((List<Borrow> borrowss) {
-          for (Borrow bor in borrowss) {
-            if (borrowComponentNum.containsKey(component.uuid)) {
-              borrowComponentNum[component.uuid] =
-                  borrowComponentNum[component.uuid]! + bor.qty;
-            } else {
-              borrowComponentNum[component.uuid] = bor.qty;
-            }
-          }
-        });
-      }
-    }
-    print(borrowComponentNum);
   }
 }

@@ -15,11 +15,11 @@ class ComponentListItem extends StatelessWidget {
       title: Text(component.name.capitalize()),
       subtitle: Text(component.description),
       trailing: SizedBox(
-        width: 125,
+        width: 50,
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(
-            "Amount: ${component.qty}",
+            "${component.qty}",
             style: Theme.of(context).textTheme.labelLarge,
           ),
           if (available)

@@ -31,7 +31,7 @@ class Component {
   factory Component.fromJson(Map<String, dynamic> json) {
     String id = json["url"];
     id = id.split("/components/")[1];
-    id.replaceAll("/", "");
+    id = id.replaceAll("/", "");
 
     return Component(
       url: json['url'],

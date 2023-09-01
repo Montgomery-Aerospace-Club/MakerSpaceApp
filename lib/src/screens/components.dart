@@ -69,19 +69,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
                                 .read<ComponentList>()
                                 .suggestions[index];
 
-                            context
-                                .read<BorrowList>()
-                                .generateComponentNumMap(comp);
-
-                            var e = context
-                                    .read<BorrowList>()
-                                    .borrowComponentNum[comp.uuid] ??
-                                0;
-
-                            print(e);
-                            print(comp.qty);
-
-                            bool available = comp.qty > 1;
+                            bool available = comp.qty > 0;
 
                             return ComponentListItem(
                               component: comp,
