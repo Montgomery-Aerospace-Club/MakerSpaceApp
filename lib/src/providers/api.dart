@@ -175,7 +175,7 @@ Future<BorrowList> getOrSearchBorrows(
 }
 
 Future<List<Borrow>> getBorrowsWithFilterSet({
-  String? componentUUID,
+  String? componentID,
   bool? borrowInProgress,
 }) async {
   List<Borrow> ret = [];
@@ -195,7 +195,7 @@ Future<List<Borrow>> getBorrowsWithFilterSet({
   final uri =
       Uri.parse('${Constants.apiUrl}/rest/borrows/').replace(queryParameters: {
     "borrow_in_progress": borrowInProgQuery,
-    "search": componentUUID ?? "",
+    "component__id": componentID ?? "",
   });
 
   final response = await http.get(uri, headers: headers);

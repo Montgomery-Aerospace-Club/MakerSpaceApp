@@ -3,6 +3,7 @@ import 'package:themakerspace/src/models/storage_bin.dart';
 
 class Component {
   final String uuid;
+  final String id;
   final String url;
   final String name;
   final String sku;
@@ -15,6 +16,7 @@ class Component {
 
   Component({
     required this.uuid,
+    required this.id,
     required this.url,
     required this.name,
     required this.sku,
@@ -27,8 +29,13 @@ class Component {
   });
 
   factory Component.fromJson(Map<String, dynamic> json) {
+    String id = json["url"];
+    id = id.split("/components/")[1];
+    id.replaceAll("/", "");
+
     return Component(
       url: json['url'],
+      id: id,
       uuid: json["unique_id"],
       name: json['name'],
       sku: json['sku'],

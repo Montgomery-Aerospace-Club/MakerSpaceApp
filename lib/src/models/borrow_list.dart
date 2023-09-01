@@ -138,7 +138,7 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
   void generateComponentNumMap(Component component) {
     if (components.suggestions.contains(component)) {
       if (!borrowComponentNum.containsKey(component)) {
-        getBorrowsWithFilterSet(componentUUID: component.uuid)
+        getBorrowsWithFilterSet(componentID: component.id)
             .then((List<Borrow> borrowss) {
           for (Borrow bor in borrowss) {
             if (borrowComponentNum.containsKey(component.uuid)) {
