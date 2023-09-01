@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:themakerspace/src/constants.dart';
+import 'package:themakerspace/src/models/borrow.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/models/user.dart';
@@ -168,6 +169,59 @@ Future<BorrowList> getOrSearchBorrows(
   } catch (error) {
     debugPrint(error.toString());
     return readBorrowList();
+  }
+
+  return ret;
+}
+
+Future<List<Borrow>> getBorrowsWithFilterSet(
+    {String? componentUUID,
+    bool? borrowInProgress,
+    int? userID,
+    String? userEmail}) async {
+  List<Borrow> ret = [];
+
+  String token = await readToken();
+
+  if (token.isEmpty) {
+    return ret;
+  }
+  Map<String, String> headers = {"Authorization": "Token $token"};
+
+  String borrowInProgQuery = "";
+  if (borrowInProgress != null) {
+    borrowInProgQuery = "${borrowInProgress ? 1 : 0}";
+  }
+
+  String userIDQuery = "";
+  if (userID != null) {
+    userIDQuery = "$userID";
+  }
+
+  final uri =
+      Uri.parse('${Constants.apiUrl}/rest/borrows/').replace(queryParameters: {
+    "borrow_in_progress": borrowInProgQuery,
+    "component__unique_id": componentUUID ?? "",
+    "person_who_borrowed__user_id": userIDQuery,
+    "person_who_borrowed__email": userEmail ?? "",
+  });
+
+  final response = await http.get(uri, headers: headers);
+
+  if (response.statusCode == 200) {
+    List<dynamic> body = json.decode(response.body);
+    List<Map<String, dynamic>> componentsJson =
+        body.map((e) => convertToMapDynamic(e)).toList();
+
+    List<Map<String, dynamic>> borrowsJson =
+        componentsJson.map((e) => convertToMapDynamic(e)).toList();
+
+    for (Map<String, dynamic> borrowJson in borrowsJson) {
+      if (borrowJson.isNotEmpty) {
+        Borrow bor = Borrow.fromJson(borrowJson);
+        ret.add(bor);
+      }
+    }
   }
 
   return ret;

@@ -10,12 +10,14 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
   List<Borrow> borrows;
   List<Borrow> suggestions;
   ComponentList components;
+  Map<Component, int> borrowComponentNum;
   List<Borrow> Function(String searchQuery)? customSearchFunction;
 
   BorrowList(
       {required this.borrows,
       required this.suggestions,
-      required this.components});
+      required this.components,
+      this.borrowComponentNum = const {}});
 
   @override
   int get length => borrows.length;
@@ -79,6 +81,7 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
       }
     }
     lst.set(components, components);
+
     return BorrowList(
       borrows: borrows,
       suggestions: borrows,
@@ -127,5 +130,21 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
       components.add(borrow.component);
     }
     return components;
+  }
+
+  void generateComponentNumMap(Component component) {
+    //find borrows linked to the comopnent
+    //maybe use filterset api and component uuid
+    // then get the list from json to borrowList or just normal borrows cuz not a lot
+    // then set to List<borrow> borrows
+    // achieves lazy loading?
+    for (Borrow bor in borrows) {
+      if (borrowComponentNum.containsKey(bor.component)) {
+        borrowComponentNum[bor.component] =
+            borrowComponentNum[bor.component]! + bor.qty;
+      } else {
+        borrowComponentNum[bor.component] = bor.qty;
+      }
+    }
   }
 }

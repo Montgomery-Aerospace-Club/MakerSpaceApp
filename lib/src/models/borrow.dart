@@ -8,12 +8,14 @@ class Borrow {
   DateTime? returnTime;
   bool inProgress;
   final Component component;
+  final int qty;
 
   Borrow({
     required this.url,
     required this.user,
     required this.borrowTime,
     required this.component,
+    required this.qty,
     // ignore: avoid_init_to_null
     this.returnTime = null,
     this.inProgress = false,
@@ -27,6 +29,7 @@ class Borrow {
       'timestamp_check_in': returnTime?.toIso8601String(),
       "borrow_in_progress": inProgress,
       "component": component.toJson(),
+      "qty": qty
     };
   }
 
@@ -38,6 +41,7 @@ class Borrow {
         returnTime: DateTime.tryParse(json["timestamp_check_out"]),
         inProgress: json["borrow_in_progress"],
         user: User.fromJson(json["person_who_borrowed"]),
-        component: Component.fromJson(json["component"]));
+        component: Component.fromJson(json["component"]),
+        qty: json["qty"]);
   }
 }

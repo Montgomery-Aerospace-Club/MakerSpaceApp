@@ -69,6 +69,10 @@ class _ComponentsPageState extends State<ComponentsPage> {
                                 .watch<ComponentList>()
                                 .suggestions[index];
 
+                            context
+                                .watch<BorrowList>()
+                                .generateComponentNumMap(comp);
+
                             return ComponentListItem(
                               component: comp,
                               isBorrowed: context

@@ -2,6 +2,7 @@ import 'package:themakerspace/src/models/measurement_unit.dart';
 import 'package:themakerspace/src/models/storage_bin.dart';
 
 class Component {
+  final String uuid;
   final String url;
   final String name;
   final String sku;
@@ -13,6 +14,7 @@ class Component {
   final String description;
 
   Component({
+    required this.uuid,
     required this.url,
     required this.name,
     required this.sku,
@@ -27,6 +29,7 @@ class Component {
   factory Component.fromJson(Map<String, dynamic> json) {
     return Component(
       url: json['url'],
+      uuid: json["unique_id"],
       name: json['name'],
       sku: json['sku'],
       mpn: json['mpn'],
@@ -43,6 +46,7 @@ class Component {
   Map<String, dynamic> toJson() {
     return {
       'url': url,
+      "unique_id": uuid,
       'name': name,
       'sku': sku,
       'mpn': mpn,
@@ -56,11 +60,11 @@ class Component {
 
   @override
   bool operator ==(Object other) {
-    return (other is Component) && other.url == url;
+    return (other is Component) && other.url == url && other.uuid == uuid;
   }
 
   @override
   int get hashCode {
-    return url.hashCode;
+    return url.hashCode ^ uuid.hashCode;
   }
 }
