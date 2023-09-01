@@ -48,16 +48,6 @@ class _BRsState extends State<BRs> {
                   const SizedBox(
                     height: 20,
                   ),
-                  // Text(
-                  //   "Option 1 - Barcode",
-                  //   style: Theme.of(context)
-                  //       .textTheme
-                  //       .displaySmall
-                  //       ?.copyWith(fontSize: 30, fontWeight: FontWeight.bold),
-                  // ),
-                  // const SizedBox(
-                  //   height: 20,
-                  // ),
                   Form(
                     key: formKey,
                     child: Row(
