@@ -10,21 +10,27 @@ class BRs extends StatefulWidget {
 }
 
 class _BRsState extends State<BRs> {
-  final idController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  String componentID = "";
   bool forAnotherPeron = false;
 
-  @override
-  void dispose() {
-    idController.dispose();
-    super.dispose();
+  bool isNumeric(String s) {
+    // ignore: unnecessary_null_comparison
+    if (s == null) {
+      return false;
+    }
+    return int.tryParse(s) != null;
   }
 
-  OutlineInputBorder _inputformdeco() {
-    return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(20.0),
-      borderSide: const BorderSide(
-          width: 1.5, color: Colors.blue, style: BorderStyle.solid),
-    );
+  void submit() {
+    formKey.currentState!.save();
+    if (formKey.currentState!.validate()) {
+      //TODO: logic over here
+
+      setState(() {
+        formKey.currentState?.reset();
+      });
+    }
   }
 
   @override
@@ -52,50 +58,64 @@ class _BRsState extends State<BRs> {
                   // const SizedBox(
                   //   height: 20,
                   // ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                          flex: 6,
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            controller: idController,
-                            decoration: InputDecoration(
-                              labelText: "Component ID",
-                              hintText: "Scan the barcode",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(24),
-                                  borderSide: BorderSide.none),
-                              filled: true,
-                              fillColor: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.3),
-                            ),
-                          )),
-                      Expanded(
-                          flex: 2,
-                          child: Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Is this for another person?",
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  Checkbox(
-                                      value: forAnotherPeron,
-                                      onChanged: (bool? value) {
-                                        setState(() {
-                                          forAnotherPeron = value ?? false;
-                                        });
-                                      }),
-                                ],
-                              ))),
-                    ],
+                  Form(
+                    key: formKey,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                            flex: 6,
+                            child: TextFormField(
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                labelText: "Component ID",
+                                hintText: "Scan the barcode",
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(24),
+                                    borderSide: BorderSide.none),
+                                filled: true,
+                                fillColor: Theme.of(context)
+                                    .colorScheme
+                                    .primary
+                                    .withOpacity(0.3),
+                              ),
+                              validator: (v) {
+                                if (v!.isEmpty) {
+                                  return "Enter an ID";
+                                } else if (!isNumeric(v)) {
+                                  return "Enter a valid credit";
+                                } else {
+                                  setState(() {
+                                    componentID = v;
+                                  });
+                                  return null;
+                                }
+                              },
+                              onFieldSubmitted: (value) => submit(),
+                            )),
+                        Expanded(
+                            flex: 2,
+                            child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      "Is this for another person?",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    Checkbox(
+                                        value: forAnotherPeron,
+                                        onChanged: (bool? value) {
+                                          setState(() {
+                                            forAnotherPeron = value ?? false;
+                                          });
+                                        }),
+                                  ],
+                                ))),
+                      ],
+                    ),
                   ),
 
                   /*
