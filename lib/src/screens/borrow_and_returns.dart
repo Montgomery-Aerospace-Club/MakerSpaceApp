@@ -53,97 +53,138 @@ class _BRsState extends State<BRs> {
                   ),
                   Form(
                       key: formKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
+                      child: Row(
+                        // mainAxisSize: MainAxisSize.min,
                         children: [
-                          Row(
+                          Expanded(
+                              child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Expanded(
-                                  flex: 2,
-                                  child: TextFormField(
-                                    textAlign: TextAlign.left,
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      hintText: "Search from your borrows",
-                                      border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(24),
-                                          borderSide: BorderSide.none),
-                                      filled: true,
-                                      fillColor: Theme.of(context)
-                                          .colorScheme
-                                          .primary
-                                          .withOpacity(0.3),
-                                    ),
-                                    validator: (v) {
-                                      if (v!.isEmpty) {
-                                        return "Enter an ID";
-                                      } else if (!isNumeric(v)) {
-                                        return "Enter a valid ID (number)";
-                                      } else {
-                                        setState(() {
-                                          componentID = v;
-                                        });
-                                        return null;
-                                      }
-                                    },
-                                    onFieldSubmitted: (value) => submit(),
-                                  )),
-                              Expanded(
-                                  flex: 2,
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          const Text(
-                                            "Is this for another person?",
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Checkbox(
-                                              value: forAnotherPeron,
-                                              onChanged: (bool? value) {
-                                                setState(() {
-                                                  forAnotherPeron =
-                                                      value ?? false;
-                                                });
-                                              }),
-                                        ],
-                                      ))),
+                              TextFormField(
+                                textAlign: TextAlign.left,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: "Search from your borrows",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(24),
+                                      borderSide: BorderSide.none),
+                                  filled: true,
+                                  fillColor: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.3),
+                                ),
+                                validator: (v) {
+                                  if (v!.isEmpty) {
+                                    return "Enter an ID";
+                                  } else if (!isNumeric(v)) {
+                                    return "Enter a valid ID (number)";
+                                  } else {
+                                    setState(() {
+                                      componentID = v;
+                                    });
+                                    return null;
+                                  }
+                                },
+                                onFieldSubmitted: (value) => submit(),
+                              ),
+                              Row(children: <Widget>[
+                                Expanded(
+                                  child: Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 10.0, right: 20.0),
+                                      child: const Divider(
+                                        height: 36,
+                                      )),
+                                ),
+                                const Text("OR"),
+                                Expanded(
+                                  child: Container(
+                                      margin: const EdgeInsets.only(
+                                          left: 20.0, right: 10.0),
+                                      child: const Divider(
+                                        height: 36,
+                                      )),
+                                ),
+                              ]),
+                              TextFormField(
+                                textAlign: TextAlign.left,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: "Scan the barcode",
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(24),
+                                      borderSide: BorderSide.none),
+                                  filled: true,
+                                  fillColor: Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.3),
+                                ),
+                                validator: (v) {
+                                  if (v!.isEmpty) {
+                                    return "Enter an ID";
+                                  } else if (!isNumeric(v)) {
+                                    return "Enter a valid ID (number)";
+                                  } else {
+                                    setState(() {
+                                      componentID = v;
+                                    });
+                                    return null;
+                                  }
+                                },
+                                // onFieldSubmitted: (value) => submit(),
+                              ),
                             ],
-                          ),
-                          TextFormField(
-                            textAlign: TextAlign.left,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: "Scan the barcode",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(24),
-                                  borderSide: BorderSide.none),
-                              filled: true,
-                              fillColor: Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  .withOpacity(0.3),
-                            ),
-                            validator: (v) {
-                              if (v!.isEmpty) {
-                                return "Enter an ID";
-                              } else if (!isNumeric(v)) {
-                                return "Enter a valid ID (number)";
-                              } else {
-                                setState(() {
-                                  componentID = v;
-                                });
-                                return null;
-                              }
-                            },
-                            onFieldSubmitted: (value) => submit(),
-                          ),
+                          )),
+                          Expanded(
+                              child: Column(
+                            children: [
+                              Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        "Is this for another person?",
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      Checkbox(
+                                          value: forAnotherPeron,
+                                          onChanged: (bool? value) {
+                                            setState(() {
+                                              forAnotherPeron = value ?? false;
+                                            });
+                                          }),
+                                    ],
+                                  )),
+                              // ElevatedButton(
+                              //   onPressed: () {},
+                              //   child: Text(
+                              //     "Submit Borrow Request",
+                              //     style: Theme.of(context).textTheme.labelLarge,
+                              //   ),
+                              // ),
+                              // Row(
+                              //   mainAxisSize: MainAxisSize.max,
+                              //   crossAxisAlignment: CrossAxisAlignment.center,
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     Text(
+                              //       "Submit Borrow Request",
+                              //       style:
+                              //           Theme.of(context).textTheme.labelLarge,
+                              //     ),
+                              //     IconButton(
+                              //       onPressed: () {},
+                              //       icon: const Icon(Icons.arrow_forward_ios),
+                              //     ),
+                              //   ],
+                              // ),
+                            ],
+                          )),
                         ],
                       )),
                 ],
