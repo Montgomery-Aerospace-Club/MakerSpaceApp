@@ -160,33 +160,18 @@ class _BRsState extends State<BRs> {
                                           }),
                                     ],
                                   )),
-                              // ElevatedButton(
-                              //   onPressed: () {},
-                              //   child: Text(
-                              //     "Submit Borrow Request",
-                              //     style: Theme.of(context).textTheme.labelLarge,
-                              //   ),
-                              // ),
-                              // Row(
-                              //   mainAxisSize: MainAxisSize.max,
-                              //   crossAxisAlignment: CrossAxisAlignment.center,
-                              //   mainAxisAlignment: MainAxisAlignment.center,
-                              //   children: [
-                              //     Text(
-                              //       "Submit Borrow Request",
-                              //       style:
-                              //           Theme.of(context).textTheme.labelLarge,
-                              //     ),
-                              //     IconButton(
-                              //       onPressed: () {},
-                              //       icon: const Icon(Icons.arrow_forward_ios),
-                              //     ),
-                              //   ],
-                              // ),
                             ],
                           )),
                         ],
                       )),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  IconButton(
+                    tooltip: "Submit borrow request",
+                    onPressed: () {},
+                    icon: const Icon(Icons.arrow_forward_ios),
+                  ),
                 ],
               ))),
     );
