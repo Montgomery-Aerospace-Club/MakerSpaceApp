@@ -10,6 +10,23 @@ class BRs extends StatefulWidget {
 }
 
 class _BRsState extends State<BRs> {
+  final idController = TextEditingController();
+  bool forAnotherPeron = false;
+
+  @override
+  void dispose() {
+    idController.dispose();
+    super.dispose();
+  }
+
+  OutlineInputBorder _inputformdeco() {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(20.0),
+      borderSide: const BorderSide(
+          width: 1.5, color: Colors.blue, style: BorderStyle.solid),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,17 +35,70 @@ class _BRsState extends State<BRs> {
         selectedIndex: 2,
       ),
       body: SafeArea(
-          child: Column(
-        children: [
-          Expanded(
+          child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
-            children: [
-              TextFormField(
-                keyboardType: TextInputType.text,
-              )
-            ],
-          ))
-          /*
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // Text(
+                  //   "Option 1 - Barcode",
+                  //   style: Theme.of(context)
+                  //       .textTheme
+                  //       .displaySmall
+                  //       ?.copyWith(fontSize: 30, fontWeight: FontWeight.bold),
+                  // ),
+                  // const SizedBox(
+                  //   height: 20,
+                  // ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          flex: 6,
+                          child: TextFormField(
+                            keyboardType: TextInputType.number,
+                            controller: idController,
+                            decoration: InputDecoration(
+                              labelText: "Component ID",
+                              hintText: "Scan the barcode",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.3),
+                            ),
+                          )),
+                      Expanded(
+                          flex: 2,
+                          child: Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    "Is this for another person?",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  Checkbox(
+                                      value: forAnotherPeron,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          forAnotherPeron = value ?? false;
+                                        });
+                                      }),
+                                ],
+                              ))),
+                    ],
+                  ),
+
+                  /*
 
 Column(
                 children: <Widget>[
@@ -117,8 +187,8 @@ Column(
                         );
                       }
           */
-        ],
-      )),
+                ],
+              ))),
     );
   }
 }
