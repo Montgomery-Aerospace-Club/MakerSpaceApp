@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     readUser().then((value) {
-      getOrSearchBorrows(value.username, null).then((BorrowList value) {
+      getOrSearchBorrows(value.username, null, null).then((BorrowList value) {
         context
             .read<BorrowList>()
             .set(value.borrows, value.suggestions, value.components);
