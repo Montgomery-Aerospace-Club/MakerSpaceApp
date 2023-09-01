@@ -4,10 +4,10 @@ import 'package:themakerspace/src/models/component.dart';
 
 class ComponentListItem extends StatelessWidget {
   final Component component;
-  final bool isBorrowed;
+  final bool available;
 
   const ComponentListItem(
-      {super.key, required this.component, this.isBorrowed = false});
+      {super.key, required this.component, this.available = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +22,20 @@ class ComponentListItem extends StatelessWidget {
             "Amount: ${component.qty}",
             style: Theme.of(context).textTheme.labelLarge,
           ),
-          if (isBorrowed)
-            const Tooltip(
-                message: "Component is Unavailable",
-                child: Icon(
-                  Icons.circle,
-                  color: Colors.red,
-                ))
-          else
+          if (available)
             const Tooltip(
                 message: "Component is Available",
                 child: Icon(
                   Icons.circle,
                   color: Colors.green,
                 ))
-          //TODO maybe add a uuid to component so that barcode
+          else
+            const Tooltip(
+                message: "Component is Unavailable",
+                child: Icon(
+                  Icons.circle,
+                  color: Colors.red,
+                ))
         ]),
       ),
       onTap: () {

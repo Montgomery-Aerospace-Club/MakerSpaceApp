@@ -174,11 +174,10 @@ Future<BorrowList> getOrSearchBorrows(
   return ret;
 }
 
-Future<List<Borrow>> getBorrowsWithFilterSet(
-    {String? componentUUID,
-    bool? borrowInProgress,
-    int? userID,
-    String? userEmail}) async {
+Future<List<Borrow>> getBorrowsWithFilterSet({
+  String? componentUUID,
+  bool? borrowInProgress,
+}) async {
   List<Borrow> ret = [];
 
   String token = await readToken();
@@ -193,17 +192,10 @@ Future<List<Borrow>> getBorrowsWithFilterSet(
     borrowInProgQuery = "${borrowInProgress ? 1 : 0}";
   }
 
-  String userIDQuery = "";
-  if (userID != null) {
-    userIDQuery = "$userID";
-  }
-
   final uri =
       Uri.parse('${Constants.apiUrl}/rest/borrows/').replace(queryParameters: {
     "borrow_in_progress": borrowInProgQuery,
-    "component__unique_id": componentUUID ?? "",
-    "person_who_borrowed__user_id": userIDQuery,
-    "person_who_borrowed__email": userEmail ?? "",
+    "search": componentUUID ?? "",
   });
 
   final response = await http.get(uri, headers: headers);

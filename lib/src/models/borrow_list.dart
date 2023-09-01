@@ -136,23 +136,21 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
   }
 
   void generateComponentNumMap(Component component) {
-    //find borrows linked to the comopnent
-    //maybe use filterset api and component uuid
-    // then get the list from json to borrowList or just normal borrows cuz not a lot
-    // then set to List<borrow> borrows
-    // achieves lazy loading?
-    if (!borrowComponentNum.containsKey(component)) {
-      getBorrowsWithFilterSet(componentUUID: component.uuid)
-          .then((List<Borrow> borrowss) {
-        for (Borrow bor in borrowss) {
-          if (borrowComponentNum.containsKey(component.uuid)) {
-            borrowComponentNum[component.uuid] =
-                borrowComponentNum[component.uuid]! + bor.qty;
-          } else {
-            borrowComponentNum[component.uuid] = bor.qty;
+    if (components.suggestions.contains(component)) {
+      if (!borrowComponentNum.containsKey(component)) {
+        getBorrowsWithFilterSet(componentUUID: component.uuid)
+            .then((List<Borrow> borrowss) {
+          for (Borrow bor in borrowss) {
+            if (borrowComponentNum.containsKey(component.uuid)) {
+              borrowComponentNum[component.uuid] =
+                  borrowComponentNum[component.uuid]! + bor.qty;
+            } else {
+              borrowComponentNum[component.uuid] = bor.qty;
+            }
           }
-        }
-      });
+        });
+      }
     }
+    print(borrowComponentNum);
   }
 }
