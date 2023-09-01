@@ -124,8 +124,8 @@ Future<ComponentList> getOrSearchComponents(String query) async {
   return ComponentList(components: [], suggestions: []);
 }
 
-Future<BorrowList> getOrSearchBorrows(
-    String? query, bool? borrowInProgress, String? componentID) async {
+Future<BorrowList> getOrSearchBorrows(String? query, bool? borrowInProgress,
+    String? componentID, Map<String, String> extra) async {
   String token = await readToken();
 
   BorrowList ret = BorrowList(
@@ -145,12 +145,15 @@ Future<BorrowList> getOrSearchBorrows(
     borrowInProgQuery = "${borrowInProgress ? 1 : 0}";
   }
 
-  final uri =
-      Uri.parse('${Constants.apiUrl}/rest/borrows/').replace(queryParameters: {
+  var params = {
     "search": query ?? "",
     "borrow_in_progress": borrowInProgQuery,
     "component__id": componentID ?? "",
-  });
+  };
+  params.addAll(extra);
+
+  final uri = Uri.parse('${Constants.apiUrl}/rest/borrows/')
+      .replace(queryParameters: params);
   try {
     final response = await http.get(uri, headers: headers);
 

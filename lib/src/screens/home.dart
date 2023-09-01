@@ -23,7 +23,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     readUser().then((value) {
-      getOrSearchBorrows(value.username, null, null).then((BorrowList value) {
+      getOrSearchBorrows(
+              value.username, null, null, {"ordering": "-borrow_in_progress"})
+          .then((BorrowList value) {
         context
             .read<BorrowList>()
             .set(value.borrows, value.suggestions, value.components);
@@ -126,7 +128,7 @@ class _HomeState extends State<Home> {
                               };
                             */
                             var bor =
-                                context.watch<BorrowList>().suggestions[index];
+                                context.read<BorrowList>().suggestions[index];
                             return BorrowListItem(
                               component: bor,
                               isBorrowInProgress: bor.inProgress,

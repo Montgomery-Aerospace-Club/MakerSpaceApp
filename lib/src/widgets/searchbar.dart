@@ -20,6 +20,7 @@ class AppSearchBar extends StatefulWidget {
 class _AppSearchBarState extends State<AppSearchBar> {
   int? selectedComponentIndex;
   var focusNode = FocusNode();
+  List<String> usedWords = [];
 
   @override
   void initState() {
@@ -47,15 +48,15 @@ class _AppSearchBarState extends State<AppSearchBar> {
             leading: const Icon(Icons.search));
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-        return List<ListTile>.generate(widget.componentList.suggestions.length,
-            (int index) {
+        final suggestionSet = {...widget.componentList.suggestions};
+
+        return List<ListTile>.generate(suggestionSet.length, (int index) {
           return ListTile(
-              title: Text(widget.componentList.suggestions[index].name),
+              title: Text(suggestionSet.elementAt(index).name),
               onTap: () {
                 selectedComponentIndex = index;
 
-                controller
-                    .closeView(widget.componentList.suggestions[index].name);
+                controller.closeView(suggestionSet.elementAt(index).name);
                 widget.componentList.searchComponent(controller.text);
               });
         });
