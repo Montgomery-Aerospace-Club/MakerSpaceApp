@@ -52,65 +52,100 @@ class _BRsState extends State<BRs> {
                     height: 20,
                   ),
                   Form(
-                    key: formKey,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                            flex: 2,
-                            child: Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Text(
-                                      "Is this for another person?",
-                                      textAlign: TextAlign.center,
+                      key: formKey,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                  flex: 2,
+                                  child: TextFormField(
+                                    textAlign: TextAlign.left,
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      hintText: "Search from your borrows",
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(24),
+                                          borderSide: BorderSide.none),
+                                      filled: true,
+                                      fillColor: Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withOpacity(0.3),
                                     ),
-                                    Checkbox(
-                                        value: forAnotherPeron,
-                                        onChanged: (bool? value) {
-                                          setState(() {
-                                            forAnotherPeron = value ?? false;
-                                          });
-                                        }),
-                                  ],
-                                ))),
-                        Expanded(
-                            flex: 6,
-                            child: TextFormField(
-                              textAlign: TextAlign.end,
-                              textAlignVertical: TextAlignVertical.center,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                hintText: "Scan the barcode",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(24),
-                                    borderSide: BorderSide.none),
-                                filled: true,
-                                fillColor: Theme.of(context)
-                                    .colorScheme
-                                    .primary
-                                    .withOpacity(0.3),
-                              ),
-                              validator: (v) {
-                                if (v!.isEmpty) {
-                                  return "Enter an ID";
-                                } else if (!isNumeric(v)) {
-                                  return "Enter a valid ID (number)";
-                                } else {
-                                  setState(() {
-                                    componentID = v;
-                                  });
-                                  return null;
-                                }
-                              },
-                              onFieldSubmitted: (value) => submit(),
-                            )),
-                      ],
-                    ),
-                  ),
+                                    validator: (v) {
+                                      if (v!.isEmpty) {
+                                        return "Enter an ID";
+                                      } else if (!isNumeric(v)) {
+                                        return "Enter a valid ID (number)";
+                                      } else {
+                                        setState(() {
+                                          componentID = v;
+                                        });
+                                        return null;
+                                      }
+                                    },
+                                    onFieldSubmitted: (value) => submit(),
+                                  )),
+                              Expanded(
+                                  flex: 2,
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          const Text(
+                                            "Is this for another person?",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          Checkbox(
+                                              value: forAnotherPeron,
+                                              onChanged: (bool? value) {
+                                                setState(() {
+                                                  forAnotherPeron =
+                                                      value ?? false;
+                                                });
+                                              }),
+                                        ],
+                                      ))),
+                            ],
+                          ),
+                          TextFormField(
+                            textAlign: TextAlign.left,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: "Scan the barcode",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                  borderSide: BorderSide.none),
+                              filled: true,
+                              fillColor: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.3),
+                            ),
+                            validator: (v) {
+                              if (v!.isEmpty) {
+                                return "Enter an ID";
+                              } else if (!isNumeric(v)) {
+                                return "Enter a valid ID (number)";
+                              } else {
+                                setState(() {
+                                  componentID = v;
+                                });
+                                return null;
+                              }
+                            },
+                            onFieldSubmitted: (value) => submit(),
+                          ),
+                        ],
+                      )),
                 ],
               ))),
     );

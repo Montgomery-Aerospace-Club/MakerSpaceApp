@@ -18,7 +18,6 @@ class AppSearchBar extends StatefulWidget {
 }
 
 class _AppSearchBarState extends State<AppSearchBar> {
-  int? selectedComponentIndex;
   var focusNode = FocusNode();
   List<String> usedWords = [];
 
@@ -54,8 +53,6 @@ class _AppSearchBarState extends State<AppSearchBar> {
           return ListTile(
               title: Text(suggestionSet.elementAt(index).name),
               onTap: () {
-                selectedComponentIndex = index;
-
                 controller.closeView(suggestionSet.elementAt(index).name);
                 widget.componentList.searchComponent(controller.text);
               });
