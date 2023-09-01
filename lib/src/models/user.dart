@@ -7,6 +7,7 @@ class User {
   final int userId;
   final String email;
   final String? token;
+  final bool isAdmin;
 
   User(
       {required this.url,
@@ -14,7 +15,8 @@ class User {
       required this.username,
       required this.userId,
       required this.email,
-      this.token = ""});
+      this.token = "",
+      this.isAdmin = false});
 
   factory User.fromJson(Map<String, dynamic> json) {
     String url = "";
@@ -32,7 +34,8 @@ class User {
         username: json['username'],
         userId: json['user_id'],
         email: json['email'],
-        token: json["token"]);
+        token: json["token"],
+        isAdmin: json["isadmin"] ?? false);
   }
 
   Map<String, dynamic> toJson() {
@@ -41,7 +44,8 @@ class User {
       'username': username,
       'user_id': userId,
       'email': email,
-      "token": token
+      "token": token,
+      "isadmin": isAdmin
     };
   }
 

@@ -93,7 +93,7 @@ class _HomeState extends State<Home> {
                             // discuss about the qty and how do implement qty reduce after borrow post request is accepted in server
 
                             // TODO: COMPONENTS PAGE
-                            // for the components page implement map view or smth like that?
+                            // for the components page implement tree view or smth like that?
                             // so for that we also need to implement a borrow thingy to show which items are borrowed and which items are not
 
                             //TODO: HOME PAGE
