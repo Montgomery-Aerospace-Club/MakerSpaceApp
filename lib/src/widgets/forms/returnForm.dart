@@ -59,7 +59,6 @@ class _BRFormState extends State<ReturnForm> {
     String url = "${Constants.apiUrl}/rest/borrows/-1/";
 
     if (!mounted) return;
-    print(useSearch);
 
     if (useSearch) {
       Borrow bor = await readSearchBarBorrow();
@@ -109,6 +108,10 @@ class _BRFormState extends State<ReturnForm> {
             });
           },
         );
+      } else {
+        displayErrorMessage(
+            "- No components with ID $componentID being borrowed at this moment\n- You can create a borrow above for this component",
+            context);
       }
     }
     setState(() {
