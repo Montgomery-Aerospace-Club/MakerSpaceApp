@@ -83,8 +83,7 @@ class _BRFormState extends State<ReturnForm> {
         Borrow selectedBor = bors.borrows.first;
         showMaterialRadioPicker<Borrow>(
           context: context,
-          title:
-              'Please pick your borrow reciept.\nWe found mutliple borrows associated with the scanned component',
+          title: 'Please pick your borrow reciept.',
           items: bors.borrows,
           selectedItem: selectedBor,
           onChanged: (value) => setState(() => selectedBor = value),
