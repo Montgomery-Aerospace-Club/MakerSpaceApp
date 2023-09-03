@@ -29,17 +29,6 @@ class _BRFormState extends State<BRForm> {
     final snackBar = SnackBar(
         duration: const Duration(milliseconds: 5000),
         backgroundColor: Colors.red,
-        // behavior: SnackBarBehavior.floating,
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(15),
-        // ),
-
-        // action: SnackBarAction(
-        //   label: 'OK',
-        //   textColor: Colors.black,
-        //   backgroundColor: Colors.white,
-        //   onPressed: () {},
-        // ),
         content:
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Row(children: [
@@ -160,7 +149,7 @@ class _BRFormState extends State<BRForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppSearchBar(
-                      hintTextForBar: "Search for Components Borrowed",
+                      hintTextForBar: "Search for Components YOU Borrowed",
                       componentList: context.read<BorrowList>().components,
                       searchCallback: (searchQuery) =>
                           context.read<BorrowList>().searchBorrow(searchQuery),
@@ -278,7 +267,7 @@ class _BRFormState extends State<BRForm> {
                                         return "Enter a password";
                                       } else {
                                         setState(() {
-                                          username = v;
+                                          password = v;
                                         });
                                         return null;
                                       }

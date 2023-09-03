@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
+import 'package:themakerspace/src/providers/cookies.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
 import 'package:themakerspace/src/widgets/borrowReturnForm.dart';
 import 'package:themakerspace/src/widgets/navbar.dart';
@@ -16,11 +17,13 @@ class BRs extends StatefulWidget {
 class _BRsState extends State<BRs> {
   @override
   void initState() {
-    getOrSearchBorrows(null, true, null, {"ordering": "-borrow_in_progress"})
-        .then((BorrowList value) {
-      context
-          .read<BorrowList>()
-          .set(value.borrows, value.suggestions, value.components);
+    readUser().then((value) {
+      getOrSearchBorrows(value.username, true, null, {})
+          .then((BorrowList value) {
+        context
+            .read<BorrowList>()
+            .set(value.borrows, value.suggestions, value.components);
+      });
     });
 
     super.initState();
