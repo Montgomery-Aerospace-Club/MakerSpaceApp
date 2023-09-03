@@ -13,10 +13,17 @@ class BorrowListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String subtitle = "";
+    subtitle += "${component.component.description}\n";
+    subtitle +=
+        "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(component.borrowTime.toLocal())}\n";
+
+    subtitle +=
+        "Returned on ${component.returnTime != null ? DateFormat('yyyy-MM-dd - kk:mm').format(component.returnTime!.toLocal()) : "N/A"}\n";
+
     return ListTile(
       title: Text(component.component.name.capitalize()),
-      subtitle: Text(
-          "${component.component.description}\nBorrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(component.borrowTime.toLocal())}"),
+      subtitle: Text(subtitle),
       trailing:
           //Container(
           //color: Colors.blue,
