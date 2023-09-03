@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:themakerspace/src/debug/debug_view.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
@@ -47,7 +46,6 @@ class _MontyMakerSpaceAppState extends State<MontyMakerSpaceApp> {
             return BorrowList(
               borrows: [],
               suggestions: [],
-              components: ComponentList(components: [], suggestions: []),
             );
           },
           lazy: false,

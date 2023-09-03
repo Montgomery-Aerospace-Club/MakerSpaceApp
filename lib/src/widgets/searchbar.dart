@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 
 class AppSearchBar extends StatefulWidget {
@@ -10,7 +10,7 @@ class AppSearchBar extends StatefulWidget {
       required this.searchCallback});
 
   final String hintTextForBar;
-  final ComponentList componentList;
+  final dynamic componentList;
   final void Function(String searchQuery) searchCallback;
 
   @override
@@ -47,7 +47,10 @@ class _AppSearchBarState extends State<AppSearchBar> {
             leading: const Icon(Icons.search));
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-        final suggestionSet = {...widget.componentList.suggestions};
+        Set suggestionSet = {};
+        if (widget is BorrowList) {
+          suggestionSet = {...widget.componentList.components.suggestions};
+        }
 
         return List<ListTile>.generate(suggestionSet.length, (int index) {
           return ListTile(

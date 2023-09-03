@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/extensions/darkmode.dart';
+import 'package:themakerspace/src/models/borrow.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
@@ -61,7 +62,13 @@ class _BRFormState extends State<ReturnForm> {
       url = context.read<BorrowList>().suggestions.first.url;
     } else {
       //TODO incorrect logic i need to search for the borrow that has that component that is under the user
-      url = "${Constants.apiUrl}/rest/borrows/$componentID/";
+      BorrowList bors = await getOrSearchBorrows(null, true, componentID, {});
+      if (bors.isNotEmpty) {
+        String found = bors.borrows.first.url;
+        for (Borrow bor in bors) {}
+        // url = "${Constants.apiUrl}/rest/borrows/$componentID/";
+        url = found;
+      }
     }
 
     // return api
@@ -135,7 +142,7 @@ class _BRFormState extends State<ReturnForm> {
                   children: [
                     AppSearchBar(
                       hintTextForBar: "Search for Components YOU Borrowed",
-                      componentList: context.read<BorrowList>().components,
+                      componentList: context.read<BorrowList>(),
                       searchCallback: (searchQuery) =>
                           context.read<BorrowList>().searchBorrow(searchQuery),
                     ),

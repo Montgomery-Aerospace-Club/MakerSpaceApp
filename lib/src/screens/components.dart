@@ -24,9 +24,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
       context.read<ComponentList>().set(value.components, value.suggestions);
     });
     getOrSearchBorrows(null, true, null, {}).then((BorrowList value) {
-      context
-          .read<BorrowList>()
-          .set(value.borrows, value.suggestions, value.components);
+      context.read<BorrowList>().set(value.borrows, value.suggestions);
     });
 
     super.initState();

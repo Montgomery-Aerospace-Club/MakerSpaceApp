@@ -26,9 +26,7 @@ class _HomeState extends State<Home> {
       getOrSearchBorrows(
               value.username, null, null, {"ordering": "-borrow_in_progress"})
           .then((BorrowList value) {
-        context
-            .read<BorrowList>()
-            .set(value.borrows, value.suggestions, value.components);
+        context.read<BorrowList>().set(value.borrows, value.suggestions);
         //print(context.read<BorrowList>().suggestions);
       });
 
@@ -74,7 +72,7 @@ class _HomeState extends State<Home> {
                           right: appSearchbarPadding + 5),
                       child: AppSearchBar(
                         hintTextForBar: "Search for Components You Borrowed",
-                        componentList: context.read<BorrowList>().components,
+                        componentList: context.read<BorrowList>(),
                         searchCallback: (searchQuery) => context
                             .read<BorrowList>()
                             .searchBorrow(searchQuery),

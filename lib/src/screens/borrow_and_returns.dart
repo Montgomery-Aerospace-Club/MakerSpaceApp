@@ -20,9 +20,7 @@ class _BRsState extends State<BRs> {
     readUser().then((value) {
       getOrSearchBorrows(value.username, true, null, {})
           .then((BorrowList value) {
-        context
-            .read<BorrowList>()
-            .set(value.borrows, value.suggestions, value.components);
+        context.read<BorrowList>().set(value.borrows, value.suggestions);
       });
     });
 

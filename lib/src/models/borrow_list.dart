@@ -9,13 +9,11 @@ import 'borrow.dart'; // Assuming you have a Borrow class defined
 class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
   List<Borrow> borrows;
   List<Borrow> suggestions;
-  ComponentList components;
   List<Borrow> Function(String searchQuery)? customSearchFunction;
 
   BorrowList({
     required this.borrows,
     required this.suggestions,
-    required this.components,
   });
 
   @override
@@ -53,10 +51,9 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
     return 'BorrowList(borrows: $borrows, suggestions: $suggestions)';
   }
 
-  void set(List<Borrow> borrows, List<Borrow> suggestions, ComponentList lst) {
+  void set(List<Borrow> borrows, List<Borrow> suggestions) {
     this.borrows = borrows;
     this.suggestions = suggestions;
-    components = lst;
     notifyListeners();
   }
 
@@ -84,7 +81,6 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
     return BorrowList(
       borrows: borrows,
       suggestions: borrows,
-      components: lst,
     );
   }
 
@@ -94,8 +90,8 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
     } else {
       suggestions = defaultSearchFunction(searchQuery);
     }
-    components.suggestions =
-        BorrowList.convertListBorrowToListComponent(suggestions);
+    // components.suggestions =
+    //     BorrowList.convertListBorrowToListComponent(suggestions);
     notifyListeners();
   }
 
@@ -123,11 +119,11 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
     return results;
   }
 
-  static convertListBorrowToListComponent(List<Borrow> borrows) {
-    List<Component> components = [];
-    for (Borrow borrow in borrows) {
-      components.add(borrow.component);
-    }
-    return components;
-  }
+  // static convertListBorrowToListComponent(List<Borrow> borrows) {
+  //   List<Component> components = [];
+  //   for (Borrow borrow in borrows) {
+  //     components.add(borrow.component);
+  //   }
+  //   return components;
+  // }
 }

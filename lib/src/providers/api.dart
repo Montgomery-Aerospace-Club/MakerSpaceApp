@@ -133,7 +133,7 @@ Future<BorrowList> getOrSearchBorrows(String? query, bool? borrowInProgress,
   BorrowList ret = BorrowList(
     borrows: [],
     suggestions: [],
-    components: ComponentList(components: [], suggestions: []),
+    // components: ComponentList(components: [], suggestions: []),
   );
 
   String token = await readToken();
