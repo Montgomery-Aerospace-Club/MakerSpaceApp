@@ -17,6 +17,47 @@ class Constants {
     "token": "5e4ca59106f12538a93f3004461534c42f10c872"
   };
 
+  static Map<String, dynamic> fakeComponent = {
+    "url": "http://127.0.0.1:8000/rest/components/1/",
+    "unique_id": "400e983c-6a5b-48ed-82d8-f6e1ad9f5144",
+    "name": "",
+    "sku": "6969",
+    "mpn": "6969",
+    "upc": 0,
+    "storage_bin": [
+      {
+        "url": "http://127.0.0.1:8000/rest/storage_bins/1/",
+        "name": "drill bits",
+        "short_code": null,
+        "unit_row": "1",
+        "unit_column": "1",
+        "storage_unit": {
+          "url": "http://127.0.0.1:8000/rest/storage_units/1/",
+          "name": "drills",
+          "short_code": null,
+          "room": {
+            "url": "http://127.0.0.1:8000/rest/rooms/1/",
+            "name": "Makerspace",
+            "short_code": null,
+            "building": {
+              "url": "http://127.0.0.1:8000/rest/buildings/1/",
+              "name": "Montgomery Tang",
+              "address": "",
+              "postcode": ""
+            }
+          }
+        }
+      }
+    ],
+    "measurement_unit": {
+      "url": "http://127.0.0.1:8000/rest/component_measurements/1/",
+      "unit_name": "bit",
+      "unit_description": "a drill bit"
+    },
+    "qty": 17,
+    "description": "Sturdy drill bit made by a trusted brand"
+  };
+
   static Map<String, dynamic> fakeBorrow = {
     "url": "http://127.0.0.1:8000/rest/borrows/29/",
     "qty": 0,

@@ -152,7 +152,7 @@ class _BRFormState extends State<ReturnForm> {
           builder: ((context) {
             return AlertDialog(
               actionsAlignment: MainAxisAlignment.center,
-              title: const Text("Submit borrow/return request for component?"),
+              title: const Text("Submit return request for component?"),
               actions: [
                 ElevatedButton(
                     onPressed: () async {
@@ -201,7 +201,8 @@ class _BRFormState extends State<ReturnForm> {
                     TextFormField(
                       textAlign: TextAlign.left,
                       keyboardType: TextInputType.number,
-                      decoration: textFieldDeco("Click me, Then scan a barcode",
+                      decoration: textFieldDeco(
+                          "Click me, Then scan your barcode",
                           const Icon(Icons.barcode_reader)),
                       onFieldSubmitted: (value) => confirm(),
                       validator: (v) {

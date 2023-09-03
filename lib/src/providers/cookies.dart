@@ -4,6 +4,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/models/borrow.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
+import 'package:themakerspace/src/models/component.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/models/user.dart';
 
@@ -79,6 +80,25 @@ Future<void> writeSelectedBorrow(Borrow bor) async {
 Future<void> resetSelectedBorrow() async {
   final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
   await storage.delete(key: "searchBarBorrowSelection");
+}
+
+Future<Component> readSearchBarComponent() async {
+  final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  String value = await storage.read(key: "searchbarComponentSelection") ??
+      json.encode(Constants.fakeComponent);
+  Map<String, dynamic> jsonn = json.decode(value);
+  return Component.fromJson(jsonn);
+}
+
+Future<void> writeSelectedComponent(Component bor) async {
+  final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  String stringJson = jsonEncode(bor);
+  await storage.write(key: "searchbarComponentSelection", value: stringJson);
+}
+
+Future<void> resetSelectedComponent() async {
+  final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  await storage.delete(key: "searchbarComponentSelection");
 }
 
 void logoutClearCookies() {

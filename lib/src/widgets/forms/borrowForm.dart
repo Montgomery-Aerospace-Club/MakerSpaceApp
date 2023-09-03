@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/extensions/darkmode.dart';
-import 'package:themakerspace/src/models/borrow.dart';
-import 'package:themakerspace/src/models/borrow_list.dart';
+import 'package:themakerspace/src/models/component.dart';
+import 'package:themakerspace/src/models/component_list.dart';
+import 'package:themakerspace/src/models/user.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
 import 'package:themakerspace/src/widgets/customSnackBars.dart';
@@ -24,11 +24,11 @@ class BorrowForm extends StatefulWidget {
 class _BFormState extends State<BorrowForm> {
   var formKey = GlobalKey<FormState>();
   String componentID = "";
-  bool forAnotherPeron = false;
   String username = "";
   String password = "";
   bool loading = false;
   bool useSearch = false;
+  int qty = 1;
 
   bool isNumeric(String s) {
     // ignore: unnecessary_null_comparison
@@ -52,94 +52,49 @@ class _BFormState extends State<BorrowForm> {
   }
 
   Future<void> submit() async {
-    String token = await readToken();
-    if (forAnotherPeron) {
-      token = await login(username, password, true);
-    }
-    String url = "${Constants.apiUrl}/rest/borrows/-1/";
+    User user = await readUser();
 
     if (!mounted) return;
 
+    String msg = "Error 6969 - Consult Eddie";
+
     if (useSearch) {
-      Borrow bor = await readSearchBarBorrow();
-      url = bor.url;
-      String msg =
-          await returnBorrowWithUrl(DateTime.now(), null, false, url, token);
-
-      if (!mounted) return;
-
-      if (msg.isEmpty) {
-        displaySuccessMsg(context, "Return");
-      } else {
-        displayErrorMessage(msg, context);
-      }
-
-      setState(() {
-        forAnotherPeron = false;
-        formKey.currentState?.reset();
-      });
+      Component comp = await readSearchBarComponent();
+      msg = await createBorrow(qty.toString(), user, DateTime.now(), comp.url);
     } else {
-      BorrowList bors = await getOrSearchBorrows(null, true, componentID, {});
-      if (!mounted) return;
-      if (bors.isNotEmpty) {
-        Borrow selectedBor = bors.borrows.first;
-        showMaterialRadioPicker<Borrow>(
-          context: context,
-          title: 'Please pick your borrow reciept.',
-          items: bors.borrows,
-          selectedItem: selectedBor,
-          onChanged: (value) => setState(() => selectedBor = value),
-          onConfirmed: () async {
-            url = selectedBor.url;
-            String msg = await returnBorrowWithUrl(
-                DateTime.now(), null, false, url, token);
-
-            if (!mounted) return;
-
-            if (msg.isEmpty) {
-              displaySuccessMsg(context, "Return");
-            } else {
-              displayErrorMessage(msg, context);
-            }
-
-            setState(() {
-              forAnotherPeron = false;
-              formKey.currentState?.reset();
-            });
-          },
-        );
-      } else {
-        displayErrorMessage(
-            "- No components with ID $componentID being borrowed at this moment\n- You can create a borrow above for this component",
-            context);
-      }
+      String url = "${Constants.apiUrl}/rest/components/$componentID/";
+      msg = await createBorrow(qty.toString(), user, DateTime.now(), url);
     }
+
+    if (!mounted) return;
+
+    if (msg.isEmpty) {
+      displaySuccessMsg(context, "Borrow");
+    } else {
+      displayErrorMessage(msg, context);
+    }
+
+    setState(() {
+      formKey.currentState?.reset();
+    });
     setState(() {
       loading = false;
     });
-    await resetSelectedBorrow();
+    await resetSelectedComponent();
 
-    var value = await readUser();
-
-    var borList = await getOrSearchBorrows(value.username, true, null, {});
+    var compList = await getOrSearchComponents("");
 
     if (!mounted) return;
-    context.read<BorrowList>().set(borList.borrows, borList.suggestions);
+    context
+        .read<ComponentList>()
+        .set(compList.components, compList.suggestions);
   }
 
   void confirm() async {
     formKey.currentState!.save();
 
-    // if (context.read<BorrowList>().suggestions.length == 1) {
-    //   setState(() {
-    //     useSearch = true;
-    //   });
-    // }
-
-    Borrow bor = await readSearchBarBorrow();
-    if (bor.user.username != "6969" &&
-        bor.user.userId != 696969 &&
-        bor.component.name.isNotEmpty) {
+    Component comp = await readSearchBarComponent();
+    if (comp.mpn != "6969" && comp.sku != "6969" && comp.name.isNotEmpty) {
       setState(() {
         useSearch = true;
       });
@@ -152,7 +107,7 @@ class _BFormState extends State<BorrowForm> {
           builder: ((context) {
             return AlertDialog(
               actionsAlignment: MainAxisAlignment.center,
-              title: const Text("Submit borrow/return request for component?"),
+              title: const Text("Submit borrow request for component?"),
               actions: [
                 ElevatedButton(
                     onPressed: () async {
@@ -186,22 +141,24 @@ class _BFormState extends State<BorrowForm> {
           // mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-                flex: 3,
+                flex: 5,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppSearchBar(
                       page: Constants.borrowPageName,
-                      hintTextForBar: "Search for Components YOU Borrowed",
-                      componentList: context.read<BorrowList>(),
-                      searchCallback: (searchQuery) =>
-                          context.read<BorrowList>().searchBorrow(searchQuery),
+                      hintTextForBar: "Search for Components",
+                      componentList: context.read<ComponentList>(),
+                      searchCallback: (searchQuery) => context
+                          .read<ComponentList>()
+                          .searchComponent(searchQuery),
                     ),
                     genDivder("OR"),
                     TextFormField(
                       textAlign: TextAlign.left,
                       keyboardType: TextInputType.number,
-                      decoration: textFieldDeco("Click me, Then scan a barcode",
+                      decoration: textFieldDeco(
+                          "Click me, Then scan your barcode",
                           const Icon(Icons.barcode_reader)),
                       onFieldSubmitted: (value) => confirm(),
                       validator: (v) {
@@ -224,88 +181,11 @@ class _BFormState extends State<BorrowForm> {
                     ),
                   ],
                 )),
-            Expanded(
-                flex: 3,
-                child: Column(
-                  children: [
-                    Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Is this action done for another person?",
-                              textAlign: TextAlign.center,
-                            ),
-                            Tooltip(
-                              message:
-                                  "Check this box if you are using another person's account to return an item\nor if you are returning an item borrowed by another person",
-                              child: Checkbox(
-                                  value: forAnotherPeron,
-                                  onChanged: (bool? value) {
-                                    setState(() {
-                                      forAnotherPeron = value ?? false;
-                                    });
-                                  }),
-                            ),
-                          ],
-                        )),
-                    Row(
-                      children: [
-                        const Spacer(),
-                        Expanded(
-                            flex: 3,
-                            child: Tooltip(
-                                message:
-                                    "Only enter into this field if you checked the box above",
-                                child: TextFormField(
-                                  keyboardType: TextInputType.text,
-                                  decoration: textFieldDeco("Username", null),
-                                  validator: (v) {
-                                    if (forAnotherPeron) {
-                                      if (v!.isEmpty) {
-                                        return "Enter a username";
-                                      } else {
-                                        setState(() {
-                                          username = v;
-                                        });
-                                        return null;
-                                      }
-                                    }
-                                    return null;
-                                  },
-                                ))),
-                        const Spacer(),
-                        Expanded(
-                            flex: 3,
-                            child: TextFormField(
-                              keyboardType: TextInputType.text,
-                              decoration: textFieldDeco("Password", null),
-                              validator: (v) {
-                                if (forAnotherPeron) {
-                                  if (v!.isEmpty) {
-                                    return "Enter a password";
-                                  } else {
-                                    setState(() {
-                                      password = v;
-                                    });
-                                    return null;
-                                  }
-                                }
-                                return null;
-                              },
-                            )),
-                        const Spacer(),
-                      ],
-                    ),
-                  ],
-                )),
             loading
                 ? const CircularProgressIndicator()
                 : Expanded(
                     child: IconButton(
-                    tooltip: "Submit return request",
+                    tooltip: "Submit borrow request",
                     onPressed: () => confirm(),
                     icon: const Icon(Icons.arrow_forward_ios),
                   )),

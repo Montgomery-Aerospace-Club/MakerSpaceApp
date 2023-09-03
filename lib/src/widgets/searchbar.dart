@@ -91,7 +91,10 @@ class _AppSearchBarState extends State<AppSearchBar> {
                 onTap: () {
                   controller.closeView(
                       widget.componentList.suggestions.elementAt(index).name);
-                  //   widget.componentList.searchComponent(controller.text);
+                  if (widget.page == Constants.borrowPageName) {
+                    writeSelectedComponent(
+                        widget.componentList.suggestions.elementAt(index));
+                  }
                 });
           });
         }

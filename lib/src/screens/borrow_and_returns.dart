@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
+import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
@@ -24,6 +25,8 @@ class _BRsState extends State<BRs> {
         context.read<BorrowList>().set(value.borrows, value.suggestions);
       });
     });
+    getOrSearchComponents("").then((value) =>
+        context.read<ComponentList>().set(value.components, value.suggestions));
 
     super.initState();
   }
@@ -53,7 +56,7 @@ class _BRsState extends State<BRs> {
                   const SizedBox(
                     height: 30,
                   ),
-                  //const BorrowForm(),
+                  const BorrowForm(),
                   const SizedBox(
                     height: 20,
                   ),

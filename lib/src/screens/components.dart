@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/constants.dart';
-import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
@@ -24,9 +23,9 @@ class _ComponentsPageState extends State<ComponentsPage> {
     getOrSearchComponents("").then((ComponentList value) {
       context.read<ComponentList>().set(value.components, value.suggestions);
     });
-    getOrSearchBorrows(null, true, null, {}).then((BorrowList value) {
-      context.read<BorrowList>().set(value.borrows, value.suggestions);
-    });
+    // getOrSearchBorrows(null, true, null, {}).then((BorrowList value) {
+    //   context.read<BorrowList>().set(value.borrows, value.suggestions);
+    // });
 
     super.initState();
   }
