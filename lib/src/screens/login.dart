@@ -47,7 +47,7 @@ class Login extends StatelessWidget {
     if (username == null) {
       return "Please enter a username";
     }
-    if (username.length <= 3) {
+    if (username.length < 3) {
       return "Username too short";
     }
     return null;
