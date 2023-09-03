@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/extensions/capitalize.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 // import 'package:themakerspace/src/models/component_list.dart';
@@ -72,8 +73,10 @@ class _AppSearchBarState extends State<AppSearchBar> {
                     "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(widget.componentList.suggestions.elementAt(index).borrowTime.toLocal())}"),
                 onTap: () {
                   controller.closeView(title);
-                  writeSelectedBorrow(
-                      widget.componentList.suggestions.elementAt(index));
+                  if (widget.page == Constants.returnFormPageName) {
+                    writeSelectedBorrow(
+                        widget.componentList.suggestions.elementAt(index));
+                  }
                 });
           });
         } else {

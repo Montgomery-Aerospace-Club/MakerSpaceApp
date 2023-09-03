@@ -28,6 +28,7 @@ class _BRFormState extends State<ReturnForm> {
   String username = "";
   String password = "";
   bool loading = false;
+  bool useSearch = false;
 
   bool isNumeric(String s) {
     // ignore: unnecessary_null_comparison
@@ -59,8 +60,9 @@ class _BRFormState extends State<ReturnForm> {
 
     if (!mounted) return;
 
-    if (context.read<BorrowList>().suggestions.length == 1) {
-      url = context.read<BorrowList>().suggestions.first.url;
+    if (useSearch) {
+      Borrow bor = await readSearchBarBorrow();
+      url = bor.url;
       String msg =
           await returnBorrowWithUrl(DateTime.now(), null, false, url, token);
 
@@ -111,10 +113,26 @@ class _BRFormState extends State<ReturnForm> {
     setState(() {
       loading = false;
     });
+    await resetSelectedBorrow();
   }
 
-  void confirm() {
+  void confirm() async {
     formKey.currentState!.save();
+
+    if (context.read<BorrowList>().suggestions.length == 1) {
+      setState(() {
+        useSearch = true;
+      });
+    }
+
+    Borrow bor = await readSearchBarBorrow();
+    if (bor.url.isNotEmpty) {
+      setState(() {
+        useSearch = true;
+      });
+    }
+    if (!mounted) return;
+
     if (formKey.currentState!.validate()) {
       showDialog(
           context: context,
@@ -178,10 +196,10 @@ class _BRFormState extends State<ReturnForm> {
                           const Icon(Icons.barcode_reader)),
                       onFieldSubmitted: (value) => confirm(),
                       validator: (v) {
-                        if (context.read<BorrowList>().suggestions.length ==
-                            1) {
+                        if (useSearch) {
                           return null;
                         }
+
                         if (v!.isEmpty) {
                           return "Enter an ID";
                         } else if (!isNumeric(v)) {

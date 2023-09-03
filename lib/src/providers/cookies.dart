@@ -76,6 +76,11 @@ Future<void> writeSelectedBorrow(Borrow bor) async {
   await storage.write(key: "searchBarBorrowSelection", value: stringJson);
 }
 
+Future<void> resetSelectedBorrow() async {
+  final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
+  await storage.delete(key: "searchBarBorrowSelection");
+}
+
 void logoutClearCookies() {
   final storage = FlutterSecureStorage(aOptions: _getAndroidOptions());
   storage.deleteAll();
