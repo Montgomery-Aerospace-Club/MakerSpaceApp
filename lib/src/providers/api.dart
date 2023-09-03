@@ -193,7 +193,7 @@ Future<String> returnBorrowWithUrl(DateTime? timestampCheckIn, int? qty,
   }
 
   var jsonBody = {
-    "timestamp_check_in": timestampCheckIn?.toIso8601String() ?? "",
+    "timestamp_check_in": timestampCheckIn?.toUtc().toIso8601String() ?? "",
     "borrow_in_progress": borrowInProgQuery,
   };
 

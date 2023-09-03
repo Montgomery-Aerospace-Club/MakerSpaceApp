@@ -5,11 +5,12 @@ import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:intl/intl.dart';
 
 class AppSearchBar extends StatefulWidget {
-  const AppSearchBar(
-      {super.key,
-      required this.hintTextForBar,
-      required this.componentList,
-      required this.searchCallback});
+  const AppSearchBar({
+    super.key,
+    required this.hintTextForBar,
+    required this.componentList,
+    required this.searchCallback,
+  });
 
   final String hintTextForBar;
   final dynamic componentList;
@@ -20,7 +21,6 @@ class AppSearchBar extends StatefulWidget {
 }
 
 class _AppSearchBarState extends State<AppSearchBar> {
-  var focusNode = FocusNode();
   List<String> usedWords = [];
 
   @override

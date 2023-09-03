@@ -1,5 +1,7 @@
 import 'user.dart';
 import 'component.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
 
 class Borrow {
   final String url;
@@ -43,5 +45,10 @@ class Borrow {
         user: User.fromJson(json["person_who_borrowed"]),
         component: Component.fromJson(json["component"]),
         qty: json["qty"]);
+  }
+
+  @override
+  String toString() {
+    return "${component.name} - $qty - ${DateFormat('yyyy-MM-dd kk:mm').format(borrowTime.toLocal())}";
   }
 }

@@ -32,6 +32,7 @@ dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
   flutter_lints: ^2.0.0
   flutter_login: ^4.2.0
+  flutter_material_pickers: ^3.6.0
 
 flutter:
   uses-material-design: true

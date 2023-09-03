@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/extensions/darkmode.dart';
@@ -60,35 +61,56 @@ class _BRFormState extends State<ReturnForm> {
 
     if (context.read<BorrowList>().suggestions.length == 1) {
       url = context.read<BorrowList>().suggestions.first.url;
+      String msg =
+          await returnBorrowWithUrl(DateTime.now(), null, false, url, token);
+
+      if (!mounted) return;
+
+      if (msg.isEmpty) {
+        displaySuccessMsg(context);
+      } else {
+        displayErrorMessage(msg, context);
+      }
+
+      setState(() {
+        forAnotherPeron = false;
+        formKey.currentState?.reset();
+      });
     } else {
-      //TODO incorrect logic i need to search for the borrow that has that component that is under the user
       BorrowList bors = await getOrSearchBorrows(null, true, componentID, {});
+      if (!mounted) return;
       if (bors.isNotEmpty) {
-        String found = bors.borrows.first.url;
-        for (Borrow bor in bors) {}
-        // url = "${Constants.apiUrl}/rest/borrows/$componentID/";
-        url = found;
+        Borrow selectedBor = bors.borrows.first;
+        showMaterialRadioPicker<Borrow>(
+          context: context,
+          title:
+              'Please pick your borrow reciept.\nWe found mutliple borrows associated with the scanned component',
+          items: bors.borrows,
+          selectedItem: selectedBor,
+          onChanged: (value) => setState(() => selectedBor = value),
+          onConfirmed: () async {
+            url = selectedBor.url;
+            String msg = await returnBorrowWithUrl(
+                DateTime.now(), null, false, url, token);
+
+            if (!mounted) return;
+
+            if (msg.isEmpty) {
+              displaySuccessMsg(context);
+            } else {
+              displayErrorMessage(msg, context);
+            }
+
+            setState(() {
+              forAnotherPeron = false;
+              formKey.currentState?.reset();
+            });
+          },
+        );
       }
     }
-
-    // return api
-    String msg =
-        await returnBorrowWithUrl(DateTime.now(), null, false, url, token);
-
-    if (!mounted) return;
-
-    if (msg.isEmpty) {
-      //display success message
-      displaySuccessMsg(context);
-    } else {
-      //display error msg with erorr msg being msg
-
-      displayErrorMessage(msg, context);
-    }
-
     setState(() {
-      forAnotherPeron = false;
-      formKey.currentState?.reset();
+      loading = false;
     });
   }
 
@@ -104,11 +126,13 @@ class _BRFormState extends State<ReturnForm> {
               actions: [
                 ElevatedButton(
                     onPressed: () async {
-                      await submit();
-
-                      if (!mounted) return;
-
                       Navigator.of(context).pop();
+
+                      setState(() {
+                        loading = true;
+                      });
+
+                      await submit();
                     },
                     child: const SizedBox(child: Text("Yes"))),
                 ElevatedButton(
