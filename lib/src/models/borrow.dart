@@ -11,6 +11,7 @@ class Borrow {
   bool inProgress;
   final Component component;
   final int qty;
+  final String id;
 
   Borrow({
     required this.url,
@@ -18,6 +19,7 @@ class Borrow {
     required this.borrowTime,
     required this.component,
     required this.qty,
+    required this.id,
     // ignore: avoid_init_to_null
     this.returnTime = null,
     this.inProgress = false,
@@ -39,6 +41,7 @@ class Borrow {
     //print(json);
     return Borrow(
         url: json["url"],
+        id: json["url"].toString().split("/borrows/")[1].replaceAll("/", ""),
         borrowTime: DateTime.parse(json["timestamp_check_out"]),
         returnTime: json["timestamp_check_in"] == null
             ? null
