@@ -130,14 +130,13 @@ Future<ComponentList> getOrSearchComponents(String query) async {
 
 Future<BorrowList> getOrSearchBorrows(String? query, bool? borrowInProgress,
     String? componentID, Map<String, String> extra) async {
-  String token = await readToken();
-
   BorrowList ret = BorrowList(
     borrows: [],
     suggestions: [],
     components: ComponentList(components: [], suggestions: []),
   );
 
+  String token = await readToken();
   if (token.isEmpty) {
     return ret;
   }
@@ -218,11 +217,6 @@ Future<String> returnBorrowWithUrl(DateTime? timestampCheckIn, int? qty,
         }
       }
     } else if (body.containsKey("detail")) {
-      /*
-{
-	"detail": "Invalid token."
-}
-      */
       String msg = body["detail"]
           .toString()
           .replaceAll("token", "username or password.");
@@ -238,6 +232,37 @@ Future<String> returnBorrowWithUrl(DateTime? timestampCheckIn, int? qty,
 Future<String> createBorrow(String qty, User personWhoBorrowed,
     DateTime checkOutTime, String compUrl) async {
   String ret = "";
+
+  String token = await readToken();
+  if (token.isEmpty) {
+    return ret;
+  }
+  Map<String, String> headers = {"Authorization": "Token $token"};
+
+  var jsonBody = {
+    "qty": qty,
+    "person_who_borrowed": personWhoBorrowed.url,
+    "timestamp_check_out": checkOutTime.toIso8601String(),
+    "component": compUrl,
+  };
+
+  final response = await http.patch(
+      Uri.parse("${Constants.apiUrl}/rest/borrows/"),
+      body: jsonBody,
+      headers: headers);
+
+  if (response.statusCode != 200) {
+    Map<String, dynamic> body = json.decode(response.body);
+    if (body.containsKey("details")) {
+      List<String> details = convertToListString(body["details"]);
+      for (String item in details) {
+        ret += "- $item";
+        if (details.indexOf(item) != details.length - 1) {
+          ret += "\n";
+        }
+      }
+    }
+  }
 
   return ret;
 }

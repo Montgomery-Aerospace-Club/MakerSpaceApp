@@ -6,6 +6,7 @@ import 'package:themakerspace/src/extensions/darkmode.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
+import 'package:themakerspace/src/widgets/customSnackBars.dart';
 
 import 'package:themakerspace/src/widgets/searchbar.dart';
 
@@ -25,29 +26,6 @@ class _BRFormState extends State<ReturnForm> {
   String username = "";
   String password = "";
   bool loading = false;
-
-  void displayErrorMessage(String msg) {
-    //display the error msg
-    final snackBar = SnackBar(
-        duration: const Duration(milliseconds: 5000),
-        backgroundColor: Colors.red,
-        content:
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          const Row(children: [
-            Icon(Icons.error),
-            Text(
-              " Error",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
-                  color: Colors.white),
-            ),
-          ]),
-          Text(msg)
-        ]));
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
 
   bool isNumeric(String s) {
     // ignore: unnecessary_null_comparison
@@ -90,11 +68,15 @@ class _BRFormState extends State<ReturnForm> {
     String msg =
         await returnBorrowWithUrl(DateTime.now(), null, false, url, token);
 
+    if (!mounted) return;
+
     if (msg.isEmpty) {
       //display success message
+      displaySuccessMsg(context);
     } else {
       //display error msg with erorr msg being msg
-      displayErrorMessage(msg);
+
+      displayErrorMessage(msg, context);
     }
 
     setState(() {
