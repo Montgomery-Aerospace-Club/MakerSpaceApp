@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:themakerspace/src/extensions/capitalize.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 // import 'package:themakerspace/src/models/component_list.dart';
 // ignore: depend_on_referenced_packages
@@ -56,7 +57,8 @@ class _AppSearchBarState extends State<AppSearchBar> {
                 "${widget.componentList.suggestions.elementAt(index).component.name}";
 
             return ListTile(
-                title: Text(title),
+                title: Text(
+                    "${title.capitalize()}     ID: ${widget.componentList.suggestions.elementAt(index).id}"),
                 trailing: Text(
                     "Qty borrowed: ${widget.componentList.suggestions.elementAt(index).qty}"),
                 textColor:
