@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
-import 'package:themakerspace/src/models/component_list.dart';
+// import 'package:themakerspace/src/models/component_list.dart';
+import 'package:intl/intl.dart';
 
 class AppSearchBar extends StatefulWidget {
   const AppSearchBar(
@@ -47,19 +48,36 @@ class _AppSearchBarState extends State<AppSearchBar> {
             leading: const Icon(Icons.search));
       },
       suggestionsBuilder: (BuildContext context, SearchController controller) {
-        Set suggestionSet = {};
-        if (widget is BorrowList) {
-          suggestionSet = {...widget.componentList.components.suggestions};
-        }
+        if (widget.componentList is BorrowList) {
+          return List<ListTile>.generate(
+              widget.componentList.suggestions.length, (int index) {
+            String title =
+                "${widget.componentList.suggestions.elementAt(index).component.name}";
 
-        return List<ListTile>.generate(suggestionSet.length, (int index) {
-          return ListTile(
-              title: Text(suggestionSet.elementAt(index).name),
-              onTap: () {
-                controller.closeView(suggestionSet.elementAt(index).name);
-                widget.componentList.searchComponent(controller.text);
-              });
-        });
+            return ListTile(
+                title: Text(title),
+                trailing: Text(
+                    "Qty borrowed: ${widget.componentList.suggestions.elementAt(index).qty}"),
+                subtitle: Text(
+                    "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(widget.componentList.suggestions.elementAt(index).borrowTime)}"),
+                onTap: () {
+                  controller.closeView(title);
+                });
+          });
+        } else {
+          // if (widget.componentList is ComponentList)
+          return List<ListTile>.generate(
+              widget.componentList.suggestions.length, (int index) {
+            return ListTile(
+                title: Text(
+                    widget.componentList.suggestions.elementAt(index).name),
+                onTap: () {
+                  controller.closeView(
+                      widget.componentList.suggestions.elementAt(index).name);
+                  //   widget.componentList.searchComponent(controller.text);
+                });
+          });
+        }
       },
     );
   }

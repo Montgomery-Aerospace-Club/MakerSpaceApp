@@ -19,11 +19,11 @@ class BorrowListItem extends StatelessWidget {
           //color: Colors.blue,
           //child:
           SizedBox(
-        width: 200,
+        width: 175,
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(
-            "Amount Borrowed: ${component.qty}",
+            "Qty Borrowed: ${component.qty}",
             style: Theme.of(context).textTheme.labelLarge,
           ),
           if (isBorrowInProgress)
