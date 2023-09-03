@@ -4,6 +4,7 @@ import 'package:themakerspace/src/models/borrow_list.dart';
 // import 'package:themakerspace/src/models/component_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:themakerspace/src/providers/cookies.dart';
 
 class AppSearchBar extends StatefulWidget {
   const AppSearchBar({
@@ -11,8 +12,10 @@ class AppSearchBar extends StatefulWidget {
     required this.hintTextForBar,
     required this.componentList,
     required this.searchCallback,
+    required this.page,
   });
 
+  final String page;
   final String hintTextForBar;
   final dynamic componentList;
   final void Function(String searchQuery) searchCallback;
@@ -69,10 +72,8 @@ class _AppSearchBarState extends State<AppSearchBar> {
                     "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(widget.componentList.suggestions.elementAt(index).borrowTime.toLocal())}"),
                 onTap: () {
                   controller.closeView(title);
-                  widget.componentList.setSuggestions(
-                      [widget.componentList.suggestions.elementAt(index)]);
-                  //TODO what the f
-                  print(widget.componentList.suggestions);
+                  writeSelectedBorrow(
+                      widget.componentList.suggestions.elementAt(index));
                 });
           });
         } else {

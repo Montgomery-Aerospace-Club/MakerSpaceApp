@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
@@ -51,6 +52,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
                           left: appSearchbarPadding + 5,
                           right: appSearchbarPadding + 5),
                       child: AppSearchBar(
+                        page: Constants.componentsPageName,
                         hintTextForBar: "Search for Components",
                         componentList: context.read<ComponentList>(),
                         searchCallback: (searchQuery) => context

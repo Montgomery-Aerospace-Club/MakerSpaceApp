@@ -164,6 +164,7 @@ class _BRFormState extends State<ReturnForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppSearchBar(
+                      page: Constants.returnFormPageName,
                       hintTextForBar: "Search for Components YOU Borrowed",
                       componentList: context.read<BorrowList>(),
                       searchCallback: (searchQuery) =>

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
@@ -71,6 +72,7 @@ class _HomeState extends State<Home> {
                           left: appSearchbarPadding + 5,
                           right: appSearchbarPadding + 5),
                       child: AppSearchBar(
+                        page: Constants.homePageName,
                         hintTextForBar: "Search for Components You Borrowed",
                         componentList: context.read<BorrowList>(),
                         searchCallback: (searchQuery) => context

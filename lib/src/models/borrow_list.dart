@@ -1,8 +1,6 @@
 import 'dart:collection';
 
 import 'package:flutter/foundation.dart';
-import 'package:themakerspace/src/models/component.dart';
-import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/utils.dart';
 import 'borrow.dart'; // Assuming you have a Borrow class defined
 
@@ -68,8 +66,6 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
 
   factory BorrowList.fromJson(List<dynamic> jsonList) {
     List<Borrow> borrows = [];
-    List<Component> components = [];
-    ComponentList lst = ComponentList(components: [], suggestions: []);
 
     List<Map<String, dynamic>> borrowsJson =
         jsonList.map((e) => convertToMapDynamic(e)).toList();
@@ -78,10 +74,8 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
       if (borrowJson.isNotEmpty) {
         Borrow bor = Borrow.fromJson(borrowJson);
         borrows.add(bor);
-        components.add(bor.component);
       }
     }
-    lst.set(components, components);
 
     return BorrowList(
       borrows: borrows,
