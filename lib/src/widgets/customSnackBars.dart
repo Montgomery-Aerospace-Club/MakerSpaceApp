@@ -20,16 +20,16 @@ void displayErrorMessage(String msg, BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }
 
-void displaySuccessMsg(BuildContext context) {
+void displaySuccessMsg(BuildContext context, String mode) {
   //display the succs msg
-  const snackBar = SnackBar(
-    duration: Duration(milliseconds: 2000),
+  final snackBar = SnackBar(
+    duration: const Duration(milliseconds: 2000),
     backgroundColor: Colors.green,
     content: Row(children: [
-      Icon(Icons.check),
+      const Icon(Icons.check),
       Text(
-        " Success ",
-        style: TextStyle(
+        " $mode success ",
+        style: const TextStyle(
             fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
       ),
     ]),

@@ -69,7 +69,7 @@ class _BRFormState extends State<ReturnForm> {
       if (!mounted) return;
 
       if (msg.isEmpty) {
-        displaySuccessMsg(context);
+        displaySuccessMsg(context, "Return");
       } else {
         displayErrorMessage(msg, context);
       }
@@ -97,7 +97,7 @@ class _BRFormState extends State<ReturnForm> {
             if (!mounted) return;
 
             if (msg.isEmpty) {
-              displaySuccessMsg(context);
+              displaySuccessMsg(context, "Return");
             } else {
               displayErrorMessage(msg, context);
             }
@@ -114,6 +114,13 @@ class _BRFormState extends State<ReturnForm> {
       loading = false;
     });
     await resetSelectedBorrow();
+
+    var value = await readUser();
+
+    var borList = await getOrSearchBorrows(value.username, true, null, {});
+
+    if (!mounted) return;
+    context.read<BorrowList>().set(borList.borrows, borList.suggestions);
   }
 
   void confirm() async {
