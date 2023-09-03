@@ -72,6 +72,9 @@ class _BRFormState extends State<BRForm> {
     String token = await readToken();
     if (forAnotherPeron) {
       token = await login(username, password, true);
+      print(username);
+      print(password);
+      print(token);
     }
     String url = "${Constants.apiUrl}/rest/borrows/-1/";
 
@@ -224,22 +227,19 @@ class _BRFormState extends State<BRForm> {
                             ),
                           ],
                         )),
-                    forAnotherPeron
-                        ? Row(
-                            children: [
-                              const Spacer(),
-                              Expanded(
-                                  flex: 3,
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: textFieldDeco("Username", null),
-                                    validator: (v) {
-                                      if (context
-                                          .read<BorrowList>()
-                                          .suggestions
-                                          .isNotEmpty) {
-                                        return null;
-                                      }
+                    Row(
+                      children: [
+                        const Spacer(),
+                        Expanded(
+                            flex: 3,
+                            child: Tooltip(
+                                message:
+                                    "Only enter into this field if you checked the box above",
+                                child: TextFormField(
+                                  keyboardType: TextInputType.text,
+                                  decoration: textFieldDeco("Username", null),
+                                  validator: (v) {
+                                    if (forAnotherPeron) {
                                       if (v!.isEmpty) {
                                         return "Enter a username";
                                       } else {
@@ -248,35 +248,33 @@ class _BRFormState extends State<BRForm> {
                                         });
                                         return null;
                                       }
-                                    },
-                                  )),
-                              const Spacer(),
-                              Expanded(
-                                  flex: 3,
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: textFieldDeco("Password", null),
-                                    validator: (v) {
-                                      if (context
-                                          .read<BorrowList>()
-                                          .suggestions
-                                          .isNotEmpty) {
-                                        return null;
-                                      }
-                                      if (v!.isEmpty) {
-                                        return "Enter a password";
-                                      } else {
-                                        setState(() {
-                                          password = v;
-                                        });
-                                        return null;
-                                      }
-                                    },
-                                  )),
-                              const Spacer(),
-                            ],
-                          )
-                        : const SizedBox.shrink()
+                                    }
+                                    return null;
+                                  },
+                                ))),
+                        const Spacer(),
+                        Expanded(
+                            flex: 3,
+                            child: TextFormField(
+                              keyboardType: TextInputType.text,
+                              decoration: textFieldDeco("Password", null),
+                              validator: (v) {
+                                if (forAnotherPeron) {
+                                  if (v!.isEmpty) {
+                                    return "Enter a password";
+                                  } else {
+                                    setState(() {
+                                      password = v;
+                                    });
+                                    return null;
+                                  }
+                                }
+                                return null;
+                              },
+                            )),
+                        const Spacer(),
+                      ],
+                    ),
                   ],
                 )),
               ],
