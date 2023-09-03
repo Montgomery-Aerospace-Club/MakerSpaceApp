@@ -242,7 +242,7 @@ Future<String> createBorrow(String qty, User personWhoBorrowed,
   var jsonBody = {
     "qty": qty,
     "person_who_borrowed": personWhoBorrowed.url,
-    "timestamp_check_out": checkOutTime.toIso8601String(),
+    "timestamp_check_out": checkOutTime.toUtc().toIso8601String(),
     "component": compUrl,
   };
 
