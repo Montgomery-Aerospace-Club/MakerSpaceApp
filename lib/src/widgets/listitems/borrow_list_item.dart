@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:themakerspace/src/extensions/capitalize.dart';
 import 'package:themakerspace/src/models/borrow.dart';
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
 
 class BorrowListItem extends StatelessWidget {
   final Borrow component;
@@ -13,7 +15,8 @@ class BorrowListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(component.component.name.capitalize()),
-      subtitle: Text(component.component.description),
+      subtitle: Text(
+          "${component.component.description}\nBorrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(component.borrowTime.toLocal())}"),
       trailing:
           //Container(
           //color: Colors.blue,

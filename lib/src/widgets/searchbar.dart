@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 // import 'package:themakerspace/src/models/component_list.dart';
+// ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
 class AppSearchBar extends StatefulWidget {
@@ -58,8 +59,12 @@ class _AppSearchBarState extends State<AppSearchBar> {
                 title: Text(title),
                 trailing: Text(
                     "Qty borrowed: ${widget.componentList.suggestions.elementAt(index).qty}"),
+                textColor:
+                    widget.componentList.suggestions.elementAt(index).inProgress
+                        ? Colors.purple
+                        : Colors.blue,
                 subtitle: Text(
-                    "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(widget.componentList.suggestions.elementAt(index).borrowTime)}"),
+                    "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(widget.componentList.suggestions.elementAt(index).borrowTime.toLocal())}"),
                 onTap: () {
                   controller.closeView(title);
                 });
