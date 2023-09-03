@@ -22,3 +22,17 @@ Map<String, dynamic> convertToMapDynamic(dynamic item) {
 
   return {};
 }
+
+List<String> convertToListString(dynamic item) {
+  if (item is List<dynamic>) {
+    List<String> convertedLst = [];
+
+    for (var element in item) {
+      convertedLst.add(element.toString());
+    }
+
+    return convertedLst;
+  }
+
+  return [];
+}

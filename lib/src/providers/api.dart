@@ -9,7 +9,8 @@ import 'package:themakerspace/src/models/user.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
 import 'package:themakerspace/src/providers/utils.dart';
 
-Future<bool> login(String username, String password) async {
+Future<String> login(
+    String username, String password, bool anotherPerson) async {
   Map<String, String> requestBody = {
     "username": username,
     "password": password
@@ -25,13 +26,16 @@ Future<bool> login(String username, String password) async {
     // good to go
     String token = body["token"] ?? "";
     if (token.isEmpty) {
-      return false;
+      return "";
     }
-    writeUser(User.fromJson(body));
-    writeToken(token);
-    return true;
+    if (!anotherPerson) {
+      writeUser(User.fromJson(body));
+      writeToken(token);
+    }
+
+    return token;
   } else {
-    return false;
+    return "";
   }
 }
 
@@ -83,7 +87,7 @@ Future<String> register(
     errorMsg +=
         "Please fix the errors above in this form and the previous form";
   } else {
-    await login(username, password);
+    await login(username, password, false);
   }
 
   return errorMsg;
@@ -173,6 +177,59 @@ Future<BorrowList> getOrSearchBorrows(String? query, bool? borrowInProgress,
   } catch (error) {
     debugPrint(error.toString());
     return readBorrowList();
+  }
+
+  return ret;
+}
+
+Future<String> returnBorrowWithUrl(DateTime? timestampCheckIn, int? qty,
+    bool? borrowInProgress, String url, String token) async {
+  String ret = "";
+
+  Map<String, String> headers = {"Authorization": "Token $token"};
+
+  String borrowInProgQuery = "1";
+  if (borrowInProgress != null) {
+    borrowInProgQuery = "${borrowInProgress ? 1 : 0}";
+  }
+
+  var jsonBody = {
+    "timestamp_check_in": timestampCheckIn?.toIso8601String() ?? "",
+    "borrow_in_progress": borrowInProgQuery,
+  };
+
+  if (qty != null) {
+    jsonBody["qty"] = qty.toString();
+  }
+
+  final response =
+      await http.patch(Uri.parse(url), body: jsonBody, headers: headers);
+
+  if (response.statusCode == 200) {
+    // successfully returned
+  } else {
+    Map<String, dynamic> body = json.decode(response.body);
+    if (body.containsKey("details")) {
+      List<String> details = convertToListString(body["details"]);
+      for (String item in details) {
+        ret += "- $item";
+        if (details.indexOf(item) != details.length - 1) {
+          ret += "\n";
+        }
+      }
+    } else if (body.containsKey("detail")) {
+      /*
+{
+	"detail": "Invalid token."
+}
+      */
+      String msg = body["detail"]
+          .toString()
+          .replaceAll("token", "username or password.");
+      ret += msg;
+    } else {
+      debugPrint("[DEBUG returnBorrowWithURL api.dart]: ${body.toString()}");
+    }
   }
 
   return ret;

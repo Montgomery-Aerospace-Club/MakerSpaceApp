@@ -29,8 +29,8 @@ class _DebugState extends State<Debug> {
               child: Column(
         children: [
           giveMeDebugButton("login", () async {
-            bool valid = await login("eddie", "admin123");
-            if (valid) {
+            String valid = await login("eddie", "admin123", false);
+            if (valid.isNotEmpty) {
               User student = await readUser();
 
               debugPrint(student.toString());

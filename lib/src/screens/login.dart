@@ -16,8 +16,8 @@ class Login extends StatelessWidget {
   Future<String?> _authUser(LoginData data) {
     //   debugPrint('Name: ${data.name}, Password: ${data.password}');
 
-    return login(data.name, data.password).then((bool value) {
-      if (value) {
+    return login(data.name, data.password, false).then((String value) {
+      if (value.isNotEmpty) {
         return null;
       } else {
         return "Unable to log in with provided credentials.";
