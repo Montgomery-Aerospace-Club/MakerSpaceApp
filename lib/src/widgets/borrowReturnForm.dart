@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/extensions/darkmode.dart';
 import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
+
 import 'package:themakerspace/src/widgets/searchbar.dart';
 
 class BRForm extends StatefulWidget {
@@ -72,9 +74,6 @@ class _BRFormState extends State<BRForm> {
     String token = await readToken();
     if (forAnotherPeron) {
       token = await login(username, password, true);
-      print(username);
-      print(password);
-      print(token);
     }
     String url = "${Constants.apiUrl}/rest/borrows/-1/";
 
@@ -181,6 +180,7 @@ class _BRFormState extends State<BRForm> {
                       keyboardType: TextInputType.number,
                       decoration: textFieldDeco("Click me, Then scan a barcode",
                           const Icon(Icons.barcode_reader)),
+                      onFieldSubmitted: (value) => confirm(),
                       validator: (v) {
                         if (context.read<BorrowList>().suggestions.length ==
                             1) {
