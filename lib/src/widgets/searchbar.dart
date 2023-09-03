@@ -71,6 +71,7 @@ class _AppSearchBarState extends State<AppSearchBar> {
                   controller.closeView(title);
                   widget.componentList.setSuggestions(
                       [widget.componentList.suggestions.elementAt(index)]);
+                  //TODO what the f
                   print(widget.componentList.suggestions);
                 });
           });
