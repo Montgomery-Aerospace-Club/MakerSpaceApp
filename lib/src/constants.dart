@@ -6,6 +6,7 @@ class Constants {
   static String returnFormPageName = "returnFormPage";
   static String componentsPageName = "componentsPage";
   static String homePageName = "homePage";
+  static String borrowPageName = "borrowPage";
 
   static Map<String, dynamic> fakeUser = {
     "url": "http://127.0.0.1:8000/rest/users/1/",
