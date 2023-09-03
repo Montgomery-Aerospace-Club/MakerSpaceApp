@@ -33,7 +33,8 @@ class BorrowListItem extends StatelessWidget {
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           Text(
-            "Qty Borrowed: ${component.qty}",
+            "Qty Borrowed: ${component.qty}\nBorrow ID: ${component.id}",
+            textAlign: TextAlign.end,
             style: Theme.of(context).textTheme.labelLarge,
           ),
           if (isBorrowInProgress)

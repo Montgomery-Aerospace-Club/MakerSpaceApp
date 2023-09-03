@@ -57,6 +57,11 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
     notifyListeners();
   }
 
+  void setSuggestions(List<dynamic> suggestions) {
+    this.suggestions = suggestions.map((e) => e as Borrow).toList();
+    notifyListeners();
+  }
+
   List<Map<String, dynamic>> toJson() {
     return borrows.map((e) => e.toJson()).toList();
   }

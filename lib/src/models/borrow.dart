@@ -54,6 +54,6 @@ class Borrow {
 
   @override
   String toString() {
-    return "${component.name} - $qty - borrowed ${DateFormat('yyyy-MM-dd kk:mm').format(borrowTime.toLocal())}";
+    return "${component.name} - $qty - borrowed ${DateFormat('yyyy-MM-dd kk:mm').format(borrowTime.toLocal())} - ID: $id";
   }
 }

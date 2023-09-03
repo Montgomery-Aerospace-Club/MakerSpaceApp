@@ -67,6 +67,9 @@ class _AppSearchBarState extends State<AppSearchBar> {
                     "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(widget.componentList.suggestions.elementAt(index).borrowTime.toLocal())}"),
                 onTap: () {
                   controller.closeView(title);
+                  widget.componentList.setSuggestions(
+                      [widget.componentList.suggestions.elementAt(index)]);
+                  print(widget.componentList.suggestions);
                 });
           });
         } else {
