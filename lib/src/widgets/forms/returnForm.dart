@@ -9,16 +9,16 @@ import 'package:themakerspace/src/providers/cookies.dart';
 
 import 'package:themakerspace/src/widgets/searchbar.dart';
 
-class BRForm extends StatefulWidget {
-  const BRForm({super.key, required this.isReturnForm});
+import '../customDivider.dart';
 
-  final bool isReturnForm;
+class ReturnForm extends StatefulWidget {
+  const ReturnForm({super.key});
 
   @override
-  State<BRForm> createState() => _BRFormState();
+  State<ReturnForm> createState() => _BRFormState();
 }
 
-class _BRFormState extends State<BRForm> {
+class _BRFormState extends State<ReturnForm> {
   var formKey = GlobalKey<FormState>();
   String componentID = "";
   bool forAnotherPeron = false;
@@ -82,6 +82,7 @@ class _BRFormState extends State<BRForm> {
     if (context.read<BorrowList>().suggestions.length == 1) {
       url = context.read<BorrowList>().suggestions.first.url;
     } else {
+      //TODO incorrect logic i need to search for the borrow that has that component that is under the user
       url = "${Constants.apiUrl}/rest/borrows/$componentID/";
     }
 
@@ -156,25 +157,7 @@ class _BRFormState extends State<BRForm> {
                       searchCallback: (searchQuery) =>
                           context.read<BorrowList>().searchBorrow(searchQuery),
                     ),
-                    Row(children: <Widget>[
-                      Expanded(
-                        child: Container(
-                            margin:
-                                const EdgeInsets.only(left: 10.0, right: 20.0),
-                            child: const Divider(
-                              height: 36,
-                            )),
-                      ),
-                      const Text("OR"),
-                      Expanded(
-                        child: Container(
-                            margin:
-                                const EdgeInsets.only(left: 20.0, right: 10.0),
-                            child: const Divider(
-                              height: 36,
-                            )),
-                      ),
-                    ]),
+                    genDivder("OR"),
                     TextFormField(
                       textAlign: TextAlign.left,
                       keyboardType: TextInputType.number,

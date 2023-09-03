@@ -4,7 +4,7 @@ import 'package:themakerspace/src/models/borrow_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
-import 'package:themakerspace/src/widgets/borrowReturnForm.dart';
+import 'package:themakerspace/src/widgets/forms/returnForm.dart';
 import 'package:themakerspace/src/widgets/navbar.dart';
 
 class BRs extends StatefulWidget {
@@ -36,11 +36,23 @@ class _BRsState extends State<BRs> {
       bottomNavigationBar: const Navbar(
         selectedIndex: 2,
       ),
-      body: const SafeArea(
+      body: SafeArea(
           child: Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
+              padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
-                children: [BRForm(isReturnForm: true)],
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Text(
+                    "Return Components",
+                    style: Theme.of(context)
+                        .textTheme
+                        .displaySmall
+                        ?.copyWith(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const ReturnForm()
+                ],
               ))),
     );
   }

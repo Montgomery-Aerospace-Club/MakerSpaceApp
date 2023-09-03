@@ -235,6 +235,13 @@ Future<String> returnBorrowWithUrl(DateTime? timestampCheckIn, int? qty,
   return ret;
 }
 
+Future<String> createBorrow(String qty, User personWhoBorrowed,
+    DateTime checkOutTime, String compUrl) async {
+  String ret = "";
+
+  return ret;
+}
+
 void logout() {
   logoutClearCookies();
 }
