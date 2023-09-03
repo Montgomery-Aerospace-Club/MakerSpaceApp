@@ -53,7 +53,7 @@ class _BRsState extends State<BRs> {
                   const SizedBox(
                     height: 30,
                   ),
-                  const BorrowForm(),
+                  //const BorrowForm(),
                   const SizedBox(
                     height: 20,
                   ),

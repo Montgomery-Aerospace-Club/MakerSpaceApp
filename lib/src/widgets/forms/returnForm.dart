@@ -59,6 +59,7 @@ class _BRFormState extends State<ReturnForm> {
     String url = "${Constants.apiUrl}/rest/borrows/-1/";
 
     if (!mounted) return;
+    print(useSearch);
 
     if (useSearch) {
       Borrow bor = await readSearchBarBorrow();
@@ -126,14 +127,16 @@ class _BRFormState extends State<ReturnForm> {
   void confirm() async {
     formKey.currentState!.save();
 
-    if (context.read<BorrowList>().suggestions.length == 1) {
-      setState(() {
-        useSearch = true;
-      });
-    }
+    // if (context.read<BorrowList>().suggestions.length == 1) {
+    //   setState(() {
+    //     useSearch = true;
+    //   });
+    // }
 
     Borrow bor = await readSearchBarBorrow();
-    if (bor.url.isNotEmpty) {
+    if (bor.user.username != "6969" &&
+        bor.user.userId != 696969 &&
+        bor.component.name.isNotEmpty) {
       setState(() {
         useSearch = true;
       });
@@ -180,129 +183,129 @@ class _BRFormState extends State<ReturnForm> {
           // mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
+                flex: 3,
                 child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                AppSearchBar(
-                  page: Constants.returnFormPageName,
-                  hintTextForBar: "Search for Components YOU Borrowed",
-                  componentList: context.read<BorrowList>(),
-                  searchCallback: (searchQuery) =>
-                      context.read<BorrowList>().searchBorrow(searchQuery),
-                ),
-                genDivder("OR"),
-                TextFormField(
-                  textAlign: TextAlign.left,
-                  keyboardType: TextInputType.number,
-                  decoration: textFieldDeco("Click me, Then scan a barcode",
-                      const Icon(Icons.barcode_reader)),
-                  onFieldSubmitted: (value) => confirm(),
-                  validator: (v) {
-                    if (useSearch) {
-                      return null;
-                    }
-
-                    if (v!.isEmpty) {
-                      return "Enter an ID";
-                    } else if (!isNumeric(v)) {
-                      return "Enter a valid ID (number)";
-                    } else {
-                      setState(() {
-                        componentID = v;
-                      });
-                      return null;
-                    }
-                  },
-                  // onFieldSubmitted: (value) => submit(),
-                ),
-              ],
-            )),
-            Expanded(
-                child: Column(
-              children: [
-                Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Is this action done for another person?",
-                          textAlign: TextAlign.center,
-                        ),
-                        Tooltip(
-                          message:
-                              "Check this box if you are using another person's account to return an item\nor if you are returning an item borrowed by another person",
-                          child: Checkbox(
-                              value: forAnotherPeron,
-                              onChanged: (bool? value) {
-                                setState(() {
-                                  forAnotherPeron = value ?? false;
-                                });
-                              }),
-                        ),
-                      ],
-                    )),
-                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Spacer(),
-                    Expanded(
-                        flex: 3,
-                        child: Tooltip(
-                            message:
-                                "Only enter into this field if you checked the box above",
+                    AppSearchBar(
+                      page: Constants.returnFormPageName,
+                      hintTextForBar: "Search for Components YOU Borrowed",
+                      componentList: context.read<BorrowList>(),
+                      searchCallback: (searchQuery) =>
+                          context.read<BorrowList>().searchBorrow(searchQuery),
+                    ),
+                    genDivder("OR"),
+                    TextFormField(
+                      textAlign: TextAlign.left,
+                      keyboardType: TextInputType.number,
+                      decoration: textFieldDeco("Click me, Then scan a barcode",
+                          const Icon(Icons.barcode_reader)),
+                      onFieldSubmitted: (value) => confirm(),
+                      validator: (v) {
+                        if (useSearch) {
+                          return null;
+                        }
+
+                        if (v!.isEmpty) {
+                          return "Enter an ID";
+                        } else if (!isNumeric(v)) {
+                          return "Enter a valid ID (number)";
+                        } else {
+                          setState(() {
+                            componentID = v;
+                          });
+                          return null;
+                        }
+                      },
+                      // onFieldSubmitted: (value) => submit(),
+                    ),
+                  ],
+                )),
+            Expanded(
+                flex: 3,
+                child: Column(
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Text(
+                              "Is this action done for another person?",
+                              textAlign: TextAlign.center,
+                            ),
+                            Tooltip(
+                              message:
+                                  "Check this box if you are using another person's account to return an item\nor if you are returning an item borrowed by another person",
+                              child: Checkbox(
+                                  value: forAnotherPeron,
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      forAnotherPeron = value ?? false;
+                                    });
+                                  }),
+                            ),
+                          ],
+                        )),
+                    Row(
+                      children: [
+                        const Spacer(),
+                        Expanded(
+                            flex: 3,
+                            child: Tooltip(
+                                message:
+                                    "Only enter into this field if you checked the box above",
+                                child: TextFormField(
+                                  keyboardType: TextInputType.text,
+                                  decoration: textFieldDeco("Username", null),
+                                  validator: (v) {
+                                    if (forAnotherPeron) {
+                                      if (v!.isEmpty) {
+                                        return "Enter a username";
+                                      } else {
+                                        setState(() {
+                                          username = v;
+                                        });
+                                        return null;
+                                      }
+                                    }
+                                    return null;
+                                  },
+                                ))),
+                        const Spacer(),
+                        Expanded(
+                            flex: 3,
                             child: TextFormField(
                               keyboardType: TextInputType.text,
-                              decoration: textFieldDeco("Username", null),
+                              decoration: textFieldDeco("Password", null),
                               validator: (v) {
                                 if (forAnotherPeron) {
                                   if (v!.isEmpty) {
-                                    return "Enter a username";
+                                    return "Enter a password";
                                   } else {
                                     setState(() {
-                                      username = v;
+                                      password = v;
                                     });
                                     return null;
                                   }
                                 }
                                 return null;
                               },
-                            ))),
-                    const Spacer(),
-                    Expanded(
-                        flex: 3,
-                        child: TextFormField(
-                          keyboardType: TextInputType.text,
-                          decoration: textFieldDeco("Password", null),
-                          validator: (v) {
-                            if (forAnotherPeron) {
-                              if (v!.isEmpty) {
-                                return "Enter a password";
-                              } else {
-                                setState(() {
-                                  password = v;
-                                });
-                                return null;
-                              }
-                            }
-                            return null;
-                          },
-                        )),
-                    const Spacer(),
+                            )),
+                        const Spacer(),
+                      ],
+                    ),
                   ],
-                ),
-              ],
-            )),
-            const SizedBox(
-              height: 30,
-            ),
+                )),
             loading
                 ? const CircularProgressIndicator()
-                : IconButton(
+                : Expanded(
+                    child: IconButton(
                     tooltip: "Submit return request",
                     onPressed: () => confirm(),
                     icon: const Icon(Icons.arrow_forward_ios),
-                  ),
+                  )),
           ],
         ));
   }

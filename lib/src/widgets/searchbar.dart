@@ -41,6 +41,8 @@ class _AppSearchBarState extends State<AppSearchBar> {
           () => widget.searchCallback(controller.text),
         );
         return SearchBar(
+            constraints: const BoxConstraints(
+                minWidth: 360.0, maxWidth: double.infinity, minHeight: 56.0),
             hintText: widget.hintTextForBar,
             controller: controller,
             padding: const MaterialStatePropertyAll<EdgeInsets>(

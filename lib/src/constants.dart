@@ -17,12 +17,12 @@ class Constants {
   };
 
   static Map<String, dynamic> fakeBorrow = {
-    "url": "",
+    "url": "http://127.0.0.1:8000/rest/borrows/29/",
     "qty": 0,
     "person_who_borrowed": {
-      "url": "",
-      "username": "bob",
-      "user_id": 108503,
+      "url": "http://127.0.0.1:8000/rest/users/1/",
+      "username": "6969",
+      "user_id": 696969,
       "email": "bob@gmail.com"
     },
     "timestamp_check_out": "2012-09-04T06:00:00Z",
@@ -31,7 +31,7 @@ class Constants {
     "component": {
       "url": "http://127.0.0.1:8000/rest/components/1/",
       "unique_id": "400e983c-6a5b-48ed-82d8-f6e1ad9f5144",
-      "name": "dewalt drill bits",
+      "name": "",
       "sku": "",
       "mpn": "",
       "upc": 0,
