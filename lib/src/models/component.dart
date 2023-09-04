@@ -1,3 +1,4 @@
+import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/models/measurement_unit.dart';
 import 'package:themakerspace/src/models/storage_bin.dart';
 
@@ -13,6 +14,7 @@ class Component {
   final ComponentMeasurementUnit measurementUnit;
   final int qty;
   final String description;
+  final String barcodeUrl;
 
   Component({
     required this.uuid,
@@ -26,6 +28,7 @@ class Component {
     required this.measurementUnit,
     required this.qty,
     required this.description,
+    required this.barcodeUrl,
   });
 
   factory Component.fromJson(Map<String, dynamic> json) {
@@ -34,21 +37,22 @@ class Component {
     id = id.replaceAll("/", "");
 
     return Component(
-      url: json['url'],
-      id: id,
-      uuid: json["unique_id"],
-      name: json['name'],
-      sku: json['sku'],
-      mpn: json['mpn'],
-      upc: json['upc'],
-      storageBins: (json['storage_bin'] as List<dynamic>)
-          .map((e) => StorageBin.fromJson(e))
-          .toList(),
-      measurementUnit:
-          ComponentMeasurementUnit.fromJson(json['measurement_unit']),
-      qty: json['qty'],
-      description: json['description'],
-    );
+        url: json['url'],
+        id: id,
+        uuid: json["unique_id"],
+        name: json['name'],
+        sku: json['sku'],
+        mpn: json['mpn'],
+        upc: json['upc'],
+        storageBins: (json['storage_bin'] as List<dynamic>)
+            .map((e) => StorageBin.fromJson(e))
+            .toList(),
+        measurementUnit:
+            ComponentMeasurementUnit.fromJson(json['measurement_unit']),
+        qty: json['qty'],
+        description: json['description'],
+        barcodeUrl: json["barcode"] ??
+            "${Constants.apiUrl}/media/barcodes/barcode.png");
   }
   Map<String, dynamic> toJson() {
     return {
@@ -62,6 +66,7 @@ class Component {
       'measurement_unit': measurementUnit.toJson(),
       'qty': qty,
       'description': description,
+      "barcode": barcodeUrl,
     };
   }
 
