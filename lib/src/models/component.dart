@@ -74,4 +74,9 @@ class Component {
   int get hashCode {
     return url.hashCode ^ uuid.hashCode;
   }
+
+  @override
+  String toString() {
+    return "$name - $id - Qty: $qty";
+  }
 }

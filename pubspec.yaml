@@ -33,6 +33,7 @@ dev_dependencies:
   flutter_lints: ^2.0.0
   flutter_login: ^4.2.0
   flutter_material_pickers: ^3.6.0
+  numberpicker: ^2.1.2
 
 flutter:
   uses-material-design: true
