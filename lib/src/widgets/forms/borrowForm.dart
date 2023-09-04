@@ -95,6 +95,9 @@ class _BFormState extends State<BorrowForm> {
   }
 
   void confirm() async {
+    setState(() {
+      loading = true;
+    });
     formKey.currentState!.save();
 
     Component comp = await readSearchBarComponent();
@@ -116,10 +119,6 @@ class _BFormState extends State<BorrowForm> {
                 ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-
-                      setState(() {
-                        loading = true;
-                      });
 
                       await submit();
                     },
@@ -222,24 +221,35 @@ class _BFormState extends State<BorrowForm> {
                                               decoration: textFieldDeco(
                                                   "Enter your qty", null),
                                               validator: (value) {
-                                                if (!isNumeric(value ?? "")) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return "Enter a number";
+                                                } else if (!isNumeric(value)) {
                                                   return "Enter a valid number";
+                                                } else if (value.length != 2 ||
+                                                    1 > int.parse(value)) {
+                                                  return "Enter a valid number between 1-99";
                                                 }
-                                                if (100 <
-                                                        int.parse(
-                                                            value ?? "0") ||
-                                                    0 >
-                                                        int.parse(
-                                                            value ?? "0")) {
-                                                  return "Enter a valid number between 0-100";
-                                                }
+                                                setState(() {
+                                                  tens = int.parse(value[0]);
+                                                  digits = int.parse(value[1]);
+                                                });
+
                                                 return null;
                                               },
                                             ),
                                           ),
                                           actions: [
                                             ElevatedButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  qtyFormKey.currentState!
+                                                      .save();
+                                                  if (qtyFormKey.currentState!
+                                                      .validate()) {
+                                                    qtyFormKey.currentState
+                                                        ?.reset();
+                                                  }
+                                                },
                                                 child: const Text("Done")),
                                             ElevatedButton(
                                                 onPressed: () {},

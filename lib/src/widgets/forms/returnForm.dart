@@ -128,6 +128,9 @@ class _BRFormState extends State<ReturnForm> {
   }
 
   void confirm() async {
+    setState(() {
+      loading = true;
+    });
     formKey.currentState!.save();
 
     // if (context.read<BorrowList>().suggestions.length == 1) {
@@ -157,10 +160,6 @@ class _BRFormState extends State<ReturnForm> {
                 ElevatedButton(
                     onPressed: () async {
                       Navigator.of(context).pop();
-
-                      setState(() {
-                        loading = true;
-                      });
 
                       await submit();
                     },
