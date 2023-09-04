@@ -32,4 +32,8 @@ class StorageUnit extends NodeData {
       room: Room.fromJson(json['room']),
     );
   }
+  @override
+  String toString() {
+    return name;
+  }
 }

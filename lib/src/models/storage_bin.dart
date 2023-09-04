@@ -40,4 +40,9 @@ class StorageBin extends NodeData {
       storageUnit: StorageUnit.fromJson(json['storage_unit']),
     );
   }
+
+  @override
+  String toString() {
+    return name;
+  }
 }

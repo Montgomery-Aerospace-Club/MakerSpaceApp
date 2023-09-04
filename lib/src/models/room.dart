@@ -32,4 +32,9 @@ class Room extends NodeData {
       building: Building.fromJson(json['building']),
     );
   }
+
+  @override
+  String toString() {
+    return name;
+  }
 }

@@ -36,7 +36,6 @@ List<dynamic> generateTree(ComponentList complst) {
   }
 
   tree.forEach((building, rooms) {
-    print(building);
     rooms.forEach((room, units) {
       units.forEach((unit, bins) {
         bins.forEach((bin, components) {

@@ -34,6 +34,6 @@ class Building extends NodeData {
 
   @override
   String toString() {
-    return "$name, $address";
+    return name;
   }
 }
