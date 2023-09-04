@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:themakerspace/src/extensions/capitalize.dart';
 
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
@@ -99,15 +100,35 @@ class _ComponentsPageState extends State<ComponentsPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       if (data.level == 0)
-                        const Icon(Icons.apartment)
+                        InkWell(
+                          child: Icon(Icons.apartment,
+                              color: data.isSelected ? Colors.blue : null),
+                          onTap: () => selectAllChild(data),
+                        )
                       else if (data.level == 1)
-                        const Icon(Icons.meeting_room)
+                        InkWell(
+                          child: Icon(Icons.meeting_room,
+                              color: data.isSelected ? Colors.blue : null),
+                          onTap: () => selectAllChild(data),
+                        )
                       else if (data.level == 2)
-                        const Icon(Icons.storage_outlined)
+                        InkWell(
+                          child: Icon(Icons.storage_outlined,
+                              color: data.isSelected ? Colors.blue : null),
+                          onTap: () => selectAllChild(data),
+                        )
                       else if (data.level == 3)
-                        const Icon(Icons.blinds)
+                        InkWell(
+                          child: Icon(Icons.blinds,
+                              color: data.isSelected ? Colors.blue : null),
+                          onTap: () => selectAllChild(data),
+                        )
                       else if (data.level == 4)
-                        const Icon(Icons.build),
+                        InkWell(
+                          child: Icon(Icons.build,
+                              color: data.isSelected ? Colors.blue : null),
+                          onTap: () => selectAllChild(data),
+                        ),
 
                       // Padding(
                       //   padding: const EdgeInsets.only(right: 5),
@@ -130,16 +151,26 @@ class _ComponentsPageState extends State<ComponentsPage> {
                       //           ),
                       //   ),
                       // ),
-                      Text(
-                        'level-${data.level}-${data.indexInParent}',
-                        // style: TextStyle(
-                        //     fontSize: 15, color: getColor(item.level)),
-                      ),
+                      if (data.level == 0)
+                        Text(" Building ${data.indexInParent + 1}:")
+                      else if (data.level == 1)
+                        Text(" Room ${data.indexInParent + 1}:")
+                      else if (data.level == 2)
+                        Text(" Storage Unit ${data.indexInParent + 1}:")
+                      else if (data.level == 3)
+                        Text(" Storage Bin ${data.indexInParent + 1}:")
+                      else if (data.level == 4)
+                        Text(" Component ${data.indexInParent + 1}:"),
+                      // Text(
+                      //   'level-${data.level}-${data.indexInParent}',
+                      //   // style: TextStyle(
+                      //   //     fontSize: 15, color: getColor(item.level)),
+                      // ),
                       const SizedBox(
                         width: 10,
                       ),
                       Text(
-                        '${data.name}',
+                        data.name.toString().capitalize(),
                         // style: TextStyle(color: item.color),
                       ),
                     ],
