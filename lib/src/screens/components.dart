@@ -22,24 +22,19 @@ class ComponentsPage extends StatefulWidget {
 
 class _ComponentsPageState extends State<ComponentsPage> {
   late TreeViewController _controller;
-  bool mapView = false;
+  bool treeView = false;
 
   @override
   void initState() {
     _controller = TreeViewController();
     getOrSearchComponents("").then((ComponentList value) {
       context.read<ComponentList>().set(value.components, value.suggestions);
-      _controller.treeData(generateTree(value));
     });
     // getOrSearchBorrows(null, true, null, {}).then((BorrowList value) {
     //   context.read<BorrowList>().set(value.borrows, value.suggestions);
     // });
 
     super.initState();
-  }
-
-  void delete(dynamic item) {
-    _controller.removeItem(item);
   }
 
   void select(dynamic item) {
@@ -58,7 +53,9 @@ class _ComponentsPageState extends State<ComponentsPage> {
               message: "Press me to swtich view modes",
               child: IconButton(
                 onPressed: () {
-                  switchViewModes();
+                  setState(() {
+                    treeView = !treeView;
+                  });
                 },
                 icon: const Icon(Icons.swap_horiz),
                 iconSize: 35,
@@ -69,13 +66,13 @@ class _ComponentsPageState extends State<ComponentsPage> {
         ),
         body: SafeArea(
           child: Padding(
-              padding: const EdgeInsets.all(10), child: buildTreeView()),
+              padding: const EdgeInsets.all(10),
+              child: treeView ? buildTreeView() : buildListComponentView()),
         ));
   }
 
-  void switchViewModes() {}
-
   Widget buildTreeView() {
+    _controller.treeData(generateTree(context.read<ComponentList>()));
     return ListTreeView(
       shrinkWrap: false,
       padding: const EdgeInsets.all(0),
@@ -139,10 +136,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
         );
       },
       onTap: (NodeData data) {
-        print('index = ${data.index}');
-      },
-      onLongPress: (data) {
-        delete(data);
+        //print('index = ${data.index}');
       },
       controller: _controller,
     );

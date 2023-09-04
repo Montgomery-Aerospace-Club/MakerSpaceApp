@@ -32,7 +32,7 @@ List<dynamic> generateTree(ComponentList complst) {
       // build.addChild(room);
 
       // ret.add(build);
-      print(tree);
+      //print(tree);
     }
   }
 
