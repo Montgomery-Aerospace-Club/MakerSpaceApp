@@ -74,11 +74,11 @@ class _AppSearchBarState extends State<AppSearchBar> {
                 subtitle: Text(
                     "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(widget.componentList.suggestions.elementAt(index).borrowTime.toLocal())}"),
                 onTap: () {
-                  controller.closeView(title);
                   if (widget.page == Constants.returnFormPageName) {
                     writeSelectedBorrow(
                         widget.componentList.suggestions.elementAt(index));
                   }
+                  controller.closeView(title);
                 });
           });
         } else {
