@@ -33,7 +33,17 @@ class _ComponentsPageState extends State<ComponentsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: generateAppbar(title: "Components", elevate: true),
+        appBar: generateAppbar(title: "Components", elevate: true, actions: [
+          Tooltip(
+              message: "Press me to swtich view modes",
+              child: IconButton(
+                onPressed: () {
+                  switchViewModes();
+                },
+                icon: const Icon(Icons.swap_horiz),
+                iconSize: 35,
+              )),
+        ]),
         bottomNavigationBar: const Navbar(
           selectedIndex: 0,
         ),
@@ -79,4 +89,6 @@ class _ComponentsPageState extends State<ComponentsPage> {
               ))),
         ));
   }
+
+  void switchViewModes() {}
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 AppBar generateAppbar(
     {required String title,
     required bool elevate,
-    List<IconButton>? actions,
+    List<Widget>? actions,
     Widget? leading}) {
   return AppBar(
     title: Text(title),
