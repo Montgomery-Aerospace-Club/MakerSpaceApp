@@ -32,6 +32,8 @@ class _BFormState extends State<BorrowForm> {
   int tens = 0;
   int digits = 1;
 
+  var qtyFormKey = GlobalKey<FormState>();
+
   bool isNumeric(String s) {
     // ignore: unnecessary_null_comparison
     if (s == null) {
@@ -190,15 +192,80 @@ class _BFormState extends State<BorrowForm> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        "Amount you will borrow: $tens$digits",
-                        textAlign: TextAlign.center,
-                        style:
-                            Theme.of(context).textTheme.displaySmall?.copyWith(
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Amount you will borrow:  ",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .displaySmall
+                                ?.copyWith(
                                   fontSize: 15,
                                 ),
+                          ),
+                          Tooltip(
+                              message: "Click me to edit",
+                              child: GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: ((context) {
+                                        return AlertDialog(
+                                          title: const Text(
+                                              "Edit amount you will borrow"),
+                                          content: Form(
+                                            key: qtyFormKey,
+                                            child: TextFormField(
+                                              decoration: textFieldDeco(
+                                                  "Enter your qty", null),
+                                              validator: (value) {
+                                                if (!isNumeric(value ?? "")) {
+                                                  return "Enter a valid number";
+                                                }
+                                                if (100 <
+                                                        int.parse(
+                                                            value ?? "0") ||
+                                                    0 >
+                                                        int.parse(
+                                                            value ?? "0")) {
+                                                  return "Enter a valid number between 0-100";
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ),
+                                          actions: [
+                                            ElevatedButton(
+                                                onPressed: () {},
+                                                child: const Text("Done")),
+                                            ElevatedButton(
+                                                onPressed: () {},
+                                                child: const Text("Cancel"))
+                                          ],
+                                        );
+                                      }));
+                                },
+                                child: Text(
+                                  "$tens$digits",
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displaySmall
+                                      ?.copyWith(
+                                        fontSize: 15,
+                                        color: Colors.blue,
+                                        decoration: TextDecoration.underline,
+                                      ),
+                                ),
+                              )),
+                        ],
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
                             child: NumberPicker(
