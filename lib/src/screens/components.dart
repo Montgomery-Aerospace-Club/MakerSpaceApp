@@ -96,61 +96,80 @@ class _ComponentsPageState extends State<ComponentsPage> {
                 child: Padding(
                   padding: EdgeInsets.only(left: offsetX),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      if (data.level == 0)
-                        InkWell(
-                          child: Icon(Icons.apartment,
-                              color: data.isSelected ? Colors.blue : null),
-                          onTap: () => selectAllChild(data),
-                        )
-                      else if (data.level == 1)
-                        InkWell(
-                          child: Icon(Icons.meeting_room,
-                              color: data.isSelected ? Colors.blue : null),
-                          onTap: () => selectAllChild(data),
-                        )
-                      else if (data.level == 2)
-                        InkWell(
-                          child: Icon(Icons.storage_outlined,
-                              color: data.isSelected ? Colors.blue : null),
-                          onTap: () => selectAllChild(data),
-                        )
-                      else if (data.level == 3)
-                        InkWell(
-                          child: Icon(Icons.blinds,
-                              color: data.isSelected ? Colors.blue : null),
-                          onTap: () => selectAllChild(data),
-                        )
-                      else if (data.level == 4)
-                        InkWell(
-                          child: Icon(Icons.build,
-                              color: data.isSelected ? Colors.blue : null),
-                          onTap: () => selectAllChild(data),
-                        ),
-                      if (data.level == 0)
-                        Text(" Building ${data.indexInParent + 1}:")
-                      else if (data.level == 1)
-                        Text(" Room ${data.indexInParent + 1}:")
-                      else if (data.level == 2)
-                        Text(" Storage Unit ${data.indexInParent + 1}:")
-                      else if (data.level == 3)
-                        Text(" Storage Bin ${data.indexInParent + 1}:")
-                      else if (data.level == 4)
-                        Text(" Component ${data.indexInParent + 1}:"),
-                      const SizedBox(
-                        width: 10,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          if (data.level == 0)
+                            InkWell(
+                              child: Icon(Icons.apartment,
+                                  color: data.isSelected ? Colors.blue : null),
+                              onTap: () => selectAllChild(data),
+                            )
+                          else if (data.level == 1)
+                            InkWell(
+                              child: Icon(Icons.meeting_room,
+                                  color: data.isSelected ? Colors.blue : null),
+                              onTap: () => selectAllChild(data),
+                            )
+                          else if (data.level == 2)
+                            InkWell(
+                              child: Icon(Icons.storage_outlined,
+                                  color: data.isSelected ? Colors.blue : null),
+                              onTap: () => selectAllChild(data),
+                            )
+                          else if (data.level == 3)
+                            InkWell(
+                              child: Icon(Icons.blinds,
+                                  color: data.isSelected ? Colors.blue : null),
+                              onTap: () => selectAllChild(data),
+                            )
+                          else if (data.level == 4)
+                            InkWell(
+                              child: Icon(Icons.build,
+                                  color: data.isSelected ? Colors.blue : null),
+                              onTap: () => selectAllChild(data),
+                            ),
+                          if (data.level == 0)
+                            Text(" Building ${data.indexInParent + 1}:")
+                          else if (data.level == 1)
+                            Text(" Room ${data.indexInParent + 1}:")
+                          else if (data.level == 2)
+                            Text(" Storage Unit ${data.indexInParent + 1}:")
+                          else if (data.level == 3)
+                            Text(" Storage Bin ${data.indexInParent + 1}:")
+                          else if (data.level == 4)
+                            Text(" Component ${data.indexInParent + 1}:"),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            data.name.toString().capitalize(),
+                            style: TextStyle(
+                                color: data.level == 4
+                                    ? data.qty > 0
+                                        ? Colors.green
+                                        : Colors.red
+                                    : null),
+                          ),
+                        ],
                       ),
-                      Text(
-                        data.name.toString().capitalize(),
-                        style: TextStyle(
-                            color: data.level == 4
-                                ? data.qty > 0
-                                    ? Colors.green
-                                    : Colors.red
-                                : null),
-                      ),
+                      Tooltip(
+                          message: "Click me for more info",
+                          child: IconButton(
+                            onPressed: () {
+                              switch (data.level) {
+                                case 0:
+                                case 1:
+                                case 2:
+                                case 3:
+                              }
+                            },
+                            icon: const Icon(Icons.info),
+                          )),
                     ],
                   ),
                 ),
