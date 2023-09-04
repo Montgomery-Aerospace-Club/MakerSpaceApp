@@ -32,6 +32,7 @@ List<dynamic> generateTree(ComponentList complst) {
       // build.addChild(room);
 
       // ret.add(build);
+      print(tree);
     }
   }
 
@@ -41,12 +42,12 @@ List<dynamic> generateTree(ComponentList complst) {
         bins.forEach((bin, components) {
           bin.children.addAll(components);
           unit.addChild(bin);
-          room.addChild(unit);
-          building.addChild(room);
-          ret.add(building);
         });
+        room.addChild(unit);
       });
+      building.addChild(room);
     });
+    ret.add(building);
   });
 
   return ret;

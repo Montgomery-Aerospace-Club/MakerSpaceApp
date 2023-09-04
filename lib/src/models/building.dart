@@ -36,4 +36,14 @@ class Building extends NodeData {
   String toString() {
     return name;
   }
+
+  @override
+  bool operator ==(Object other) {
+    return (other is Building) && other.url == url;
+  }
+
+  @override
+  int get hashCode {
+    return url.hashCode;
+  }
 }

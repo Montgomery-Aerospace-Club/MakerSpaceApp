@@ -36,4 +36,14 @@ class StorageUnit extends NodeData {
   String toString() {
     return name;
   }
+
+  @override
+  bool operator ==(Object other) {
+    return (other is StorageUnit) && other.url == url;
+  }
+
+  @override
+  int get hashCode {
+    return url.hashCode;
+  }
 }
