@@ -173,6 +173,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
                 left: appSearchbarPadding + 5,
                 right: appSearchbarPadding + 5),
             child: AppSearchBar(
+              loading: false,
               page: Constants.componentsPageName,
               hintTextForBar: "Search for Components",
               componentList: context.read<ComponentList>(),

@@ -12,6 +12,7 @@ import 'package:themakerspace/src/widgets/customSnackBars.dart';
 
 import 'package:themakerspace/src/widgets/searchbar.dart';
 
+import '../../screens/borrow_and_returns.dart';
 import '../customDivider.dart';
 
 class ReturnForm extends StatefulWidget {
@@ -116,6 +117,7 @@ class _BRFormState extends State<ReturnForm> {
     }
     setState(() {
       loading = false;
+      useSearch = false;
     });
     await resetSelectedBorrow();
 
@@ -125,12 +127,12 @@ class _BRFormState extends State<ReturnForm> {
 
     if (!mounted) return;
     context.read<BorrowList>().set(borList.borrows, borList.suggestions);
+
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => const BRs()));
   }
 
   void confirm() async {
-    setState(() {
-      loading = true;
-    });
     formKey.currentState!.save();
 
     // if (context.read<BorrowList>().suggestions.length == 1) {
@@ -159,6 +161,9 @@ class _BRFormState extends State<ReturnForm> {
               actions: [
                 ElevatedButton(
                     onPressed: () async {
+                      setState(() {
+                        loading = true;
+                      });
                       Navigator.of(context).pop();
 
                       await submit();
@@ -167,7 +172,12 @@ class _BRFormState extends State<ReturnForm> {
                 ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      setState(() {
+                        loading = false;
+                      });
+                      Navigator.pop(context);
+                    },
                     child: const SizedBox(
                         child:
                             Text("No", style: TextStyle(color: Colors.white)))),
@@ -190,6 +200,7 @@ class _BRFormState extends State<ReturnForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppSearchBar(
+                      loading: loading,
                       page: Constants.returnFormPageName,
                       hintTextForBar: "Search for Components YOU Borrowed",
                       componentList: context.read<BorrowList>(),

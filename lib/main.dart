@@ -14,7 +14,7 @@ void main() async {
   ThemeData darkTheme = themelist[1];
 
   if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
-    setWindowMinSize(const Size(700, 650));
+    setWindowMinSize(const Size(800, 650));
     setWindowMaxSize(Size.infinite);
   }
 

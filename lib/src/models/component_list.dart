@@ -65,6 +65,7 @@ class ComponentList extends ChangeNotifier with ListMixin<Component> {
   }
 
   void searchComponent(String searchQuery) {
+    searchQuery = searchQuery.toLowerCase();
     if (customSearchFunction != null) {
       suggestions = customSearchFunction!(searchQuery);
     } else {
@@ -86,7 +87,8 @@ class ComponentList extends ChangeNotifier with ListMixin<Component> {
     List<Component> results = [];
 
     for (Component comp in components) {
-      if (comp.name.contains(query) || comp.description.contains(query)) {
+      if (comp.name.toLowerCase().contains(query) ||
+          comp.description.toLowerCase().contains(query)) {
         results.add(comp);
       }
     }

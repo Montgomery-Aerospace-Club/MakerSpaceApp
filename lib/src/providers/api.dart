@@ -130,11 +130,9 @@ Future<ComponentList> getOrSearchComponents(String query) async {
 
 Future<BorrowList> getOrSearchBorrows(String? query, bool? borrowInProgress,
     String? componentID, Map<String, String> extra) async {
-  BorrowList ret = BorrowList(
-    borrows: [],
-    suggestions: [],
-    // components: ComponentList(components: [], suggestions: []),
-  );
+  BorrowList ret = BorrowList(borrows: [], suggestions: [], searchCache: {}
+      // components: ComponentList(components: [], suggestions: []),
+      );
 
   String token = await readToken();
   if (token.isEmpty) {

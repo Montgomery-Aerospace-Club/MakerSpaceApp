@@ -15,9 +15,11 @@ class AppSearchBar extends StatefulWidget {
     required this.componentList,
     required this.searchCallback,
     required this.page,
+    required this.loading,
   });
 
   final String page;
+  final bool loading;
   final String hintTextForBar;
   final dynamic componentList;
   final void Function(String searchQuery) searchCallback;
@@ -28,7 +30,6 @@ class AppSearchBar extends StatefulWidget {
 
 class _AppSearchBarState extends State<AppSearchBar> {
   List<String> usedWords = [];
-
   @override
   void initState() {
     super.initState();
@@ -39,7 +40,13 @@ class _AppSearchBarState extends State<AppSearchBar> {
     return SearchAnchor(
       builder: (BuildContext context, SearchController controller) {
         controller.addListener(
-          () => widget.searchCallback(controller.text),
+          () {
+            String query = (controller.text.split("|").elementAtOrNull(0) ??
+                    controller.text)
+                .trim();
+
+            widget.searchCallback(query);
+          },
         );
         return SearchBar(
             constraints: const BoxConstraints(
@@ -73,13 +80,14 @@ class _AppSearchBarState extends State<AppSearchBar> {
                         ? Colors.purple
                         : Colors.blue,
                 subtitle: Text(
-                    "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(widget.componentList.suggestions.elementAt(index).borrowTime.toLocal())}"),
+                    "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(widget.componentList.suggestions.elementAt(index).borrowTime)}"),
                 onTap: () {
                   if (widget.page == Constants.returnFormPageName) {
                     writeSelectedBorrow(
                         widget.componentList.suggestions.elementAt(index));
                   }
-                  controller.closeView(title);
+                  controller.closeView(
+                      "${title.capitalize()} | Borrow Qty: ${widget.componentList.suggestions.elementAt(index).qty} | Borrow ID:${widget.componentList.suggestions.elementAt(index).id}");
                 });
           });
         } else {
@@ -99,7 +107,8 @@ class _AppSearchBarState extends State<AppSearchBar> {
                   if (widget.page == Constants.borrowPageName) {
                     writeSelectedComponent(comp);
                   }
-                  controller.closeView(comp.name);
+                  controller
+                      .closeView("${comp.name.capitalize()} | ID: ${comp.id}");
                 });
           });
         }

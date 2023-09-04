@@ -43,10 +43,7 @@ class _MontyMakerSpaceAppState extends State<MontyMakerSpaceApp> {
         ),
         ChangeNotifierProvider<BorrowList>(
           create: (context) {
-            return BorrowList(
-              borrows: [],
-              suggestions: [],
-            );
+            return BorrowList(borrows: [], suggestions: [], searchCache: {});
           },
           lazy: false,
         )

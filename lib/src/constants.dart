@@ -18,7 +18,7 @@ class Constants {
   };
 
   static Map<String, dynamic> fakeComponent = {
-    "url": "http://127.0.0.1:8000/rest/components/1/",
+    "url": "http://127.0.0.1:8000/rest/components/-1/",
     "unique_id": "400e983c-6a5b-48ed-82d8-f6e1ad9f5144",
     "name": "",
     "sku": "6969",

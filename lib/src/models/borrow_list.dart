@@ -8,10 +8,12 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
   List<Borrow> borrows;
   List<Borrow> suggestions;
   List<Borrow> Function(String searchQuery)? customSearchFunction;
+  Map<String, List<Borrow>> searchCache;
 
   BorrowList({
     required this.borrows,
     required this.suggestions,
+    required this.searchCache,
   });
 
   @override
@@ -77,13 +79,11 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
       }
     }
 
-    return BorrowList(
-      borrows: borrows,
-      suggestions: borrows,
-    );
+    return BorrowList(borrows: borrows, suggestions: borrows, searchCache: {});
   }
 
   void searchBorrow(String searchQuery) {
+    searchQuery = searchQuery.toLowerCase();
     if (customSearchFunction != null) {
       suggestions = customSearchFunction!(searchQuery);
     } else {
@@ -103,19 +103,23 @@ class BorrowList extends ChangeNotifier with ListMixin<Borrow> {
       return borrows;
     }
 
-    List<Borrow> results = [];
-
-    for (Borrow borrow in borrows) {
-      if (query.contains(borrow.user.userId.toString()) ||
-          // borrow.user.username.contains(query) ||
-          query.contains(borrow.user.email) ||
-          borrow.component.name.contains(query) ||
-          borrow.component.description.contains(query)) {
-        results.add(borrow);
+    if (searchCache.containsKey(query)) {
+      return searchCache[query] ?? [];
+    } else {
+      List<Borrow> results = [];
+      for (Borrow borrow in borrows) {
+        if (query.contains(borrow.user.userId.toString()) ||
+            // borrow.user.username.contains(query) ||
+            query.contains(borrow.user.email) ||
+            borrow.component.name.toLowerCase().contains(query) ||
+            borrow.component.description.toLowerCase().contains(query)) {
+          results.add(borrow);
+        }
       }
-    }
+      searchCache[query] = results;
 
-    return results;
+      return results;
+    }
   }
 
   // static convertListBorrowToListComponent(List<Borrow> borrows) {

@@ -72,6 +72,7 @@ class _HomeState extends State<Home> {
                           left: appSearchbarPadding + 5,
                           right: appSearchbarPadding + 5),
                       child: AppSearchBar(
+                        loading: false,
                         page: Constants.homePageName,
                         hintTextForBar: "Search for Components You Borrowed",
                         componentList: context.read<BorrowList>(),

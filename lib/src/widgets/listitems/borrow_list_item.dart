@@ -16,10 +16,10 @@ class BorrowListItem extends StatelessWidget {
     String subtitle = "";
     subtitle += "${component.component.description}\n";
     subtitle +=
-        "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(component.borrowTime.toLocal())}\n";
+        "Borrowed on ${DateFormat('yyyy-MM-dd - kk:mm').format(component.borrowTime)}\n";
 
     subtitle +=
-        "Returned on ${component.returnTime != null ? DateFormat('yyyy-MM-dd - kk:mm').format(component.returnTime!.toLocal()) : "N/A"}\n";
+        "Returned on ${component.returnTime != null ? DateFormat('yyyy-MM-dd - kk:mm').format(component.returnTime!) : "N/A"}\n";
 
     return ListTile(
       title: Text(component.component.name.capitalize()),

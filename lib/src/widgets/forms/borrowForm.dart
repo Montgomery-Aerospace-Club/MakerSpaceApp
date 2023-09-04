@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/extensions/darkmode.dart';
@@ -13,6 +12,7 @@ import 'package:themakerspace/src/widgets/customSnackBars.dart';
 
 import 'package:themakerspace/src/widgets/searchbar.dart';
 
+import '../../screens/borrow_and_returns.dart';
 import '../customDivider.dart';
 
 class BorrowForm extends StatefulWidget {
@@ -83,6 +83,7 @@ class _BFormState extends State<BorrowForm> {
     });
     setState(() {
       loading = false;
+      useSearch = false;
     });
     await resetSelectedComponent();
 
@@ -92,16 +93,21 @@ class _BFormState extends State<BorrowForm> {
     context
         .read<ComponentList>()
         .set(compList.components, compList.suggestions);
+
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => const BRs()));
   }
 
   void confirm() async {
-    setState(() {
-      loading = true;
-    });
     formKey.currentState!.save();
 
     Component comp = await readSearchBarComponent();
-    if (comp.mpn != "6969" && comp.sku != "6969" && comp.name.isNotEmpty) {
+    // if the user not using search, it will give a defauly value
+    // else the user is using search ,it will give  acustom value, so we need to set userSearch to true
+    if (comp.mpn != "6969" ||
+        comp.sku != "6969" ||
+        comp.name.isNotEmpty ||
+        comp.id != "-1") {
       setState(() {
         useSearch = true;
       });
@@ -118,6 +124,9 @@ class _BFormState extends State<BorrowForm> {
               actions: [
                 ElevatedButton(
                     onPressed: () async {
+                      setState(() {
+                        loading = true;
+                      });
                       Navigator.of(context).pop();
 
                       await submit();
@@ -126,7 +135,12 @@ class _BFormState extends State<BorrowForm> {
                 ElevatedButton(
                     style:
                         ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                    onPressed: () => Navigator.pop(context),
+                    onPressed: () {
+                      setState(() {
+                        loading = false;
+                      });
+                      Navigator.pop(context);
+                    },
                     child: const SizedBox(
                         child:
                             Text("No", style: TextStyle(color: Colors.white)))),
@@ -149,6 +163,7 @@ class _BFormState extends State<BorrowForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     AppSearchBar(
+                      loading: loading,
                       page: Constants.borrowPageName,
                       hintTextForBar: "Search for Components",
                       componentList: context.read<ComponentList>(),
@@ -191,7 +206,7 @@ class _BFormState extends State<BorrowForm> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Row(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -276,36 +291,12 @@ class _BFormState extends State<BorrowForm> {
                                       .textTheme
                                       .displaySmall
                                       ?.copyWith(
-                                        fontSize: 15,
+                                        fontSize: 50,
                                         color: Colors.blue,
                                         decoration: TextDecoration.underline,
                                       ),
                                 ),
                               )),
-                        ],
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: NumberPicker(
-                              value: tens,
-                              minValue: 0,
-                              maxValue: 9,
-                              onChanged: (value) =>
-                                  setState(() => tens = value),
-                            ),
-                          ),
-                          Expanded(
-                            child: NumberPicker(
-                              value: digits,
-                              minValue: 0,
-                              maxValue: 9,
-                              onChanged: (value) =>
-                                  setState(() => digits = value),
-                            ),
-                          ),
                         ],
                       ),
                     ])),

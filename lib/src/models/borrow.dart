@@ -42,10 +42,10 @@ class Borrow {
     return Borrow(
         url: json["url"],
         id: json["url"].toString().split("/borrows/")[1].replaceAll("/", ""),
-        borrowTime: DateTime.parse(json["timestamp_check_out"]),
+        borrowTime: DateTime.parse(json["timestamp_check_out"]).toLocal(),
         returnTime: json["timestamp_check_in"] == null
             ? null
-            : DateTime.parse(json["timestamp_check_in"]),
+            : DateTime.parse(json["timestamp_check_in"]).toLocal(),
         inProgress: json["borrow_in_progress"],
         user: User.fromJson(json["person_who_borrowed"]),
         component: Component.fromJson(json["component"]),
@@ -54,6 +54,6 @@ class Borrow {
 
   @override
   String toString() {
-    return "${component.name} - $qty - borrowed ${DateFormat('yyyy-MM-dd kk:mm').format(borrowTime.toLocal())} - ID: $id";
+    return "${component.name} - $qty - borrowed ${DateFormat('yyyy-MM-dd kk:mm').format(borrowTime)} - ID: $id";
   }
 }
