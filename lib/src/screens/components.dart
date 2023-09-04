@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:themakerspace/src/models/building.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
 import 'package:themakerspace/src/utils/componentTree.dart';

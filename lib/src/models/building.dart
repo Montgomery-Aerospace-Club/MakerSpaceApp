@@ -31,4 +31,9 @@ class Building extends NodeData {
       postcode: json['postcode'] ?? "",
     );
   }
+
+  @override
+  String toString() {
+    return "$name, $address";
+  }
 }
