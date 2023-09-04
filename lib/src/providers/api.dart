@@ -246,12 +246,12 @@ Future<String> createBorrow(String qty, User personWhoBorrowed,
     "component": compUrl,
   };
 
-  final response = await http.patch(
+  final response = await http.post(
       Uri.parse("${Constants.apiUrl}/rest/borrows/"),
       body: jsonBody,
       headers: headers);
 
-  if (response.statusCode != 200) {
+  if (response.statusCode != 201) {
     Map<String, dynamic> body = json.decode(response.body);
     if (body.containsKey("details")) {
       List<String> details = convertToListString(body["details"]);

@@ -226,13 +226,21 @@ class _BFormState extends State<BorrowForm> {
                                                   return "Enter a number";
                                                 } else if (!isNumeric(value)) {
                                                   return "Enter a valid number";
-                                                } else if (value.length != 2 ||
+                                                } else if (value.length > 3 ||
                                                     1 > int.parse(value)) {
                                                   return "Enter a valid number between 1-99";
                                                 }
+
                                                 setState(() {
-                                                  tens = int.parse(value[0]);
-                                                  digits = int.parse(value[1]);
+                                                  if (value.length == 1) {
+                                                    tens = 0;
+                                                    digits =
+                                                        int.parse(value[0]);
+                                                  } else {
+                                                    tens = int.parse(value[0]);
+                                                    digits =
+                                                        int.parse(value[1]);
+                                                  }
                                                 });
 
                                                 return null;
@@ -249,10 +257,13 @@ class _BFormState extends State<BorrowForm> {
                                                     qtyFormKey.currentState
                                                         ?.reset();
                                                   }
+                                                  Navigator.of(context).pop();
                                                 },
                                                 child: const Text("Done")),
                                             ElevatedButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
                                                 child: const Text("Cancel"))
                                           ],
                                         );
@@ -279,7 +290,6 @@ class _BFormState extends State<BorrowForm> {
                         children: [
                           Expanded(
                             child: NumberPicker(
-                              itemHeight: 40,
                               value: tens,
                               minValue: 0,
                               maxValue: 9,
@@ -290,8 +300,7 @@ class _BFormState extends State<BorrowForm> {
                           Expanded(
                             child: NumberPicker(
                               value: digits,
-                              itemHeight: 40,
-                              minValue: 1,
+                              minValue: 0,
                               maxValue: 9,
                               onChanged: (value) =>
                                   setState(() => digits = value),

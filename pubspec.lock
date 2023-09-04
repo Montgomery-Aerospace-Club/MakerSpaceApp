@@ -381,6 +381,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  list_treeview:
+    dependency: "direct dev"
+    description:
+      name: list_treeview
+      sha256: d590145fa728552e421833e939939977d298e01b67369e49bdd584bc430e0f5f
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.1"
   logging:
     dependency: transitive
     description:

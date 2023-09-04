@@ -1,6 +1,8 @@
 import 'package:themakerspace/src/models/storage_unit.dart';
+// ignore: depend_on_referenced_packages
+import 'package:list_treeview/list_treeview.dart';
 
-class StorageBin {
+class StorageBin extends NodeData {
   final String url;
   final String name;
   final String shortCode;

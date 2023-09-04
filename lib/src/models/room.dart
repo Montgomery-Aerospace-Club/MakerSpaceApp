@@ -1,6 +1,8 @@
 import 'package:themakerspace/src/models/building.dart';
+// ignore: depend_on_referenced_packages
+import 'package:list_treeview/list_treeview.dart';
 
-class Room {
+class Room extends NodeData {
   final String url;
   final String name;
   final String shortCode;

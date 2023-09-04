@@ -1,4 +1,7 @@
-class Building {
+// ignore: depend_on_referenced_packages
+import 'package:list_treeview/list_treeview.dart';
+
+class Building extends NodeData {
   final String name;
   final String address;
   final String postcode;

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:themakerspace/src/constants.dart';
+
+import 'package:themakerspace/src/models/building.dart';
 import 'package:themakerspace/src/models/component_list.dart';
 import 'package:themakerspace/src/providers/api.dart';
+import 'package:themakerspace/src/screens/components_subviews.dart';
+import 'package:themakerspace/src/utils/componentTree.dart';
 import 'package:themakerspace/src/widgets/appbar.dart';
-import 'package:themakerspace/src/widgets/listitems/component_list_item.dart';
+// ignore: depend_on_referenced_packages
+import 'package:list_treeview/list_treeview.dart';
 import 'package:themakerspace/src/widgets/navbar.dart';
-import 'package:themakerspace/src/widgets/searchbar.dart';
 
 class ComponentsPage extends StatefulWidget {
   const ComponentsPage({super.key});
@@ -16,18 +19,31 @@ class ComponentsPage extends StatefulWidget {
 }
 
 class _ComponentsPageState extends State<ComponentsPage> {
-  final double appSearchbarPadding = 10;
-
+  late TreeViewController _controller;
   @override
   void initState() {
+    _controller = TreeViewController();
     getOrSearchComponents("").then((ComponentList value) {
       context.read<ComponentList>().set(value.components, value.suggestions);
+      _controller.treeData(generateTree(value));
     });
     // getOrSearchBorrows(null, true, null, {}).then((BorrowList value) {
     //   context.read<BorrowList>().set(value.borrows, value.suggestions);
     // });
 
     super.initState();
+  }
+
+  void delete(dynamic item) {
+    _controller.removeItem(item);
+  }
+
+  void select(dynamic item) {
+    _controller.selectItem(item);
+  }
+
+  void selectAllChild(dynamic item) {
+    _controller.selectAllChild(item);
   }
 
   @override
@@ -50,43 +66,7 @@ class _ComponentsPageState extends State<ComponentsPage> {
         body: SafeArea(
           child: Padding(
               padding: const EdgeInsets.all(10),
-              child: Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.only(
-                          top: appSearchbarPadding,
-                          bottom: appSearchbarPadding,
-                          left: appSearchbarPadding + 5,
-                          right: appSearchbarPadding + 5),
-                      child: AppSearchBar(
-                        page: Constants.componentsPageName,
-                        hintTextForBar: "Search for Components",
-                        componentList: context.read<ComponentList>(),
-                        searchCallback: (searchQuery) => context
-                            .read<ComponentList>()
-                            .searchComponent(searchQuery),
-                      )),
-                  Expanded(
-                      flex: 5,
-                      child: ListView.builder(
-                          itemCount:
-                              context.watch<ComponentList>().suggestions.length,
-                          itemBuilder: ((context, index) {
-                            var comp = context
-                                .read<ComponentList>()
-                                .suggestions[index];
-
-                            bool available = comp.qty > 0;
-
-                            return ComponentListItem(
-                              component: comp,
-                              available: available,
-                            );
-                          })))
-                ],
-              ))),
+              child: buildListComponentView(context)),
         ));
   }
 

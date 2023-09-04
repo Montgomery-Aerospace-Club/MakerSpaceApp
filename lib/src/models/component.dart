@@ -1,8 +1,10 @@
 import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/models/measurement_unit.dart';
 import 'package:themakerspace/src/models/storage_bin.dart';
+// ignore: depend_on_referenced_packages
+import 'package:list_treeview/list_treeview.dart';
 
-class Component {
+class Component extends NodeData {
   final String uuid;
   final String id;
   final String url;
