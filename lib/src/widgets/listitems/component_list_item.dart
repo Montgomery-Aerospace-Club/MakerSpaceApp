@@ -15,28 +15,29 @@ class ComponentListItem extends StatelessWidget {
       title: Text(component.name.capitalize()),
       subtitle: Text(component.description),
       trailing: SizedBox(
-        width: 50,
-        child:
-            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text(
-            "${component.qty}",
-            style: Theme.of(context).textTheme.labelLarge,
-          ),
-          if (available)
-            const Tooltip(
-                message: "Component is Available",
-                child: Icon(
-                  Icons.circle,
-                  color: Colors.green,
-                ))
-          else
-            const Tooltip(
-                message: "Component is Unavailable",
-                child: Icon(
-                  Icons.circle,
-                  color: Colors.red,
-                ))
-        ]),
+        child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "${component.qty} ${component.measurementUnit.unitName}   ",
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+              if (available)
+                const Tooltip(
+                    message: "Component is Available",
+                    child: Icon(
+                      Icons.circle,
+                      color: Colors.green,
+                    ))
+              else
+                const Tooltip(
+                    message: "Component is Unavailable",
+                    child: Icon(
+                      Icons.circle,
+                      color: Colors.red,
+                    ))
+            ]),
       ),
       onTap: () {
         //debugPrint("hi");
