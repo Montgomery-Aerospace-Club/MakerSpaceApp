@@ -5,6 +5,7 @@ import 'package:themakerspace/src/models/borrow_list.dart';
 // import 'package:themakerspace/src/models/component_list.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
+import 'package:themakerspace/src/models/component.dart';
 import 'package:themakerspace/src/providers/cookies.dart';
 
 class AppSearchBar extends StatefulWidget {
@@ -83,18 +84,22 @@ class _AppSearchBarState extends State<AppSearchBar> {
           });
         } else {
           // if (widget.componentList is ComponentList)
+
           return List<ListTile>.generate(
               widget.componentList.suggestions.length, (int index) {
+            Component comp = widget.componentList.suggestions.elementAt(index);
+
+            String name = comp.name;
+
             return ListTile(
-                title: Text(
-                    widget.componentList.suggestions.elementAt(index).name),
+                title: Text(name.capitalize()),
+                subtitle: Text("ID: ${comp.id}"),
+                trailing: Text("Qty in stock: ${comp.qty}"),
                 onTap: () {
                   if (widget.page == Constants.borrowPageName) {
-                    writeSelectedComponent(
-                        widget.componentList.suggestions.elementAt(index));
+                    writeSelectedComponent(comp);
                   }
-                  controller.closeView(
-                      widget.componentList.suggestions.elementAt(index).name);
+                  controller.closeView(comp.name);
                 });
           });
         }

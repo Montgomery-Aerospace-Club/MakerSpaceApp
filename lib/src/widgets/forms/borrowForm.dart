@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:numberpicker/numberpicker.dart';
 import 'package:provider/provider.dart';
 import 'package:themakerspace/src/constants.dart';
 import 'package:themakerspace/src/extensions/darkmode.dart';
@@ -28,7 +29,8 @@ class _BFormState extends State<BorrowForm> {
   String password = "";
   bool loading = false;
   bool useSearch = false;
-  int qty = 1;
+  int tens = 0;
+  int digits = 1;
 
   bool isNumeric(String s) {
     // ignore: unnecessary_null_comparison
@@ -60,10 +62,10 @@ class _BFormState extends State<BorrowForm> {
 
     if (useSearch) {
       Component comp = await readSearchBarComponent();
-      msg = await createBorrow(qty.toString(), user, DateTime.now(), comp.url);
+      msg = await createBorrow("$tens$digits", user, DateTime.now(), comp.url);
     } else {
       String url = "${Constants.apiUrl}/rest/components/$componentID/";
-      msg = await createBorrow(qty.toString(), user, DateTime.now(), url);
+      msg = await createBorrow("$tens$digits", user, DateTime.now(), url);
     }
 
     if (!mounted) return;
@@ -141,7 +143,7 @@ class _BFormState extends State<BorrowForm> {
           // mainAxisSize: MainAxisSize.min,
           children: [
             Expanded(
-                flex: 5,
+                flex: 4,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -160,7 +162,7 @@ class _BFormState extends State<BorrowForm> {
                       decoration: textFieldDeco(
                           "Click me, Then scan your barcode",
                           const Icon(Icons.barcode_reader)),
-                      onFieldSubmitted: (value) => confirm(),
+
                       validator: (v) {
                         if (useSearch) {
                           return null;
@@ -181,6 +183,46 @@ class _BFormState extends State<BorrowForm> {
                     ),
                   ],
                 )),
+            Expanded(
+                flex: 2,
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        "Amount you will borrow: $tens$digits",
+                        textAlign: TextAlign.center,
+                        style:
+                            Theme.of(context).textTheme.displaySmall?.copyWith(
+                                  fontSize: 15,
+                                ),
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: NumberPicker(
+                              itemHeight: 40,
+                              value: tens,
+                              minValue: 0,
+                              maxValue: 9,
+                              onChanged: (value) =>
+                                  setState(() => tens = value),
+                            ),
+                          ),
+                          Expanded(
+                            child: NumberPicker(
+                              value: digits,
+                              itemHeight: 40,
+                              minValue: 1,
+                              maxValue: 9,
+                              onChanged: (value) =>
+                                  setState(() => digits = value),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ])),
             loading
                 ? const CircularProgressIndicator()
                 : Expanded(
