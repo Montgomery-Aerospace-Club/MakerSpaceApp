@@ -98,27 +98,38 @@ class _ComponentsPageState extends State<ComponentsPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(right: 5),
-                        child: InkWell(
-                          splashColor: Colors.amberAccent.withOpacity(1),
-                          highlightColor: Colors.red,
-                          onTap: () {
-                            selectAllChild(data);
-                          },
-                          child: data.isSelected
-                              ? const Icon(
-                                  Icons.star,
-                                  size: 30,
-                                  color: Color(0xFFFF7F50),
-                                )
-                              : const Icon(
-                                  Icons.star_border,
-                                  size: 30,
-                                  color: Color(0xFFFFDAB9),
-                                ),
-                        ),
-                      ),
+                      if (data.level == 0)
+                        const Icon(Icons.apartment)
+                      else if (data.level == 1)
+                        const Icon(Icons.meeting_room)
+                      else if (data.level == 2)
+                        const Icon(Icons.storage_outlined)
+                      else if (data.level == 3)
+                        const Icon(Icons.blinds)
+                      else if (data.level == 4)
+                        const Icon(Icons.build),
+
+                      // Padding(
+                      //   padding: const EdgeInsets.only(right: 5),
+                      //   child: InkWell(
+                      //     splashColor: Colors.amberAccent.withOpacity(1),
+                      //     highlightColor: Colors.red,
+                      //     onTap: () {
+                      //       selectAllChild(data);
+                      //     },
+                      //     child: data.isSelected
+                      //         ? const Icon(
+                      //             Icons.star,
+                      //             size: 30,
+                      //             color: Color(0xFFFF7F50),
+                      //           )
+                      //         : const Icon(
+                      //             Icons.star_border,
+                      //             size: 30,
+                      //             color: Color(0xFFFFDAB9),
+                      //           ),
+                      //   ),
+                      // ),
                       Text(
                         'level-${data.level}-${data.indexInParent}',
                         // style: TextStyle(
@@ -139,8 +150,11 @@ class _ComponentsPageState extends State<ComponentsPage> {
           ),
         );
       },
-      onTap: (NodeData data) {
+      onTap: (data) {
         //print('index = ${data.index}');
+      },
+      onLongPress: (data) {
+        //delete(item)
       },
       controller: _controller,
     );
