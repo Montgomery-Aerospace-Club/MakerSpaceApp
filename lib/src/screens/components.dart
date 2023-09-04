@@ -23,6 +23,7 @@ class ComponentsPage extends StatefulWidget {
 class _ComponentsPageState extends State<ComponentsPage> {
   late TreeViewController _controller;
   bool treeView = false;
+  bool alreadyLoaded = false;
 
   @override
   void initState() {
@@ -72,7 +73,10 @@ class _ComponentsPageState extends State<ComponentsPage> {
   }
 
   Widget buildTreeView() {
-    _controller.treeData(generateTree(context.read<ComponentList>()));
+    if (!alreadyLoaded) {
+      _controller.treeData(generateTree(context.read<ComponentList>()));
+      alreadyLoaded = true;
+    }
     return ListTreeView(
       shrinkWrap: false,
       padding: const EdgeInsets.all(0),
